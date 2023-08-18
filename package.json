@@ -24,6 +24,9 @@
     "@commitlint/config-conventional": "^17.7.0",
     "@vitejs/plugin-vue": "^4.2.3",
     "husky": "^8.0.0",
-    "vite": "^4.4.5"
+    "sass": "^1.66.0",
+    "sass-loader": "^13.3.2",
+    "vite": "^4.4.5",
+    "vite-plugin-mock": "2.9.6"
   }
 }
