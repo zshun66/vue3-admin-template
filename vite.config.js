@@ -23,7 +23,67 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
       vue()
     ],
     resolve: {
-      
+      // 路径别名
+      alias: {
+        '@': '/src',
+      },
+      // 导入时想要省略的扩展名列表
+      extensions: ['.mjs', '.js', '.mts', '.ts', '.jsx', '.tsx', '.json']
+    },
+    css: {
+      preprocessorOptions: {
+
+      },
+      // 在开发过程中是否启用 sourcemap
+      devSourcemap: false,
+    },
+    // 开发服务器选项
+    server: {
+      host: '0.0.0.0',
+      port: '8888',
+      strictPort: true,
+      open: false,
+      proxy: {
+        '/api': {
+          target: 'localhost',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, '')
+        }
+      }
+    },
+    // 生产环境选项
+    build: {
+      target: 'modules',
+      outDir: env.VITE_APP_OUTDIR,
+      sourcemap: false,
+      // 启用/禁用 brotli 压缩大小报告。压缩大型输出文件可能会很慢，因此禁用该功能可能会提高大型项目的构建性能
+      brotliSize: true,
+      // chunk 大小警告的限制（以 kbs 为单位）
+      chunkSizeWarningLimit: 5000,
+      // 小于此阈值的导入或引用资源将内联为 base64 编码，以避免额外的 http 请求。设置为 0 可以完全禁用此项。（以 kbs 为单位）
+      assetsInlineLimit: 4096,
+      // 指定生成静态资源的存放路径（相对于 build.outDir）
+      assetsDir: 'assets',
+      // 自定义底层的 Rollup 打包配置
+      rollupOptions: {
+        // 打包资源拆分输出
+        output: {
+          chunkFileNames: 'assets/js/[name]-[hash].js',
+          entryFileNames: 'assets/js/[name]-[hash].js',
+          assetFileNames: 'assets/[ext]/[name]-[hash].[ext]'
+        }
+      },
+      // 混淆器，terser构建后文件体积更小 esbuild构建速度更快
+      minify: 'terser',
+      // 传递给 terser 的更多 minify 选项
+      terserOptions: {
+        // 压缩选项
+        compress: {
+          drop_console: false,
+          pure_funcs: ['console.log', 'console.info'],
+          drop_debugger: true
+        }
+      },
     },
     json: {
       // 是否支持从 .json 文件中进行按名导入
