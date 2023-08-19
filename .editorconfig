@@ -1,0 +1,18 @@
+# 设置文件以UTF-8编码
+charset = utf-8
+
+# 缩进风格
+indent_style = tab
+indent_size = 2
+
+# 换行符风格
+end_of_line = lf
+
+# 文件结尾添加一个空行
+insert_final_newline = true
+
+# 是否去除每行末尾多余的空白字符
+trim_trailing_whitespace = true
+
+# 通配符匹配不应用 .editorconfig 文件的文件或文件夹
+exclude = node_modules, build, dist
