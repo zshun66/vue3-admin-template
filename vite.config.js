@@ -1,5 +1,9 @@
 import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import { resolve } from 'path'
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
 export default defineConfig(({ command, mode, ssrBuild }) => {
   const env = loadEnv(mode, process.cwd() + '/env')
@@ -20,7 +24,19 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
     cacheDir: 'node_modules/.vite',
     // 插件集成
     plugins: [
-      vue()
+      vue(),
+      AutoImport({
+        imports: [
+          'vue',
+          'vue-router',
+        ],
+        resolvers: [ElementPlusResolver()],
+        dts: resolve(resolve(__dirname, 'typings'), 'auto-imports.d.ts'),
+      }),
+      Components({
+        resolvers: [ElementPlusResolver()],
+        dts: resolve(resolve(__dirname, 'typings'), 'components.d.ts'),
+      }),
     ],
     resolve: {
       // 路径别名
@@ -44,10 +60,10 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
       strictPort: true,
       open: false,
       proxy: {
-        '/api': {
+        [env.VITE_APP_BASE_API]: {
           target: 'localhost',
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, '')
+          rewrite: (path) => path.replace(new RegExp('^' + env.VITE_APP_BASE_API), '')
         }
       }
     },
