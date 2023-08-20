@@ -14,14 +14,10 @@ const elGlobalConfig = reactive({
     :size="elGlobalConfig.size"
     :z-index="elGlobalConfig.zIndex"
   >
-    <div>
-      9999
-      <el-date-picker type="date">
-      </el-date-picker>
-    </div>
+    <router-view></router-view>
   </el-config-provider>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 
 </style>
