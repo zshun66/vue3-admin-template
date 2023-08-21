@@ -19,5 +19,4 @@ const elGlobalConfig = reactive({
 </template>
 
 <style scoped lang="scss">
-
 </style>

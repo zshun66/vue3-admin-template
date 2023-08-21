@@ -67,7 +67,9 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
       preprocessorOptions: {
         scss: {
           javascriptEnabled: true,
-          additionalData: '@import "./src/styles/variable.scss";',
+          additionalData: [
+            '@import "./src/styles/variable.scss";'
+          ],
         }
       },
       // 在开发过程中是否启用 sourcemap

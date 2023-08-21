@@ -41,7 +41,11 @@ const handleLogin = () => {
 </script>
 
 <template>
-  <div class="page_container login_container">
+  <div
+    class="page_container login_container"
+    tabindex="1"
+    @keyup.enter.native="handleLogin"
+  >
     <div class="login_form_box">
       <h1 class="title">Hello，欢迎进入系统</h1>
       <el-form

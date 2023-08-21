@@ -1,5 +1,6 @@
 import axios from 'axios'
-import { getStorage, getSession, setSession } from '@/utils/storage.js'
+import { getToken } from '@/utils/token.js'
+import { preventRepeatSubmit } from './requestHelper.js'
 
 const errorStatusCode = {
 	'401': 'Token过期，请重新登录',
@@ -12,39 +13,15 @@ const errorStatusCode = {
 let request = axios.create({
 	baseURL: import.meta.env.VITE_APP_BASE_API,
 	timeout: 10000,
+	headers: {
+		Authorization: 'Bearer ' + getToken()
+	}
 })
 
 // 请求拦截器
 request.interceptors.request.use((config) => {
-	// 是否防止重复提交
-	let isRepeatSubmit = config.headers.isRepeatSubmit
-	isRepeatSubmit = isRepeatSubmit === undefined ? true : isRepeatSubmit
-
-	config.headers['Authorization'] = 'Bearer ' + getStorage('Admin_Token')
-
-	// post、put请求防重复提交
-	if (isRepeatSubmit && (config.method === 'post' || config.method === 'put')) {
-		const requestObj = {
-			url: config.url,
-			data: typeof config.data === 'object' ? JSON.stringify(config.data) : config.data,
-			time: new Date().getTime()
-		}
-		const sessionObj = getSession('SESSION_OBJ')
-		if (sessionObj === undefined || sessionObj === null || sessionObj === '') {
-			setSession('SESSION_OBJ', requestObj)
-		} else {
-			const r_url = sessionObj.url
-			const r_data = sessionObj.data
-			const r_time = sessionObj.time
-			const interval = 1000
-			if (requestObj.url === r_url && requestObj.data === r_data && requestObj.time - r_time < interval) {
-				const message = '数据正在处理，请勿重复提交'
-				return Promise.reject(new Error(message))
-			} else {
-				setSession('SESSION_OBJ', requestObj)
-			}
-		}
-	}
+	const error = preventRepeatSubmit(config)
+	if (error) return Promise.reject(new Error(error))
 	return config
 }, (error) => {
 	console.warn('请求拦截器发生错误：')
@@ -59,38 +36,31 @@ request.interceptors.response.use((response) => {
 	isAlertMsg = isAlertMsg === undefined ? true : isAlertMsg
 
 	let code = response.data.code
+	let message = response.data.data.message
 
-	if (code !== 200) {
-		if (isAlertMsg) {
-			ElMessage({
-				type: 'error',
-				message: response.data.data.message,
-				grouping: true
-			})
-			return false
-		}
-		return Promise.reject(response.data.data.message)
+	if (code === 200) {
+		return { result: response.data, error: undefined }
 	} else {
-		return response.data
+		if (isAlertMsg) {
+			ElMessage({ type: 'error', message: message, grouping: true })
+		}
+		if (code === 401) {
+			// TODO 过期重新登录
+		}
+		return { result: undefined, error: message }
 	}
 }, (error) => {
 	console.warn('响应拦截器发生错误：')
 	console.dir(error)
-	let errorMsg = ''
+	let message = ''
 	let status = error?.response?.status
-	if (status) {
-		if (Object.hasOwn(errorStatusCode, status)) {
-			errorMsg = errorStatusCode[status]
-		}
+	if (status && Object.hasOwn(errorStatusCode, status)) {
+		message = errorStatusCode[status]
 	} else {
-		errorMsg = error.message
+		message = error.message
 	}
-	ElMessage({
-		type: 'error',
-		message: errorMsg,
-		grouping: true
-	})
-	return Promise.reject(error)
+	ElMessage({ type: 'error', message: message, grouping: true })
+	return Promise.resolve({ result: undefined, error: error })
 })
 
 export default request

@@ -1,3 +1,5 @@
+import Cookies from 'js-cookie'
+
 /**
  * 获取localStorage值
  */
@@ -13,7 +15,11 @@ export const getStorage = (key) => {
  * 设置localStorage值
  */
 export const setStorage = (key, value) => {
-  localStorage.setItem(key, JSON.stringify(value))
+  if (typeof value === 'object') {
+    localStorage.setItem(key, JSON.stringify(value))
+  } else {
+    localStorage.setItem(key, value)
+  }
 }
 
 /**
@@ -30,6 +36,10 @@ export const clearStorage = () => {
   localStorage.clear()
 }
 
+
+// --------------------------------------------------------------------------------------------------------------------------------
+
+
 /**
  * 获取sessionStorage值
  */
@@ -45,7 +55,11 @@ export const getSession = (key) => {
  * 设置sessionStorage值
  */
 export const setSession = (key, value) => {
-  sessionStorage.setItem(key, JSON.stringify(value))
+  if (typeof value === 'object') {
+    sessionStorage.setItem(key, JSON.stringify(value))
+  } else {
+    sessionStorage.setItem(key, value)
+  }
 }
 
 /**
@@ -60,4 +74,44 @@ export const removeSession = (key) => {
  */
 export const clearSession = () => {
   sessionStorage.clear()
+}
+
+
+// --------------------------------------------------------------------------------------------------------------------------------
+
+
+/**
+ * 获取Cookie值
+ */
+export const getCookie = (key) => {
+  try {
+    return JSON.parse(Cookies.get(key))
+  } catch (error) {
+    return Cookies.get(key)
+  }
+}
+
+/**
+ * 设置Cookie值
+ */
+export const setCookie = (key, value) => {
+  if (typeof value === 'object') {
+    Cookies.set(key, JSON.stringify(value))
+  } else {
+    Cookies.set(key, value)
+  }
+}
+
+/**
+ * 移除Cookie值
+ */
+export const removeCookie = (key) => {
+  Cookies.remove(key)
+}
+
+/**
+ * 清空Cookie值
+ */
+export const clearCookie = () => {
+  Cookies.clear()
 }
