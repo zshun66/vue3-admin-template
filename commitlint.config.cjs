@@ -14,6 +14,7 @@ module.exports = {
         'perf',
         'test',
         'chore',
+        'update',
         'revert',
         'build',
       ],
