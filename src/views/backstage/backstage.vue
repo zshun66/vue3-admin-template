@@ -1,9 +1,9 @@
 <script setup name="backstage">
-
+import Layout from '@/layout/Layout.vue'
 </script>
 
 <template>
-  <div>后台</div>
+  <component :is="Layout"></component>
 </template>
 
 <style scoped lang="scss"></style>

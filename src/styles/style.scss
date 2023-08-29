@@ -1,0 +1,16 @@
+// 自定义滚动条样式
+.custom_scrollbar {
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  // 滚动条滑块样式
+  &::-webkit-scrollbar-thumb {
+    background: #0003;
+    border-radius: 10px;
+  }
+  // 滚动条背景样式
+  &::-webkit-scrollbar-track {
+    background: #fff;
+  }
+}
