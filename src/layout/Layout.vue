@@ -1,5 +1,6 @@
 <script setup name="Layout">
 import Sidebar from './components/Sidebar/Sidebar.vue'
+import Navbar from './components/Navbar/Navbar.vue'
 </script>
 
 <template>
@@ -9,7 +10,9 @@ import Sidebar from './components/Sidebar/Sidebar.vue'
         <Sidebar />
       </el-aside>
       <el-container class="layout_inner_container">
-        <el-header class="layout_header"></el-header>
+        <el-header class="layout_header">
+          <Navbar />
+        </el-header>
         <el-main class="layout_main"></el-main>
       </el-container>
     </el-container>
@@ -29,13 +32,13 @@ import Sidebar from './components/Sidebar/Sidebar.vue'
       width: 280px;
       overflow-x: hidden;
       overflow-y: auto;
-      background: #001529;
+      background: #000;
     }
 
     .layout_inner_container {
 
       .layout_header {
-
+        background: #000;
       }
 
       .layout_main {
