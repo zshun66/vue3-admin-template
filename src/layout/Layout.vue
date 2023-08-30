@@ -29,7 +29,7 @@ import Navbar from './components/Navbar/Navbar.vue'
     height: 100%;
 
     .layout_aside {
-      width: 280px;
+      width: $layout-aside-width;
       overflow-x: hidden;
       overflow-y: auto;
       background: #000;
@@ -38,6 +38,7 @@ import Navbar from './components/Navbar/Navbar.vue'
     .layout_inner_container {
 
       .layout_header {
+        height: $layout-header-height;
         background: #000;
       }
 

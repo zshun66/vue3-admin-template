@@ -1,7 +1,8 @@
 <script setup name="Navbar">
-import FullScreen from '@/layout/components/FullScreen/FullScreen.vue'
+import Fullscreen from '@/layout/components/Fullscreen/Fullscreen.vue'
 import Theme from '@/layout/components/Theme/Theme.vue'
 import Language from '@/layout/components/Language/Language.vue'
+import Setting from '@/layout/components/Setting/Setting.vue'
 
 // 菜单状态(shrink收缩、expand展开)
 const menuStatus = ref('expand')
@@ -17,13 +18,16 @@ const menuStatus = ref('expand')
     </div>
     <div class="right_wrapper">
       <div class="toggle_screen_box">
-        <FullScreen />
+        <Fullscreen />
       </div>
       <div class="toggle_theme_box">
         <Theme />
       </div>
       <div class="toggle_language_box">
         <Language />
+      </div>
+      <div class="setting_box">
+        <Setting />
       </div>
 
       <div class="avatar_info_box">
@@ -61,6 +65,10 @@ const menuStatus = ref('expand')
     }
 
     .toggle_language_box {
+    }
+
+    .setting_box {
+      
     }
 
     .avatar_info_box {

@@ -40,10 +40,10 @@
 
   .logo_title {
     padding: 0 20px;
-    height: 60px;
+    height: $layout-header-height;
     display: flex;
     align-items: center;
-    background: #002140;
+    background: #000;
     position: sticky;
     top: 0;
     z-index: 9999;
