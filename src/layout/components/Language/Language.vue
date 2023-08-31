@@ -1,4 +1,10 @@
 <script setup name="Language">
+import useAppStore from '@/pinia/modules/app.js'
+import { useI18n } from 'vue-i18n'
+
+const i18n = useI18n()
+const appStore = useAppStore()
+
 // 语言列表
 const langList = [
   { name: 'zh-CN', title: '简体中文' },
@@ -6,44 +12,72 @@ const langList = [
   { name: 'en-US', title: 'English' },
 ]
 // 当前语言
-const currLang = ref('zh-CN')
+const currLang = ref(appStore.configData.lang)
+
+
+// 图标颜色
+const iconColor = computed(() => {
+  if (appStore.configData.theme === 'light') {
+    return '#000000'
+  } else if (appStore.configData.theme === 'dark') {
+    return '#ffffff'
+  }
+})
+
+// 设置语言
+const setLanguage = function (langName) {
+  i18n.locale.value = langName
+}
 
 // 切换语言
 const toggleLanguage = function (lang) {
   if (currLang.value !== lang.name) {
     currLang.value = lang.name
+    setLanguage(currLang.value)
+    appStore.setConfigData('lang', currLang.value)
   }
 }
+
+// 进入页面就设置默认语言
+setLanguage(currLang.value)
 </script>
 
 <template>
-  <el-popover
-    :popper-style="{
-      padding: '8px 0'
-    }"
-    width="150px"
-    trigger="hover"
+  <el-dropdown
     placement="bottom"
-    :hide-after="200"
+    trigger="hover"
+    :show-timeout="0"
+    :hide-timeout="0"
+    :popper-options="{
+      modifiers: [
+        {
+          name: 'offset',
+          options: {
+            offset: [0, -3],
+          },
+        },
+      ]
+    }"
     :teleported="false"
-    transition="none"
-    :offset="0"
+    @command="toggleLanguage"
   >
-    <template #reference>
-      <div class="comp_container language_comp" title="语言切换">
-        <icon-translate theme="outline" size="26" fill="#fff" :strokeWidth="3" />
-      </div>
-    </template>
-    <div class="language_list">
-      <span
-        class="language_item"
-        :class="{ active: currLang === lang.name }"
-        v-for="(lang, index) in langList"
-        :key="index"
-        @click="toggleLanguage(lang)"
-      >{{ lang.title }}</span>
+    <div class="comp_container language_comp" title="语言切换">
+      <icon-translate theme="outline" size="26" :fill="iconColor" :strokeWidth="3" />
     </div>
-  </el-popover>
+    <template #dropdown>
+      <el-dropdown-menu class="language_list">
+        <el-dropdown-item
+          class="language_item"
+          :class="{ active: currLang === lang.name }"
+          v-for="(lang, index) in langList"
+          :key="index"
+          :command="lang"
+        >
+          <span class="language_name">{{ lang.title }}</span>
+        </el-dropdown-item>
+      </el-dropdown-menu>
+    </template>
+  </el-dropdown>
 </template>
 
 <style scoped lang="scss">
@@ -54,11 +88,7 @@ const toggleLanguage = function (lang) {
   cursor: pointer;
 }
 
-.language_list {
-  display: flex;
-  flex-direction: column;
-  cursor: pointer;
-
+:deep(.language_list) {
   .language_item {
     font-size: 16px;
     line-height: 32px;
@@ -67,13 +97,11 @@ const toggleLanguage = function (lang) {
   }
 
   .language_item:hover {
-    color: #50A6FF;
     background: #ECF5FF;
   }
-
+  
   .language_item.active {
     color: #50A6FF;
-    background: #ECF5FF;
   }
 }
 </style>

@@ -1,19 +1,16 @@
 <script setup name="Navbar">
+import Toggle from '@/layout/components/Toggle/Toggle.vue'
 import Fullscreen from '@/layout/components/Fullscreen/Fullscreen.vue'
 import Theme from '@/layout/components/Theme/Theme.vue'
 import Language from '@/layout/components/Language/Language.vue'
 import Setting from '@/layout/components/Setting/Setting.vue'
-
-// 菜单状态(shrink收缩、expand展开)
-const menuStatus = ref('expand')
 </script>
 
 <template>
   <div class="comp_container navbar_comp">
     <div class="left_wrapper">
-      <div class="toggle_menu" :title="menuStatus === 'shrink' ? '展开菜单' : '收缩菜单'">
-        <icon-menu-unfold-one theme="filled" size="28" fill="#fff" :strokeWidth="3" v-if="menuStatus === 'expand'" />
-        <icon-menu-fold-one theme="filled" size="28" fill="#fff" :strokeWidth="3" v-if="menuStatus === 'shrink'" />
+      <div class="toggle_box">
+        <Toggle />
       </div>
     </div>
     <div class="right_wrapper">
@@ -29,7 +26,6 @@ const menuStatus = ref('expand')
       <div class="setting_box">
         <Setting />
       </div>
-
       <div class="avatar_info_box">
 
       </div>
@@ -47,9 +43,7 @@ const menuStatus = ref('expand')
   .left_wrapper {
     display: flex;
     align-items: center;
-    .toggle_menu {
-      padding: 0 10px;
-      cursor: pointer;
+    .toggle_box {
     }
   }
 

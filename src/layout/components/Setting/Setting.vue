@@ -1,11 +1,24 @@
-<script setup name="Theme">
+<script setup name="Setting">
+import useAppStore from '@/pinia/modules/app.js'
+
+const appStore = useAppStore()
+
 // 是否显示抽屉
 const showDrawer = ref(false)
+
+// 图标颜色
+const iconColor = computed(() => {
+  if (appStore.configData.theme === 'light') {
+    return '#000000'
+  } else if (appStore.configData.theme === 'dark') {
+    return '#ffffff'
+  }
+})
 </script>
 
 <template>
   <div class="comp_container setting_comp" title="设置" @click="showDrawer = true">
-    <icon-setting-config theme="outline" size="24" fill="#fff" :strokeWidth="3"/>
+    <icon-setting-config theme="outline" size="24" :fill="iconColor" :strokeWidth="3"/>
   </div>
 
   <el-drawer

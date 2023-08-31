@@ -13,7 +13,8 @@ import Navbar from './components/Navbar/Navbar.vue'
         <el-header class="layout_header">
           <Navbar />
         </el-header>
-        <el-main class="layout_main"></el-main>
+        <el-main class="layout_main">
+        </el-main>
       </el-container>
     </el-container>
   </div>
@@ -32,14 +33,16 @@ import Navbar from './components/Navbar/Navbar.vue'
       width: $layout-aside-width;
       overflow-x: hidden;
       overflow-y: auto;
-      background: #000;
+      background-color: var(--theme-aside-bg-color);
+      transition: background-color 0.3s;
     }
 
     .layout_inner_container {
 
       .layout_header {
         height: $layout-header-height;
-        background: #000;
+        background-color: var(--theme-navbar-bg-color);
+        transition: background-color 0.3s;
       }
 
       .layout_main {

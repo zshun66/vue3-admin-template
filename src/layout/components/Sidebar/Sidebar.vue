@@ -39,15 +39,17 @@
 .sidebar_comp {
 
   .logo_title {
+    position: sticky;
+    top: 0;
+    z-index: 9999;
     padding: 0 20px;
     height: $layout-header-height;
     display: flex;
     align-items: center;
-    background: #000;
-    position: sticky;
-    top: 0;
-    z-index: 9999;
-
+    background-color: var(--theme-aside-logo-bg-color);
+    color: var(--theme-aside-logo-color);
+    transition: all 0.3s;
+    
     .logo {
       width: 30px;
       height: 30px;
@@ -57,13 +59,11 @@
       margin-left: 30px;
       font-size: 20px;
       font-weight: bold;
-      color: #fff;
     }
   }
 
   :deep(.el-menu) {
     background-color: transparent;
-
   }
 }
 </style>

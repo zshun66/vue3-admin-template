@@ -3,7 +3,7 @@ import {
   getCookie, setCookie, removeCookie
 } from './storage.js'
 
-const TOKEN_KEY = 'Admin_Token'
+const TOKEN_KEY = 'ADMIN_TOKEN'
 
 export function getToken() {
   return getStorage(TOKEN_KEY) || getCookie(TOKEN_KEY)

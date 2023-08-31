@@ -3,7 +3,7 @@ import useUserStore from '@/pinia/modules/user.js'
 
 const $router = useRouter()
 const $route = useRoute()
-const useStore = useUserStore()
+const userStore = useUserStore()
 
 // 登陆表单
 const loginForm = reactive({
@@ -27,7 +27,7 @@ const redirect = $route.query?.redirect
 // 处理登录
 const handleLogin = () => {
   loginBtnLoading.value = true
-  useStore.handleUserLogin(loginForm).then(() => {
+  userStore.handleUserLogin(loginForm).then(() => {
     ElMessage({
       type: 'success',
       message: '登录成功',
