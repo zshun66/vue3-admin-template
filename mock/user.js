@@ -4,10 +4,10 @@ function createUserList() {
 		{
 			userId: 1,
 			avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+			nickname: '超级管理员',
 			username: 'admin',
 			password: '111111',
-			desc: '平台管理员',
-			roles: ['平台管理员'],
+			roles: ['超级管理员'],
 			routes: ['home'],
 			buttons: ['cuser.detail'],
 			token: 'Admin Token',
@@ -15,9 +15,9 @@ function createUserList() {
 		{
 			userId: 2,
 			avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+			nickname: '系统管理员',
 			username: 'system',
 			password: '111111',
-			desc: '系统管理员',
 			roles: ['系统管理员'],
 			routes: ['home'],
 			buttons: ['cuser.detail', 'cuser.user'],
@@ -32,17 +32,13 @@ export default [
 		url: '/dev-api/user/login',
 		method: 'post',
 		response: ({ body }) => {
-			//获取请求体携带过来的用户名与密码
-			const { username, password } = body;
-			//调用获取用户信息函数,用于判断是否有此用户
+			const { username, password } = body
 			const checkUser = createUserList().find(
 				(item) => item.username === username && item.password === password,
 			)
-			//没有用户返回失败信息
 			if (!checkUser) {
 				return { code: 201, data: { message: '账号或密码不正确' } }
 			}
-			//如果有返回成功信息
 			const { token } = checkUser
 			return { code: 200, data: { token } }
 		},
@@ -52,15 +48,11 @@ export default [
 		url: '/dev-api/user/info',
 		method: 'get',
 		response: (request) => {
-			//获取请求头携带token
-			const token = request.headers.token;
-			//查看用户信息是否包含有次token用户
+			const token = request.headers.authorization.substr(7, 100)
 			const checkUser = createUserList().find((item) => item.token === token)
-			//没有返回失败的信息
 			if (!checkUser) {
 				return { code: 201, data: { message: '获取用户信息失败' } }
 			}
-			//如果有返回成功信息
 			return { code: 200, data: { userInfo: checkUser } }
 		},
 	},

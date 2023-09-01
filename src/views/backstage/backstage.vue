@@ -1,5 +1,5 @@
 <script setup name="backstage">
-import Layout from '@/layout/Layout.vue'
+import Layout from '@/layout/layout.vue'
 </script>
 
 <template>

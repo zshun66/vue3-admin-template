@@ -4,7 +4,11 @@
   /* 侧边栏LOGO区域背景颜色 */
   --theme-aside-logo-bg-color: #000000;
   /* 侧边栏LOGO区域字体颜色 */
-  --theme-aside-logo-color: #ffffff;
+  --theme-aside-logo-color: #cccccc;
   /* 导航栏背景颜色 */
   --theme-navbar-bg-color: #000000;
+  /* 导航栏字体颜色 */
+  --theme-navbar-color: #cccccc;
+  /* 内容区背景颜色 */
+  --theme-main-bg-color: #F0F2F5;
 }

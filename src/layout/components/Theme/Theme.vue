@@ -19,15 +19,6 @@ const themeList = [
 // 当前主题
 const currTheme = ref(appStore.configData.theme)
 
-// 图标颜色
-const iconColor = computed(() => {
-  if (appStore.configData.theme === 'light') {
-    return '#000000'
-  } else if (appStore.configData.theme === 'dark') {
-    return '#ffffff'
-  }
-})
-
 // 设置主题
 const setTheme = function (themeName) {
   const themeLinkDom = document.querySelector('#theme-link')
@@ -73,7 +64,12 @@ setTheme(currTheme.value)
     @command="toggleTheme"
   >
     <div class="comp_container theme_comp" title="主题切换">
-      <icon-theme theme="outline" size="24" :fill="iconColor" :strokeWidth="3"/>
+      <template v-if="appStore.configData.theme === 'light'">
+        <icon-theme theme="outline" size="22" fill="#505050" :strokeWidth="3"/>
+      </template>
+      <template v-if="appStore.configData.theme === 'dark'">
+        <icon-theme theme="outline" size="22" fill="#cccccc" :strokeWidth="3"/>
+      </template>
     </div>
     <template #dropdown>
       <el-dropdown-menu class="theme_list">
@@ -107,7 +103,7 @@ setTheme(currTheme.value)
     font-size: 16px;
     line-height: 50px;
     padding: 0px 20px;
-    color: #606266;
+    color: #777777;
 
     .theme_icon {
       width: 35px;

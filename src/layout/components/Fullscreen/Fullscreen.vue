@@ -6,15 +6,6 @@ const appStore = useAppStore()
 // 是否全屏
 const isFullscreen = ref(false)
 
-// 图标颜色
-const iconColor = computed(() => {
-  if (appStore.configData.theme === 'light') {
-    return '#000000'
-  } else if (appStore.configData.theme === 'dark') {
-    return '#ffffff'
-  }
-})
-
 // 切换全屏
 const toggleFullscreen = function () {
   if (!isFullscreen.value) {
@@ -77,8 +68,14 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="comp_container fullscreen_comp" :title="isFullscreen ? '退出全屏' : '进入全屏'" @click="toggleFullscreen">
-    <icon-full-screen theme="filled" size="24" :fill="iconColor" :strokeWidth="3" v-if="!isFullscreen" />
-    <icon-off-screen theme="filled" size="26" :fill="iconColor" :strokeWidth="3" v-if="isFullscreen" />
+    <template v-if="appStore.configData.theme === 'light'">
+      <icon-full-screen theme="filled" size="22" fill="#505050" :strokeWidth="3" v-if="!isFullscreen" />
+      <icon-off-screen theme="filled" size="22" fill="#505050" :strokeWidth="3" v-if="isFullscreen" />
+    </template>
+    <template v-if="appStore.configData.theme === 'dark'">
+      <icon-full-screen theme="filled" size="22" fill="#cccccc" :strokeWidth="3" v-if="!isFullscreen" />
+      <icon-off-screen theme="filled" size="22" fill="#cccccc" :strokeWidth="3" v-if="isFullscreen" />
+    </template>
   </div>
 </template>
 

@@ -1,4 +1,4 @@
-export const constantRoutes = [
+export default [
   {
     path: '/',
     redirect: '/login',
@@ -8,7 +8,7 @@ export const constantRoutes = [
     component: () => import('@/views/login/login.vue'),
     name: 'login'
   },
-  { // 登录成功后展示数据的路由
+  {
     path: '/backstage',
     component: () => import('@/views/backstage/backstage.vue'),
     name: 'backstage'

@@ -2,7 +2,7 @@ import request from '@/utils/request.js'
 
 const API = {
 	LOGIN_URL: '/user/login',
-	USERINFO_URL: '/user/info'
+	USERINFO_URL: '/user/info',
 }
 
 // 登录

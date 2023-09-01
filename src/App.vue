@@ -1,27 +1,26 @@
 <script setup>
 import useAppStore from '@/pinia/modules/app.js'
-import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
-import zhTw from 'element-plus/dist/locale/zh-tw.mjs'
+import zhCN from 'element-plus/dist/locale/zh-cn.mjs'
+import zhTW from 'element-plus/dist/locale/zh-tw.mjs'
 import enUS from 'element-plus/dist/locale/en.mjs'
 
 const appStore = useAppStore()
 
 const locale = computed(() => {
   const lang = appStore.configData.lang
-  if (lang === 'zh-CN') {
-    return zhCn
-  } else if (lang === 'zh-TW') {
-    return zhTw
-  } else if (lang === 'en-US') {
-    return enUS
+  const langMap = {
+    'zh-CN': zhCN,
+    'zh-TW': zhTW,
+    'en-US': enUS,
   }
+  return langMap[lang]
 })
 </script>
 
 <template>
   <el-config-provider
     :locale="locale"
-    size="default"
+    :size="appStore.configData.size"
     :z-index="3000"
   >
     <router-view></router-view>

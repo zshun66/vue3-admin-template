@@ -41,7 +41,7 @@
   .logo_title {
     position: sticky;
     top: 0;
-    z-index: 9999;
+    z-index: 99;
     padding: 0 20px;
     height: $layout-header-height;
     display: flex;

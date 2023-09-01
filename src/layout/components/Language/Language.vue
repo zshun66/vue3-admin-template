@@ -14,16 +14,6 @@ const langList = [
 // 当前语言
 const currLang = ref(appStore.configData.lang)
 
-
-// 图标颜色
-const iconColor = computed(() => {
-  if (appStore.configData.theme === 'light') {
-    return '#000000'
-  } else if (appStore.configData.theme === 'dark') {
-    return '#ffffff'
-  }
-})
-
 // 设置语言
 const setLanguage = function (langName) {
   i18n.locale.value = langName
@@ -62,7 +52,12 @@ setLanguage(currLang.value)
     @command="toggleLanguage"
   >
     <div class="comp_container language_comp" title="语言切换">
-      <icon-translate theme="outline" size="26" :fill="iconColor" :strokeWidth="3" />
+      <template v-if="appStore.configData.theme === 'light'">
+        <icon-translate theme="outline" size="22" fill="#505050" :strokeWidth="3" />
+      </template>
+      <template v-if="appStore.configData.theme === 'dark'">
+        <icon-translate theme="outline" size="22" fill="#cccccc" :strokeWidth="3" />
+      </template>
     </div>
     <template #dropdown>
       <el-dropdown-menu class="language_list">
@@ -93,7 +88,7 @@ setLanguage(currLang.value)
     font-size: 16px;
     line-height: 32px;
     padding: 0px 20px;
-    color: #606266;
+    color: #777777;
   }
 
   .language_item:hover {

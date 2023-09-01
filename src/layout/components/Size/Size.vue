@@ -1,0 +1,91 @@
+<script setup name="Size">
+import useAppStore from '@/pinia/modules/app.js'
+
+const appStore = useAppStore()
+
+// size列表
+const sizeList = [
+  { name: 'large', title: 'large' },
+  { name: 'default', title: 'default' },
+  { name: 'small', title: 'small' },
+]
+// 当前size
+const currSize = ref(appStore.configData.size)
+
+// 切换组件大小
+const toggleSize = function (size) {
+  if (currSize.value !== size.name) {
+    currSize.value = size.name
+    appStore.setConfigData('size', currSize.value)
+  }
+}
+</script>
+
+<template>
+  <el-dropdown
+    placement="bottom"
+    trigger="hover"
+    :show-timeout="0"
+    :hide-timeout="0"
+    :popper-options="{
+      modifiers: [
+        {
+          name: 'offset',
+          options: {
+            offset: [0, -3],
+          },
+        },
+      ]
+    }"
+    :teleported="false"
+    @command="toggleSize"
+  >
+    <div class="comp_container size_comp" title="组件大小">
+      <template v-if="appStore.configData.theme === 'light'">
+        <icon-add-text theme="outline" size="22" fill="#505050" :strokeWidth="3" />
+      </template>
+      <template v-if="appStore.configData.theme === 'dark'">
+        <icon-add-text theme="outline" size="22" fill="#cccccc" :strokeWidth="3" />
+      </template>
+    </div>
+    <template #dropdown>
+      <el-dropdown-menu class="size_list">
+        <el-dropdown-item
+          class="size_item"
+          :class="{ active: currSize === size.name }"
+          v-for="(size, index) in sizeList"
+          :key="index"
+          :command="size"
+        >
+          <span class="size_name">{{ size.title }}</span>
+        </el-dropdown-item>
+      </el-dropdown-menu>
+    </template>
+  </el-dropdown>
+</template>
+
+<style scoped lang="scss">
+.size_comp {
+  display: flex;
+  align-items: center;
+  padding: 10px 10px;
+  cursor: pointer;
+}
+
+:deep(.size_list) {
+  .size_item {
+    font-size: 16px;
+    line-height: 32px;
+    padding: 0px 20px;
+    color: #777777;
+  }
+
+  .size_item:hover {
+    background: #ECF5FF;
+  }
+  
+  .size_item.active {
+    color: #50A6FF;
+  }
+}
+</style>

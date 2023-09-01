@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router/index.js'
+import './router/permission.js'
 import pinia from './pinia/index.js'
 import i18n from './lang/index.js'
 // IconPark图标库
