@@ -4,35 +4,37 @@ import useAppStore from '@/pinia/modules/app.js'
 const appStore = useAppStore()
 
 // 菜单状态
-const menuStatus = ref(appStore.configData.menuStatus)
+const collapse = ref(appStore.configData.collapse)
 
 // 设置菜单状态
-const setMenuStatus = function (status) {
+const setcollapse = function (status) {
 
 }
 
 // 切换菜单状态
-const toggleMenuStatus = function () {
-  if (menuStatus.value === 'shrink') {
-    menuStatus.value = 'expand'
-  } else if (menuStatus.value === 'expand') {
-    menuStatus.value = 'shrink'
+const togglecollapse = function () {
+  if (collapse.value === 1) {
+    collapse.value = 0
+  } else if (collapse.value === 0) {
+    collapse.value = 1
   }
-  setMenuStatus(menuStatus.value)
-  appStore.setConfigData('menuStatus', menuStatus.value)
+  setcollapse(collapse.value)
+  appStore.setConfigData('collapse', collapse.value)
 }
 
-// 进入页面就设置默认菜单状态
-setMenuStatus(menuStatus.value)
+// 进入页面就设置默认菜单折叠状态
+setcollapse(collapse.value)
 </script>
 
 <template>
-  <div class="comp_container toggle_comp" :title="menuStatus === 'shrink' ? '展开菜单' : '收缩菜单'" @click="toggleMenuStatus">
+  <div class="comp_container toggle_comp" :title="collapse === 1 ? '展开菜单' : '收缩菜单'" @click="togglecollapse">
     <template v-if="appStore.configData.theme === 'light'">
-      <icon-menu-unfold-one :class="menuStatus" theme="filled" size="28" fill="#505050" :strokeWidth="3"/>
+      <icon-menu-unfold-one theme="filled" size="28" fill="#505050" :strokeWidth="3" v-if="collapse === 0"/>
+      <icon-menu-fold-one theme="filled" size="28" fill="#505050" :strokeWidth="3" v-if="collapse === 1"/>
     </template>
     <template v-if="appStore.configData.theme === 'dark'">
-      <icon-menu-unfold-one :class="menuStatus" theme="filled" size="28" fill="#cccccc" :strokeWidth="3"/>
+      <icon-menu-unfold-one theme="filled" size="28" fill="#cccccc" :strokeWidth="3" v-if="collapse === 0"/>
+      <icon-menu-fold-one theme="filled" size="28" fill="#505050" :strokeWidth="3" v-if="collapse === 1"/>
     </template>
   </div>
 </template>
@@ -43,17 +45,5 @@ setMenuStatus(menuStatus.value)
   align-items: center;
   padding: 10px 10px 10px 10px;
   cursor: pointer;
-
-  .shrink {
-    transform: rotate(180deg);
-    transform-origin: center center;
-    transition: all 0.3s;
-  }
-
-  .expand {
-    transform: rotate(0deg);
-    transform-origin: center center;
-    transition: all 0.3s;
-  }
 }
 </style>

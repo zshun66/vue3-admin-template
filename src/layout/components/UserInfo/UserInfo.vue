@@ -17,7 +17,7 @@ const handleCommand = function (command) {
         {
           name: 'offset',
           options: {
-            offset: [0, -3],
+            offset: [0, -8],
           },
         },
       ]
@@ -48,7 +48,7 @@ const handleCommand = function (command) {
   padding: 10px 10px;
   cursor: pointer;
   font-size: 16px;
-  color: var(--theme-navbar-color);
+  color: var(--theme-navbar-font-color);
   transition: color 0.3s;
 
   .user_avatar {

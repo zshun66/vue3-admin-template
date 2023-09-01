@@ -1,14 +1,12 @@
 :root {
-  /* 侧边栏背景颜色 */
   --theme-aside-bg-color: #ffffff;
-  /* 侧边栏LOGO区域背景颜色 */
+  --theme-aside-logo-font-color: #505050;
   --theme-aside-logo-bg-color: #ffffff;
-  /* 侧边栏LOGO区域字体颜色 */
-  --theme-aside-logo-color: #505050;
-  /* 导航栏背景颜色 */
+  --theme-submenu-font-color: #505050;
+  --theme-submenu-hover-bg-color: #ecf5ff;
+  --theme-menuitem-font-color: #505050;
+  --theme-menuitem-hover-bg-color: #ecf5ff;
+  --theme-navbar-font-color: #505050;
   --theme-navbar-bg-color: #ffffff;
-  /* 导航栏字体颜色 */
-  --theme-navbar-color: #505050;
-  /* 内容区背景颜色 */
   --theme-main-bg-color: #F0F2F5;
 }

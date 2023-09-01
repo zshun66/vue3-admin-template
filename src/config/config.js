@@ -1,8 +1,8 @@
 export default {
   /**
-   * 默认菜单状态(shrink收缩、expand展开)
+   * 默认菜单折叠状态(1折叠、0不折叠)
    */
-  menuStatus: 'expand',
+  collapse: 0,
   /**
    * 默认主题(light亮色、dark暗色)
    */
