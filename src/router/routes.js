@@ -5,22 +5,29 @@ export default [
   },
   { // 登录
     path: '/login',
+    name: 'login',
     component: () => import('@/views/login/login.vue'),
-    name: 'login'
   },
   {
     path: '/backstage',
+    name: 'backstage',
     component: () => import('@/views/backstage/backstage.vue'),
-    name: 'backstage'
+    children: [
+      {
+        path: '/backstage/system/menu',
+        name: 'menu',
+        component: () => import('@/views/backstage-pages/system/menu/menu.vue'),
+      },
+    ]
   },
   { // 404路由
     path: '/404',
+    name: '404',
     component: () => import('@/views/error/404/404.vue'),
-    name: '404'
   },
   { // 通配路由
     path: '/:pathMatch(.*)*',
+    name: 'any',
     redirect: '/404',
-    name: 'any'
   }
 ]

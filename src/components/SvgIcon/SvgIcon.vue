@@ -3,6 +3,7 @@
     class="svg-icon"
     :style="{
       width: width ? width : size,
+      minWidth: width ? width : size,
       height: height ? height : size
     }"
     :fill="color"

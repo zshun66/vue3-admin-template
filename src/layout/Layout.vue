@@ -1,11 +1,17 @@
 <script setup name="layout">
 import Sidebar from './components/Sidebar/Sidebar.vue'
 import Navbar from './components/Navbar/Navbar.vue'
+import useAppStore from '@/pinia/modules/app.js'
+
+const appStore = useAppStore()
 </script>
 
 <template>
   <el-container class="comp_container layout_comp">
-    <el-aside class="layout_aside custom_scrollbar">
+    <el-aside
+      class="layout_aside custom_scrollbar"
+      :class="{ shrink: appStore.configData.collapse === 1 }"
+    >
       <Sidebar />
     </el-aside>
     <el-container class="layout_inner_container">
@@ -13,6 +19,7 @@ import Navbar from './components/Navbar/Navbar.vue'
         <Navbar />
       </el-header>
       <el-main class="layout_main">
+        <router-view></router-view>
       </el-main>
     </el-container>
   </el-container>
@@ -24,15 +31,17 @@ import Navbar from './components/Navbar/Navbar.vue'
   height: 100%;
 
   .layout_aside {
-    width: $layout-aside-width;
+    width: $layout-aside-expand-width;
     overflow-x: hidden;
     overflow-y: auto;
     background-color: var(--theme-aside-bg-color);
-    transition: background-color 0.3s;
+    transition: all 0.3s;
+    &.shrink {
+      width: $layout-aside-shrink-width;
+    }
   }
 
   .layout_inner_container {
-
     .layout_header {
       height: $layout-header-height;
       background-color: var(--theme-navbar-bg-color);
@@ -40,6 +49,7 @@ import Navbar from './components/Navbar/Navbar.vue'
     }
 
     .layout_main {
+      padding: 10px 10px;
       background-color: var(--theme-main-bg-color);
       transition: background-color 0.3s;
     }

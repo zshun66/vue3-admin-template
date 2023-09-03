@@ -12,7 +12,12 @@ const handleCommand = function (command) {
 </script>
 
 <template>
-  <el-dropdown placement="bottom" trigger="hover" :show-timeout="0" :hide-timeout="0" :popper-options="{
+  <el-dropdown
+    placement="bottom"
+    trigger="hover"
+    :show-timeout="0"
+    :hide-timeout="0"
+    :popper-options="{
       modifiers: [
         {
           name: 'offset',
@@ -21,7 +26,10 @@ const handleCommand = function (command) {
           },
         },
       ]
-    }" :teleported="false" @command="handleCommand">
+    }"
+    :teleported="false"
+    @command="handleCommand"
+  >
     <div class="comp_container userinfo_comp">
       <el-avatar class="user_avatar" :size="30" :src="avatar" />
       <span class="user_name">{{ nickname }}({{ username }})</span>
