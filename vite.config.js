@@ -4,6 +4,8 @@ import { resolve } from 'path'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import IconsResolver from 'unplugin-icons/resolver'
+import Icons from 'unplugin-icons/vite'
 import VueSetupExtend from 'vite-plugin-vue-setup-extend'
 import compressPlugin from 'vite-plugin-compression'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
@@ -34,12 +36,25 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
           'vue',
           'vue-router',
         ],
-        resolvers: [ElementPlusResolver()],
+        resolvers: [
+          ElementPlusResolver(),
+          IconsResolver({
+            prefix: 'Icon',
+          }),
+        ],
         dts: resolve(resolve(__dirname, 'typings'), 'auto-imports.d.ts'),
       }),
       Components({
-        resolvers: [ElementPlusResolver()],
+        resolvers: [
+          ElementPlusResolver(),
+          IconsResolver({
+            enabledCollections: ['ep'],
+          }),
+        ],
         dts: resolve(resolve(__dirname, 'typings'), 'components.d.ts'),
+      }),
+      Icons({
+        autoInstall: true,
       }),
       VueSetupExtend(),
       compressPlugin({

@@ -37,10 +37,10 @@ export default [
 				(item) => item.username === username && item.password === password,
 			)
 			if (!checkUser) {
-				return { code: 201, data: { message: '账号或密码不正确' } }
+				return { code: 201, data: null, message: '账号或密码不正确' }
 			}
 			const { token } = checkUser
-			return { code: 200, data: { token } }
+			return { code: 200, data: { token }, message: '操作成功' }
 		},
 	},
 	// 获取用户信息
@@ -51,9 +51,9 @@ export default [
 			const token = request.headers.authorization.substr(7, 100)
 			const checkUser = createUserList().find((item) => item.token === token)
 			if (!checkUser) {
-				return { code: 201, data: { message: '获取用户信息失败' } }
+				return { code: 201, data: null, message: '获取用户信息失败' }
 			}
-			return { code: 200, data: { userInfo: checkUser } }
+			return { code: 200, data: { userInfo: checkUser }, message: '操作成功' }
 		},
 	},
 ]

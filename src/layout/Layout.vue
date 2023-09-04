@@ -18,7 +18,7 @@ const appStore = useAppStore()
       <el-header class="layout_header">
         <Navbar />
       </el-header>
-      <el-main class="layout_main">
+      <el-main class="layout_main custom_scrollbar">
         <router-view></router-view>
       </el-main>
     </el-container>

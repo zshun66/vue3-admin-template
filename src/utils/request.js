@@ -36,7 +36,7 @@ request.interceptors.response.use((response) => {
 	isAlertMsg = isAlertMsg === undefined ? true : isAlertMsg
 
 	let code = response.data.code
-	let message = response.data.data.message
+	let message = response.data.message
 
 	if (code === 200) {
 		return { result: response.data, error: undefined }

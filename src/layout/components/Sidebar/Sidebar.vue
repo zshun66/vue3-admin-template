@@ -24,19 +24,19 @@ const collapse = computed(() => appStore.configData.collapse === 1 ? true : fals
         </template>
         <el-menu-item index="user" title="用户管理">
           <template #title>
-            <svg-icon name="user1" size="20px" color="#505050"></svg-icon>
+            <svg-icon name="user1" size="18px" color="#505050"></svg-icon>
             <span>用户管理</span>
           </template>
         </el-menu-item>
         <el-menu-item index="role" title="角色管理">
           <template #title>
-            <svg-icon name="role1" size="20px" color="#505050"></svg-icon>
+            <svg-icon name="role1" size="18px" color="#505050"></svg-icon>
             <span>角色管理</span>
           </template>
         </el-menu-item>
         <el-menu-item index="menu" title="菜单管理">
           <template #title>
-            <svg-icon name="menu1" size="20px" color="#505050"></svg-icon>
+            <svg-icon name="menu3" size="18px" color="#505050"></svg-icon>
             <span>菜单管理</span>
           </template>
         </el-menu-item>
@@ -88,8 +88,6 @@ const collapse = computed(() => appStore.configData.collapse === 1 ? true : fals
   :deep(.el-sub-menu__title:hover) {
     background-color: var(--theme-submenu-hover-bg-color);
   }
-  :deep(.el-sub-menu__title .svg-icon) {
-  }
   :deep(.el-sub-menu__title span) {
     margin-left: 5px;
     white-space: nowrap;
@@ -109,8 +107,6 @@ const collapse = computed(() => appStore.configData.collapse === 1 ? true : fals
   :deep(.el-menu-item:hover) {
     background-color: var(--theme-menuitem-hover-bg-color);
   }
-  :deep(.el-menu-item .svg-icon) {
-  }
   :deep(.el-menu-item span) {
     margin-left: 5px;
     white-space: nowrap;
@@ -120,7 +116,7 @@ const collapse = computed(() => appStore.configData.collapse === 1 ? true : fals
 }
 </style>
 
-<style>
+<style lang="scss">
   .menu_submenu_popper {
     .el-menu-item {
       height: 50px;

@@ -1,3 +1,7 @@
+label {
+  font-weight: 700;
+}
+
 // 自定义滚动条样式
 .custom_scrollbar {
   &::-webkit-scrollbar {
@@ -11,7 +15,7 @@
   }
   // 滚动条背景样式
   &::-webkit-scrollbar-track {
-    background: #fff;
+    background: #F3F3F3;
   }
 }
 
@@ -21,4 +25,8 @@
   background-color: #fff;
   border-radius: 5px;
   padding: 10px 10px;
+}
+
+.comp_container {
+  
 }
