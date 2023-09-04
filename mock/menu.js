@@ -52,7 +52,7 @@ function createMenuList() {
 					isCache: '1',
 					visible: '1',
 					status: '1',
-					remark: '菜单管理'
+					remark: '菜单管理',
 				},
 				{
 					parentId: 1,
@@ -69,7 +69,7 @@ function createMenuList() {
 					isCache: '1',
 					visible: '1',
 					status: '1',
-					remark: '角色管理'
+					remark: '角色管理',
 				},
 				{
 					parentId: 1,
@@ -86,7 +86,7 @@ function createMenuList() {
 					isCache: '1',
 					visible: '1',
 					status: '1',
-					remark: '用户管理'
+					remark: '用户管理',
 				},
 			]
 		},

@@ -17,7 +17,6 @@ const initQueryForm = function () {
 // 获取菜单列表
 const getMenuList = async function () {
   const { result } = await reqMenuList()
-  console.log(result)
   if (!result) return
   menuList.value = result.data || []
 }
@@ -98,18 +97,20 @@ getMenuList()
         background: '#F8F8F9',
         color: '#666'
       }"
+      row-key="menuId"
+      :indent="0"
     >
-      <el-table-column label="菜单标题" prop="title" align="center" min-width="120">
+      <el-table-column label="菜单标题" prop="title" align="left" min-width="120">
         <template #default="scope">
           <span>{{ scope.row.title }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="图标" prop="icon" align="center" min-width="60">
+      <el-table-column label="图标" prop="icon" align="center" min-width="80">
         <template #default="scope">
-          <svg-icon :name="scope.row.icon" color="#666" size="20px"></svg-icon>
+          <svg-icon style="margin-top: 4px;" :name="scope.row.icon" color="#666" size="20px"></svg-icon>
         </template>
       </el-table-column>
-      <el-table-column label="排序" prop="sort" align="center" min-width="60">
+      <el-table-column label="排序" prop="sort" align="center" min-width="80">
         <template #default="scope">
           <span>{{ scope.row.sort }}</span>
         </template>
@@ -119,32 +120,32 @@ getMenuList()
           <span>{{ scope.row.perms }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="组价路径" prop="component" align="center" min-width="200" show-overflow-tooltip>
+      <el-table-column label="组价路径" prop="component" align="center" min-width="250" show-overflow-tooltip>
         <template #default="scope">
           <span>{{ scope.row.component }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="状态" prop="status" align="center" min-width="70">
+      <el-table-column label="状态" prop="status" align="center" min-width="80">
         <template #default="scope">
-          <el-tag type="primary" v-if="scope.row.status === '1'">正常</el-tag>
+          <el-tag type="" v-if="scope.row.status === '1'">正常</el-tag>
           <el-tag type="danger" v-if="scope.row.status === '0'">禁用</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="创建者" prop="creator" align="center" min-width="100">
+      <el-table-column label="创建者" prop="creator" align="center" min-width="120">
         <template #default="scope">
           <span>{{ scope.row.creator || '超级管理员' }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="创建时间" prop="createTime" align="center" min-width="170">
+      <el-table-column label="创建时间" prop="createTime" align="center" min-width="180">
         <template #default="scope">
           <span>{{ scope.row.createTime || '2023-10-01 07:07:07' }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" prop="" align="center" min-width="150">
+      <el-table-column label="操作" prop="" align="center" width="200">
         <div style="display: flex; align-items: center; justify-content: center;">
-          <el-button style="padding: 0 0;" type="primary" text icon="plus" @click="handleAdd">新增</el-button>
-          <el-button style="padding: 0 0;" type="primary" text @click="handleModify">修改</el-button>
-          <el-button style="padding: 0 0;" type="primary" text @click="handleDelete">删除</el-button>
+          <el-button style="padding: 0 0;" type="primary" text icon="icon-plus" @click="handleAdd">新增</el-button>
+          <el-button style="padding: 0 0;" type="primary" text icon="icon-edit" @click="handleModify">修改</el-button>
+          <el-button style="padding: 0 0;" type="primary" text icon="icon-delete" @click="handleDelete">删除</el-button>
         </div>
       </el-table-column>
     </el-table>
