@@ -5,9 +5,10 @@ const API = {
 }
 
 // 获取菜单列表
-export const reqMenuList = () => {
+export const reqMenuList = (params) => {
 	return request({
 		url: API.MENULIST_URL,
 		method: 'get',
+		params: params
 	})
 }
