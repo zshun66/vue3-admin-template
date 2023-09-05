@@ -46,7 +46,28 @@ const formDataRules = ref({
   ],
   sort: [
     { required: true, message: '请输入显示排序', trigger: 'blur' }
-  ]
+  ],
+  isLink: [
+    { required: true, message: '请选择是否外链', trigger: 'change' }
+  ],
+  path: [
+    { required: true, message: '请输入路由路径', trigger: 'blur' }
+  ],
+  component: [
+    { required: true, message: '请输入组件路径', trigger: 'blur' }
+  ],
+  perms: [
+    { required: true, message: '请输入权限字符', trigger: 'blur' }
+  ],
+  visible: [
+    { required: true, message: '请选择显示状态', trigger: 'change' }
+  ],
+  isCache: [
+    { required: true, message: '请选择是否缓存', trigger: 'change' }
+  ],
+  status: [
+    { required: true, message: '请选择菜单状态', trigger: 'change' }
+  ],
 })
 // 菜单树形数据
 const menuTreeData = computed(() => {
@@ -62,6 +83,11 @@ const menuTreeData = computed(() => {
   return result
 })
 
+
+// 当前选中节点变化时触发的事件
+const handleTreeSelectCurrentChange = function (data, node) {
+  formData.value.parentId = data.menuId
+}
 
 // 取消
 const handleCancel = function () {
@@ -92,55 +118,100 @@ const handleConfirm = function () {
     <el-form class="form" :model="formData" :rules="formDataRules" label-width="auto">
       <el-form-item label="父级菜单:" prop="parentId">
         <el-tree-select
-          style="width: 210px;"
+          style="width: 200px;"
           v-model="formData.parentId"
           :data="menuTreeData"
           node-key="menuId"
           render-after-expand
-          highlight-current
           :expand-on-click-node="false"
-          check-on-click-node
-          accordion
-          clearable
           :props="{
             label: 'title',
             children: 'children'
           }"
           placeholder="请选择上级菜单"
+          @current-change="handleTreeSelectCurrentChange"
         ></el-tree-select>
       </el-form-item>
-      <el-form-item label="菜单图标:" prop="icon">
-        <el-input
-          style="width: 210px;"
-          v-model="formData.icon"
-          clearable
-          placeholder="请输入菜单图标"
-        ></el-input>
-      </el-form-item>
       <el-form-item label="菜单类型:" prop="type">
-        <el-radio-group style="width: 300px;" v-model="formData.type">
-          <el-radio label="directory">目录</el-radio>
-          <el-radio label="menu">菜单</el-radio>
-          <el-radio label="button">按钮</el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item label="菜单标题:" prop="title">
-        <el-input
-          style="width: 210px;"
-          v-model="formData.title"
-          clearable
-          placeholder="请输入菜单标题"
-        ></el-input>
+        <el-select style="width: 200px;" v-model="formData.type">
+          <el-option label="目录" value="directory"></el-option>
+          <el-option label="菜单" value="menu"></el-option>
+          <el-option label="按钮" value="button"></el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="显示排序:" prop="sort">
         <el-input-number
-          style="width: 210px; text-align: left;"
+          style="width: 200px;"
           v-model="formData.sort"
           :min="0"
           step-strictly
           controls-position="right"
           placeholder="请输入显示排序"
         ></el-input-number>
+      </el-form-item>
+      <el-form-item label="菜单图标:" prop="icon">
+        <el-input
+          style="width: 200px;"
+          v-model="formData.icon"
+          clearable
+          placeholder="请输入菜单图标"
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="菜单标题:" prop="title">
+        <el-input
+          style="width: 200px;"
+          v-model="formData.title"
+          clearable
+          placeholder="请输入菜单标题"
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="是否外链:" prop="isLink">
+        <el-select style="width: 200px;" v-model="formData.isLink">
+          <el-option label="是" value="1"></el-option>
+          <el-option label="否" value="0"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="路由路径:" prop="path">
+        <el-input
+          style="width: 505px;"
+          v-model="formData.path"
+          clearable
+          placeholder="请输入路由路径"
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="组件路径:" prop="component">
+        <el-input
+          style="width: 505px;"
+          v-model="formData.component"
+          clearable
+          placeholder="请输入组件路径"
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="权限字符:" prop="perms">
+        <el-input
+          style="width: 200px;"
+          v-model="formData.perms"
+          clearable
+          placeholder="请输入权限字符"
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="显隐状态:" prop="visible">
+        <el-select style="width: 200px;" v-model="formData.visible">
+          <el-option label="显示" value="1"></el-option>
+          <el-option label="隐藏" value="0"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="是否缓存:" prop="isCache">
+        <el-select style="width: 200px;" v-model="formData.isCache">
+          <el-option label="是" value="1"></el-option>
+          <el-option label="否" value="0"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="菜单状态:" prop="status">
+        <el-select style="width: 200px;" v-model="formData.status">
+          <el-option label="正常" value="1"></el-option>
+          <el-option label="禁用" value="0"></el-option>
+        </el-select>
       </el-form-item>
     </el-form>
     <template #footer>
@@ -157,7 +228,7 @@ const handleConfirm = function () {
   .form {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-around;
 
     :deep(.el-input-number .el-input__inner) {
       text-align: left;

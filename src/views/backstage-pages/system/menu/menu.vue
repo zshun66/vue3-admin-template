@@ -31,7 +31,14 @@ const initFormData = function () {
     icon: '',
     type: 'directory',
     title: '',
-    sort: null
+    sort: null,
+    isLink: '0',
+    path: '',
+    component: '',
+    perms: '',
+    visible: '1',
+    isCache: '1',
+    status: '1',
   }
 }
 

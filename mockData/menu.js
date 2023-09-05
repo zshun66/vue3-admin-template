@@ -14,7 +14,6 @@
  * isCache					是否缓存
  * visible					显示状态
  * status						菜单状态
- * remark						备注
  */
 
 export default [
@@ -33,7 +32,6 @@ export default [
     isCache: '1',
     visible: '1',
     status: '1',
-    remark: '系统管理',
     children: [
       {
         parentId: 1,
@@ -50,7 +48,6 @@ export default [
         isCache: '1',
         visible: '1',
         status: '1',
-        remark: '菜单管理',
         children: []
       },
       {
@@ -68,7 +65,6 @@ export default [
         isCache: '1',
         visible: '1',
         status: '1',
-        remark: '角色管理',
         children: []
       },
       {
@@ -86,7 +82,6 @@ export default [
         isCache: '1',
         visible: '1',
         status: '1',
-        remark: '用户管理',
         children: []
       },
     ]
