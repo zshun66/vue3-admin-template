@@ -1,6 +1,6 @@
 <script setup name="_menu">
 import AddOrModify from './components/AddOrModify/AddOrModify.vue'
-import { reqMenuList } from '@/api/menu.js'
+import { reqMenuList } from '@/api/system/menu.js'
 
 // 查询参数
 const queryForm = ref({})
@@ -57,6 +57,7 @@ const handleSearch = function() {
 // 重置
 const handleReset = function() {
   initQueryForm()
+  getMenuList()
 }
 
 // 新增
@@ -77,11 +78,12 @@ const handleModify = function(row) {
 }
 
 // 删除
-const handleDelete = function() {
+const handleDelete = function(row) {
 }
 
 // 展开/折叠
 const handleCollapse = function() {
+  menuTableRef.value.toggleRowExpansion(menuList.value[0])
 }
 
 // 点击表格行
@@ -91,7 +93,6 @@ const handleTableRowClick = function(row, column, event) {
 
 // 确定添加/修改
 const handleConfirmAddOrModify = function() {
-  console.log(formData.value)
 }
 
 initQueryForm()
@@ -198,7 +199,7 @@ getMenuList()
           <div style="display: flex; align-items: center; justify-content: center;">
             <el-button style="padding: 0 0;" type="primary" text icon="icon-plus" @click.stop="handleAdd(scope.row.menuId)">新增</el-button>
             <el-button style="padding: 0 0;" type="primary" text icon="icon-edit" @click.stop="handleModify(scope.row)">修改</el-button>
-            <el-button style="padding: 0 0;" type="primary" text icon="icon-delete" @click.stop="handleDelete">删除</el-button>
+            <el-button style="padding: 0 0;" type="primary" text icon="icon-delete" @click.stop="handleDelete(scope.row)">删除</el-button>
           </div>
         </template>
       </el-table-column>

@@ -20,7 +20,8 @@ const $props = defineProps({
   }
 })
 const $emits = defineEmits([
-  'update:modelValue'
+  'update:modelValue',
+  'confirm'
 ])
 
 // 是否显示弹框
@@ -67,6 +68,7 @@ const handleCancel = function() {
 const handleConfirm = function() {
   console.log(formData.value)
   showDialog.value = false
+  $emits('confirm')
 }
 
 // 关闭弹框

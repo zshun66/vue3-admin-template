@@ -18,6 +18,11 @@ export default [
         name: 'menu',
         component: () => import('@/views/backstage-pages/system/menu/menu.vue'),
       },
+      {
+        path: '/backstage/system/role',
+        name: 'role',
+        component: () => import('@/views/backstage-pages/system/role/role.vue'),
+      },
     ]
   },
   { // 404路由

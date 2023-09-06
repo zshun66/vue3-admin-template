@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { reqLogin, reqUserInfo } from '@/api/user.js'
+import { reqLogin, reqUserInfo } from '@/api/system/user.js'
 import { getToken, setToken } from '@/utils/token.js'
 
 const useUserStore = defineStore('User', {
