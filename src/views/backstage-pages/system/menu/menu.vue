@@ -17,7 +17,7 @@ const addOrModifyDialogType = ref('add')
 
 
 // 初始化查询参数
-const initQueryForm = function () {
+const initQueryForm = function() {
   queryForm.value = {
     title: '', // 菜单标题
     status: '', // 菜单状态
@@ -25,7 +25,7 @@ const initQueryForm = function () {
 }
 
 // 初始化表单数据
-const initFormData = function () {
+const initFormData = function() {
   formData.value = {
     parentId: 0,
     icon: '',
@@ -43,31 +43,32 @@ const initFormData = function () {
 }
 
 // 获取菜单列表
-const getMenuList = async function () {
+const getMenuList = async function() {
   const { result } = await reqMenuList(queryForm.value)
   if (!result) return
   menuList.value = result.data || []
 }
 
 // 搜索
-const handleSearch = function () {
+const handleSearch = function() {
   getMenuList()
 }
 
 // 重置
-const handleReset = function () {
+const handleReset = function() {
   initQueryForm()
 }
 
 // 新增
-const handleAdd = function () {
+const handleAdd = function(parentId = 0) {
   initFormData()
+  formData.value.parentId = parentId
   addOrModifyDialogType.value = 'add'
   showAddOrModifyDialog.value = true
 }
 
 // 修改
-const handleModify = function (row) {
+const handleModify = function(row) {
   for (let key in formData.value) {
     formData.value[key] = row[key]
   }
@@ -76,20 +77,20 @@ const handleModify = function (row) {
 }
 
 // 删除
-const handleDelete = function () {
+const handleDelete = function() {
 }
 
 // 展开/折叠
-const handleCollapse = function () {
+const handleCollapse = function() {
 }
 
 // 点击表格行
-const handleTableRowClick = function (row, column, event) {
+const handleTableRowClick = function(row, column, event) {
   menuTableRef.value.toggleRowExpansion(row)
 }
 
 // 确定添加/修改
-const handleConfirmAddOrModify = function () {
+const handleConfirmAddOrModify = function() {
   console.log(formData.value)
 }
 
@@ -127,7 +128,7 @@ getMenuList()
     </el-form>
 
     <div class="operate_btn_group">
-      <el-button type="primary" icon="icon-plus" plain @click="handleAdd">新增</el-button>
+      <el-button type="primary" icon="icon-plus" plain @click="handleAdd()">新增</el-button>
       <el-button type="info" icon="icon-switch" plain @click="handleCollapse">展开/折叠</el-button>
     </div>
 
@@ -195,7 +196,7 @@ getMenuList()
       <el-table-column label="操作" prop="" align="center" width="200">
         <template #default="scope">
           <div style="display: flex; align-items: center; justify-content: center;">
-            <el-button style="padding: 0 0;" type="primary" text icon="icon-plus" @click.stop="handleAdd">新增</el-button>
+            <el-button style="padding: 0 0;" type="primary" text icon="icon-plus" @click.stop="handleAdd(scope.row.menuId)">新增</el-button>
             <el-button style="padding: 0 0;" type="primary" text icon="icon-edit" @click.stop="handleModify(scope.row)">修改</el-button>
             <el-button style="padding: 0 0;" type="primary" text icon="icon-delete" @click.stop="handleDelete">删除</el-button>
           </div>
