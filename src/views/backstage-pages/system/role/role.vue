@@ -6,10 +6,8 @@ import { reqRoleList } from '@/api/system/role.js'
 const queryForm = ref({})
 // 表单数据
 const formData = ref({})
-// 角色数据
+// 角色列表数据
 const roleList = ref([])
-// 数据总数
-const roleTotal = ref(100)
 // 是否显示添加/修改弹框
 const showAddOrModifyDialog = ref(false)
 // 添加/修改弹框类型
@@ -19,8 +17,6 @@ const addOrModifyDialogType = ref('add')
 // 初始化查询参数
 const initQueryForm = function() {
   queryForm.value = {
-    pageNum: 1,
-    pageSize: 10,
     name: '',
     status: '',
   }
@@ -42,12 +38,10 @@ const getRoleList = async function() {
   const { result } = await reqRoleList(queryForm.value)
   if (!result) return
   roleList.value = result.data || []
-  roleTotal.value = result.total || 0
 }
 
 // 搜索
 const handleSearch = function() {
-  queryForm.value.pageNum = 1
   getRoleList()
 }
 
@@ -172,15 +166,6 @@ getRoleList()
         </template>
       </el-table-column>
     </el-table>
-
-    <el-pagination
-      class="role_list_pagination"
-      v-model:current-page="queryForm.pageNum"
-      v-model:page-size="queryForm.pageSize"
-      :total="roleTotal"
-      background
-      layout="total, prev, pager, next, jumper"
-    ></el-pagination>
   </div>
 
   <AddOrModify
@@ -203,11 +188,6 @@ getRoleList()
 
   .role_list_table {
     margin-top: 10px;
-  }
-
-  .role_list_pagination {
-    margin-top: 10px;
-    justify-content: flex-end;
   }
 }
 </style>

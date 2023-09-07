@@ -1,15 +1,13 @@
-<script setup name="_menu">
+<script setup name="post">
 import AddOrModify from './components/AddOrModify/AddOrModify.vue'
-import { reqMenuList } from '@/api/system/menu.js'
+import { reqPostList } from '@/api/system/post.js'
 
 // 查询参数
 const queryForm = ref({})
 // 表单数据
 const formData = ref({})
-// 菜单列表数据
-const menuList = ref([])
-// 表格实例
-const menuTableRef = ref(null)
+// 岗位列表数据
+const postList = ref([])
 // 是否显示添加/修改弹框
 const showAddOrModifyDialog = ref(false)
 // 添加/修改弹框类型
@@ -19,51 +17,43 @@ const addOrModifyDialogType = ref('add')
 // 初始化查询参数
 const initQueryForm = function() {
   queryForm.value = {
-    title: '', // 菜单标题
-    status: '', // 菜单状态
+    name: '',
+    status: '',
   }
 }
 
 // 初始化表单数据
 const initFormData = function() {
   formData.value = {
-    parentId: 0,
-    icon: '',
-    type: 'directory',
-    title: '',
+    name: '',
+    code: null,
     sort: null,
-    isLink: '0',
-    path: '',
-    component: '',
-    perms: '',
-    visible: '1',
-    isCache: '1',
     status: '1',
+    remark: ''
   }
 }
 
-// 获取菜单列表
-const getMenuList = async function() {
-  const { result } = await reqMenuList(queryForm.value)
+// 获取岗位列表
+const getPostList = async function() {
+  const { result } = await reqPostList(queryForm.value)
   if (!result) return
-  menuList.value = result.data || []
+  postList.value = result.data || []
 }
 
 // 搜索
 const handleSearch = function() {
-  getMenuList()
+  getPostList()
 }
 
 // 重置
 const handleReset = function() {
   initQueryForm()
-  getMenuList()
+  getPostList()
 }
 
 // 新增
-const handleAdd = function(parentId = 0) {
+const handleAdd = function() {
   initFormData()
-  formData.value.parentId = parentId
   addOrModifyDialogType.value = 'add'
   showAddOrModifyDialog.value = true
 }
@@ -81,37 +71,28 @@ const handleModify = function(row) {
 const handleDelete = function(row) {
 }
 
-// 展开/折叠
-const handleCollapse = function() {
-  menuTableRef.value.toggleRowExpansion(menuList.value[0])
-}
-
-// 点击表格行
-const handleTableRowClick = function(row, column, event) {
-  menuTableRef.value.toggleRowExpansion(row)
-}
-
 // 确定添加/修改
 const handleConfirmAddOrModify = function() {
 }
 
+
 initQueryForm()
 initFormData()
-getMenuList()
+getPostList()
 </script>
 
 <template>
-  <div class="page_container menu_container">
+  <div class="page_container post_container">
     <el-form :model="queryForm" label-width="auto" inline>
-      <el-form-item label="菜单标题:" prop="title">
+      <el-form-item label="岗位名称:" prop="name">
         <el-input
           style="width: 200px;"
-          v-model="queryForm.title"
+          v-model="queryForm.name"
           clearable
-          placeholder="请输入菜单标题"
+          placeholder="请输入岗位名称"
         ></el-input>
       </el-form-item>
-      <el-form-item label="菜单状态:" prop="status">
+      <el-form-item label="岗位状态:" prop="status">
         <el-select
           style="width: 150px;"
           v-model="queryForm.status"
@@ -129,53 +110,42 @@ getMenuList()
     </el-form>
 
     <div class="operate_btn_group">
-      <el-button type="primary" icon="icon-plus" plain @click="handleAdd()">新增</el-button>
-      <el-button type="info" icon="icon-switch" plain @click="handleCollapse">展开/折叠</el-button>
+      <el-button type="primary" plain icon="icon-plus" @click="handleAdd">新增</el-button>
     </div>
 
     <el-table
-      class="menu_list_table"
-      ref="menuTableRef"
+      class="post_list_table"
       height="100%"
-      :data="menuList"
+      :data="postList"
       :header-cell-style="{
         background: '#F8F8F9',
         color: '#666'
       }"
-      row-key="menuId"
-      :indent="0"
-      @row-click="handleTableRowClick"
+      row-key="postId"
     >
-      <el-table-column label="菜单标题" prop="title" align="left" min-width="120" show-overflow-tooltip>
+      <el-table-column label="岗位编号" prop="postId" align="center" width="100">
         <template #default="scope">
-          <span>{{ scope.row.title }}</span>
+          <span>{{ scope.row.postId }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="菜单类型" prop="type" align="center" min-width="80">
+      <el-table-column label="岗位编码" prop="code" align="center" min-width="120">
         <template #default="scope">
-          <span v-if="scope.row.type === 'directory'">目录</span>
-          <span v-if="scope.row.type === 'menu'">菜单</span>
-          <span v-if="scope.row.type === 'button'">按钮</span>
+          <span>{{ scope.row.code }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="排序" prop="sort" align="center" min-width="80">
+      <el-table-column label="岗位名称" prop="name" align="center" min-width="150">
+        <template #default="scope">
+          <span>{{ scope.row.name }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="排序" prop="sort" align="center" min-width="100">
         <template #default="scope">
           <span>{{ scope.row.sort }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="图标" prop="icon" align="center" min-width="80">
+      <el-table-column label="备注" prop="remark" align="center" min-width="150">
         <template #default="scope">
-          <svg-icon style="margin-top: 4px;" :name="scope.row.icon" color="#666" size="20px"></svg-icon>
-        </template>
-      </el-table-column>
-      <el-table-column label="权限字符" prop="perms" align="center" min-width="150">
-        <template #default="scope">
-          <span>{{ scope.row.perms }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="组价路径" prop="component" align="center" min-width="250" show-overflow-tooltip>
-        <template #default="scope">
-          <span>{{ scope.row.component }}</span>
+          <span>{{ scope.row.remark }}</span>
         </template>
       </el-table-column>
       <el-table-column label="状态" prop="status" align="center" min-width="80">
@@ -184,7 +154,7 @@ getMenuList()
           <el-tag type="danger" v-if="scope.row.status === '0'">禁用</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="创建者" prop="creator" align="center" min-width="110">
+      <el-table-column label="创建者" prop="creator" align="center" min-width="120">
         <template #default="scope">
           <span>{{ scope.row.creator || '超级管理员' }}</span>
         </template>
@@ -194,13 +164,10 @@ getMenuList()
           <span>{{ scope.row.createTime || '2023-10-01 07:07:07' }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" prop="" align="center" width="200">
+      <el-table-column label="操作" prop="" align="center" width="150">
         <template #default="scope">
-          <div style="display: flex; align-items: center; justify-content: center;">
-            <el-button style="padding: 0 0;" type="primary" text icon="icon-plus" @click.stop="handleAdd(scope.row.menuId)">新增</el-button>
-            <el-button style="padding: 0 0;" type="primary" text icon="icon-edit" @click.stop="handleModify(scope.row)">修改</el-button>
-            <el-button style="padding: 0 0;" type="primary" text icon="icon-delete" @click.stop="handleDelete(scope.row)">删除</el-button>
-          </div>
+          <el-button style="padding: 0 0;" type="primary" text icon="icon-edit" @click="handleModify(scope.row)">修改</el-button>
+          <el-button style="padding: 0 0;" type="primary" text icon="icon-delete" @click="handleDelete(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -210,13 +177,12 @@ getMenuList()
     v-model="showAddOrModifyDialog"
     :type="addOrModifyDialogType"
     :form="formData"
-    :menuTree="menuList"
     @confirm="handleConfirmAddOrModify"
   />
 </template>
 
 <style scoped lang="scss">
-.menu_container {
+.post_container {
   padding: 20px 20px;
   display: flex;
   flex-direction: column;
@@ -225,7 +191,7 @@ getMenuList()
     margin-top: 10px;
   }
 
-  .menu_list_table {
+  .post_list_table {
     margin-top: 10px;
   }
 }

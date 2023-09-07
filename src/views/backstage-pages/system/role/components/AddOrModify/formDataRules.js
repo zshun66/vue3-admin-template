@@ -9,7 +9,7 @@ export default {
     { required: true, message: '请输入显示排序', trigger: 'blur' }
   ],
   status: [
-    { required: true, message: '请选择菜单状态', trigger: 'change' }
+    { required: true, message: '请选择角色状态', trigger: 'change' }
   ],
   menus: [
     { required: true, message: '请选择菜单权限', trigger: 'change' }
