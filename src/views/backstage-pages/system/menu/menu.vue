@@ -45,6 +45,7 @@ const initFormData = function() {
 // 获取菜单列表
 const getMenuList = async function() {
   const { result } = await reqMenuList(queryForm.value)
+  console.log(result)
   if (!result) return
   menuList.value = result.data || []
 }
