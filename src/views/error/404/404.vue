@@ -1,5 +1,4 @@
 <script setup name="404">
-
 </script>
 
 <template>
