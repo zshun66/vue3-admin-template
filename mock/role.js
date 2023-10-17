@@ -1,4 +1,4 @@
-import { roleData } from '../mockData/index.js'
+import roleData from '../mockData/role.js'
 
 export default [
 	// 获取角色列表

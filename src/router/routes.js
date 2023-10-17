@@ -11,24 +11,9 @@ export default [
   {
     path: '/backstage',
     name: 'backstage',
+    redirect: '/backstage/home',
     component: () => import('@/views/backstage/backstage.vue'),
-    children: [
-      {
-        path: '/backstage/system/menu',
-        name: 'menu',
-        component: () => import('@/views/backstage-pages/system/menu/menu.vue'),
-      },
-      {
-        path: '/backstage/system/role',
-        name: 'role',
-        component: () => import('@/views/backstage-pages/system/role/role.vue'),
-      },
-      {
-        path: '/backstage/system/post',
-        name: 'post',
-        component: () => import('@/views/backstage-pages/system/post/post.vue'),
-      },
-    ]
+    children: []
   },
   { // 404路由
     path: '/404',

@@ -44,7 +44,7 @@ const handleLogin = () => {
   <div
     class="page_container login_container"
     tabindex="1"
-    @keyup.enter.native="handleLogin"
+    @keyup.enter="handleLogin"
   >
     <div class="login_form_box">
       <h1 class="title">Hello，欢迎进入系统</h1>

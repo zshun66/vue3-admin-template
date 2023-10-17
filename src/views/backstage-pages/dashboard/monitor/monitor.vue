@@ -1,9 +1,9 @@
-<script setup name="404">
+<script setup name="dashboard:monitor">
 
 </script>
 
 <template>
-  <div>404</div>
+  <div>监控台</div>
 </template>
 
 <style scoped lang="scss"></style>

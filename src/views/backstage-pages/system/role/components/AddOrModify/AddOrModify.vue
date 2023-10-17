@@ -1,4 +1,4 @@
-<script setup name="AddOrModify">
+<script setup name="system:role:AddOrModify">
 import rules from './formDataRules.js'
 
 const $props = defineProps({

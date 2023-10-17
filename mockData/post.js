@@ -11,11 +11,11 @@
 export default [
   {
     postId: 1,
-    name: '总经理',
+    name: '项目经理',
     code: 111,
     sort: 1,
     status: '1',
-    remark: '总经理',
+    remark: '项目经理',
   },
   {
     postId: 2,

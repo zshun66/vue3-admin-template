@@ -1,4 +1,4 @@
-<script setup name="post">
+<script setup name="system:post">
 import AddOrModify from './components/AddOrModify/AddOrModify.vue'
 import { reqPostList } from '@/api/system/post.js'
 

@@ -1,4 +1,4 @@
-import { postData } from '../mockData/index.js'
+import postData from '../mockData/post.js'
 
 export default [
 	// 获取岗位列表

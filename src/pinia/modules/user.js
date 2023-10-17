@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { reqLogin, reqUserInfo } from '@/api/system/user.js'
 import { getToken, setToken } from '@/utils/token.js'
+import resolveRoutes from '@/utils/resolveRoutes.js'
 
 const useUserStore = defineStore('User', {
   state: () => {
@@ -24,6 +25,8 @@ const useUserStore = defineStore('User', {
       const { result } = await reqUserInfo()
       if (!result) return
       this.userInfo = result.data.userInfo
+      console.log(this.userInfo)
+      resolveRoutes(this.userInfo.routes || [])
     },
   },
   getters: {

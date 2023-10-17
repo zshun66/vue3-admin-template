@@ -1,4 +1,4 @@
-<script setup name="role">
+<script setup name="system:role">
 import AddOrModify from './components/AddOrModify/AddOrModify.vue'
 import { reqRoleList } from '@/api/system/role.js'
 

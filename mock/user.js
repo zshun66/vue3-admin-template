@@ -1,4 +1,4 @@
-import { userData } from '../mockData/index.js'
+import userData from '../mockData/user.js'
 
 export default [
 	// 用户登录接口
@@ -35,9 +35,9 @@ export default [
 			const checkUser = userData.find((item) => item.token === token)
 			if (!checkUser) {
 				return {
-					code: 201,
+					code: 401,
 					data: null,
-					message: '获取用户信息失败'
+					message: '登录信息已失效，请重新登录'
 				}
 			}
 			return {

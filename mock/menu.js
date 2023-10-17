@@ -1,4 +1,4 @@
-import { menuData } from '../mockData/index.js'
+import menuData from '../mockData/menu.js'
 
 export default [
 	// 获取菜单列表

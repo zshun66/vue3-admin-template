@@ -1,5 +1,7 @@
 <script setup name="backstage">
 import Layout from '@/layout/layout.vue'
+
+console.log(useRouter().getRoutes())
 </script>
 
 <template>

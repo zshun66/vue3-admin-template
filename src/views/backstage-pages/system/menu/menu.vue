@@ -1,4 +1,4 @@
-<script setup name="_menu">
+<script setup name="system:menu">
 import AddOrModify from './components/AddOrModify/AddOrModify.vue'
 import { reqMenuList } from '@/api/system/menu.js'
 

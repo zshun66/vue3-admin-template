@@ -1,8 +1,9 @@
-import menuData from './menu.js'
+import roleData from './role.js'
 
 /**
  * 用户信息
- * userId					  用户ID
+ * id					      用户ID
+ * sort             用户排序
  * avatar			      头像
  * nickname					昵称
  * username					用户名
@@ -12,25 +13,32 @@ import menuData from './menu.js'
  * token						token凭证
  */
 
+const adminRole = roleData.find(item => item.id === 1)
+const adminRoutes = adminRole.menus
+const developerRole = roleData.find(item => item.id === 2)
+const developerRoutes = developerRole.menus
+
 export default [
   {
-    userId: 1,
+    id: 1,
+    sort: 10,
     avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-    nickname: '超级管理员',
+    nickname: '周大帅-超级管理员',
     username: 'admin',
     password: '111111',
-    roles: [],
-    routes: menuData,
+    roles: [adminRole],
+    routes: adminRoutes,
     token: 'Admin Token',
   },
   {
-    userId: 2,
+    id: 2,
+    sort: 20,
     avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-    nickname: '系统管理员',
-    username: 'system',
+    nickname: '法外狂徒-开发者',
+    username: 'developer',
     password: '111111',
-    roles: [],
-    routes: [],
-    token: 'System Token',
+    roles: [developerRole],
+    routes: developerRoutes,
+    token: 'Developer Token',
   },
 ]
