@@ -39,7 +39,7 @@ request.interceptors.response.use((response) => {
 	let message = response.data.message
 
 	if (code === 200) {
-		return { result: response.data, error: undefined }
+		return { result: response.data, error: null }
 	} else {
 		if (isAlertMsg) {
 			ElMessage({ type: 'error', message: message, grouping: true })
@@ -47,7 +47,7 @@ request.interceptors.response.use((response) => {
 		if (code === 401) {
 			// TODO 过期重新登录
 		}
-		return { result: undefined, error: message }
+		return { result: null, error: message }
 	}
 }, (error) => {
 	console.warn('响应拦截器发生错误：')
@@ -60,7 +60,7 @@ request.interceptors.response.use((response) => {
 		message = error.message
 	}
 	ElMessage({ type: 'error', message: message, grouping: true })
-	return Promise.resolve({ result: undefined, error: error })
+	return Promise.resolve({ result: null, error: error })
 })
 
 export default request

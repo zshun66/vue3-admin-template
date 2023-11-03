@@ -5,10 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite --mode development",
-    "dev:test": "vite --mode test",
-    "dev:prod": "vite --mode production",
-    "build": "vite build --mode production",
-    "build:test": "vite build --mode test",
+    "build:dev": "vite build --mode development",
+    "build:test": "vite build --mode staging",
+    "build:prod": "vite build --mode production",
     "preview": "vite preview",
     "preinstall": "node ./scripts/preinstall.js",
     "prepare": "husky install",

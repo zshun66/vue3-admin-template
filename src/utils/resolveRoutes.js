@@ -20,11 +20,12 @@ const resolveRoutes = (routes) => {
   routes.forEach(route => {
     if (route.type === 'button') return
     const isChildren = route.children && route.children.length > 0
+    const redirect = (route.type === 'directory' && isChildren) ? '/backstage/' + route.children[0].path : undefined
     const routeObj = {
       path: route.path,
       name: route.name,
       component: resolveComponent(route.component),
-      redirect: (route.type === 'directory' && isChildren) ? '/backstage/' + route.children[0].path : undefined,
+      redirect: redirect,
       meta: {
         title: route.title,
         icon: route.icon,

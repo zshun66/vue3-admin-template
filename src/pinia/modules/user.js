@@ -23,10 +23,10 @@ const useUserStore = defineStore('User', {
     // 获取用户信息
     async getUserInfo() {
       const { result } = await reqUserInfo()
-      if (!result) return
+      if (!result) return Promise.reject()
       this.userInfo = result.data.userInfo
-      console.log(this.userInfo)
       resolveRoutes(this.userInfo.routes || [])
+      return Promise.resolve()
     },
   },
   getters: {
