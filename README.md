@@ -1,6 +1,16 @@
 # Vue 3 + Vite + Element Plus
 
 ```
+请求头可额外配置的参数说明：
+
+isAuth: 该请求是否需要携带token
+isRepeatSubmit: 该请求是否需要防止重复提交(只针对post、put请求)
+isAlertMsg: 请求发生异常后是否弹出错误消息
+```
+
+```
+提交时必须附带的信息前缀：
+
 'feat',//新特性、新功能
 'fix',//修改bug
 'docs',//文档修改

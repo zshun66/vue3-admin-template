@@ -17,7 +17,7 @@ const useUserStore = defineStore('User', {
       if (!result) return Promise.reject()
       this.token = result.data.token
       setToken(this.token)
-      this.getUserInfo()
+      await this.getUserInfo()
       return Promise.resolve()
     },
     // 获取用户信息

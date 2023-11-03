@@ -10,7 +10,10 @@ export const reqLogin = (data) => {
 	return request({
 		url: API.LOGIN_URL,
 		method: 'post',
-		data: data
+		data: data,
+		headers: {
+			isAuth: false
+		}
 	})
 }
 

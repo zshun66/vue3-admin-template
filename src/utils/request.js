@@ -1,6 +1,5 @@
 import axios from 'axios'
-import { getToken } from '@/utils/token.js'
-import { preventRepeatSubmit } from './requestHelper.js'
+import { addTokenByIsAuth, preventRepeatSubmit } from './requestHelper.js'
 
 const errorStatusCode = {
 	'401': 'Token过期，请重新登录',
@@ -13,13 +12,12 @@ const errorStatusCode = {
 let request = axios.create({
 	baseURL: import.meta.env.VITE_APP_BASE_API,
 	timeout: 10000,
-	headers: {
-		Authorization: 'Bearer ' + getToken()
-	}
+	headers: {}
 })
 
 // 请求拦截器
 request.interceptors.request.use((config) => {
+	addTokenByIsAuth(config)
 	const error = preventRepeatSubmit(config)
 	if (error) return Promise.reject(new Error(error))
 	return config

@@ -1,4 +1,16 @@
+import { getToken } from '@/utils/token.js'
 import { getSession, setSession } from '@/utils/storage.js'
+
+/**
+ * 请求前根据需要在请求头设置token
+ * @param { Object } config 请求拦截器中的config对象
+ */
+export const addTokenByIsAuth = function (config) {
+  // 此次请求是否需要token
+  let isAuth = config.headers.isAuth
+  isAuth = isAuth === undefined ? true : isAuth
+  isAuth && (config.headers['Authorization'] = 'Bearer ' + getToken())
+}
 
 /**
  * post、put请求防重复提交

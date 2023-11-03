@@ -6,14 +6,11 @@ import { getToken } from '@/utils/token.js'
 
 NProgress.configure({ showSpinner: false })
 
-console.log(window.location.href)
-
 // 白名单页面
 const whitePageList = ['/login']
 
 // 全局前置守卫
 router.beforeEach(async (to, from) => {
-  console.log(to, from)
   NProgress.start()
   // 有token(已登录的情况)
   if (getToken()) {
@@ -26,17 +23,15 @@ router.beforeEach(async (to, from) => {
     }
     // 没有用户信息
     else if (!existUserInfo) {
-      console.log(777, to.path, from.path)
       await userStore.getUserInfo()
-      return { path: '/backstage' }
+      return { path: location.hash.slice(1) }
     }
   }
   // 无token(未登录的情况)
   else {
+    // 不是白名单中的页面
     if (whitePageList.indexOf(to.path) === -1) {
-      return {
-        path: `/login?redirect=${to.fullPath}`
-      }
+      return { path: `/login?redirect=${to.fullPath}` }
     }
   }
 })
