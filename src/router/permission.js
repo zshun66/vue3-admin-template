@@ -12,23 +12,33 @@ const whitePageList = ['/login']
 // 全局前置守卫
 router.beforeEach(async (to, from) => {
   NProgress.start()
-  // 有token(已登录的情况)
+  // 有token
   if (getToken()) {
     const userStore = useUserStore()
     // 判断是否存在用户信息
     const existUserInfo = !!userStore.userInfo.id
-    // 去往登录页 并且 有用户信息
-    if (to.path === '/login' && existUserInfo) {
-      return from
+    // 有用户信息
+    if (existUserInfo) {
+      // 去往登录页
+      if (to.path === '/login') {
+        return from
+      }
     }
     // 没有用户信息
-    else if (!existUserInfo) {
+    else if(!existUserInfo) {
       await userStore.getUserInfo()
-      return { path: location.hash.slice(1) }
+      // 去往登录页
+      if (to.path === '/login') {
+        return { path: '/backstage/home' }
+      }
+      // 不是去往登录页
+      else if (to.path !== '/login') {
+        return { path: location.hash.slice(1) }
+      }
     }
   }
-  // 无token(未登录的情况)
-  else {
+  // 无token
+  else if (!getToken()) {
     // 不是白名单中的页面
     if (whitePageList.indexOf(to.path) === -1) {
       return { path: `/login?redirect=${to.fullPath}` }
