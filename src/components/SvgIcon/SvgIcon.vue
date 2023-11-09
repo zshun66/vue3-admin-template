@@ -8,7 +8,7 @@
     }"
     :fill="color"
   >
-    <use :xlink:href="'#icon-' + name" :fill="color"></use>
+    <use :xlink:href="'#icon-' + name"></use>
   </svg>
 </template>
 
@@ -21,7 +21,7 @@ defineProps({
   },
   color: {
     type: String,
-    default: ''
+    default: '#505050'
   },
   size: {
     type: String,

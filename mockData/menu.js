@@ -7,6 +7,7 @@
  * type							菜单类型(directory目录、menu菜单、button按钮)
  * title						菜单标题
  * icon							菜单图标
+ * iconSize					菜单图标大小
  * isLink						是否外链(1是 0否)
  * path							路由路径
  * name             路由名称
@@ -26,6 +27,7 @@ const menuItemObj = {
   type: 'directory',
   title: '',
   icon: '',
+  iconSize: '20px',
   isLink: '0',
   path: '',
   name: '',

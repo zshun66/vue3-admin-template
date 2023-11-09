@@ -1,8 +1,14 @@
 <script setup name="Sidebar">
+import SidebarItem from './SidebarItem.vue'
+import useUserStore from '@/pinia/modules/user.js'
 import useAppStore from '@/pinia/modules/app.js'
 
+const userStore = useUserStore()
 const appStore = useAppStore()
 
+// 菜单列表
+const menus = computed(() => userStore.userInfo.routes || [])
+// 是否折叠菜单栏
 const collapse = computed(() => appStore.configData.collapse === 1 ? true : false)
 </script>
 
@@ -13,34 +19,10 @@ const collapse = computed(() => appStore.configData.collapse === 1 ? true : fals
       <span class="title">后台管理系统</span>
     </div>
     <el-menu
-      class="sidebar_menu"
       :collapse="collapse"
       unique-opened
     >
-      <el-sub-menu popper-class="menu_submenu_popper" index="system" title="系统管理">
-        <template #title>
-          <svg-icon name="system1" size="20px" color="#505050"></svg-icon>
-          <span>系统管理</span>
-        </template>
-        <el-menu-item index="user" title="用户管理">
-          <template #title>
-            <svg-icon name="user1" size="18px" color="#505050"></svg-icon>
-            <span>用户管理</span>
-          </template>
-        </el-menu-item>
-        <el-menu-item index="role" title="角色管理">
-          <template #title>
-            <svg-icon name="role1" size="18px" color="#505050"></svg-icon>
-            <span>角色管理</span>
-          </template>
-        </el-menu-item>
-        <el-menu-item index="menu" title="菜单管理">
-          <template #title>
-            <svg-icon name="menu3" size="18px" color="#505050"></svg-icon>
-            <span>菜单管理</span>
-          </template>
-        </el-menu-item>
-      </el-sub-menu>
+      <SidebarItem :menus="menus" />
     </el-menu>
   </div>
 </template>
@@ -74,30 +56,50 @@ const collapse = computed(() => appStore.configData.collapse === 1 ? true : fals
     }
   }
 
+  // el-menu 样式 ------------------------------------------------------------------------------------------
   :deep(.el-menu) {
     border-right: none;
     background-color: transparent;
   }
 
-  :deep(.el-sub-menu__title) {
+  // el-sub-menu 样式 --------------------------------------------------------------------------------------
+  :deep(.el-sub-menu) {
+
+  }
+  :deep(.el-sub-menu .el-sub-menu__title) {
     height: 50px;
     line-height: 1;
     font-size: 16px;
-    color: var(--theme-submenu-font-color);
+    color: var(--theme-submenu-title-font-color);
   }
-  :deep(.el-sub-menu__title:hover) {
-    background-color: var(--theme-submenu-hover-bg-color);
+  :deep(.el-sub-menu .el-sub-menu__title:hover) {
+    background-color: var(--theme-submenu-title-hover-bg-color);
   }
-  :deep(.el-sub-menu__title span) {
+  :deep(.el-sub-menu .el-sub-menu__title span) {
     margin-left: 5px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  :deep(.el-sub-menu__title .el-icon) {
+  :deep(.el-sub-menu .el-sub-menu__title .svg-icon) {
+    fill: var(--theme-submenu-title-font-color);
+  }
+  :deep(.el-sub-menu .el-sub-menu__title .el-icon) {
     font-size: 16px;
   }
+
+  :deep(.el-sub-menu.is-opened) {
+    background-color: var(--theme-submenu-title-opened-bg-color);
+  }
+
+  :deep(.el-sub-menu.is-active .el-sub-menu__title) {
+    color: var(--theme-submenu-title-active-font-color);
+  }
+  :deep(.el-sub-menu.is-active .el-sub-menu__title .svg-icon) {
+    fill: var(--theme-submenu-title-active-font-color);
+  }
   
+  // el-menu-item 样式 ----------------------------------------------------------------------------------------
   :deep(.el-menu-item) {
     height: 50px;
     line-height: 1;
@@ -113,25 +115,16 @@ const collapse = computed(() => appStore.configData.collapse === 1 ? true : fals
     overflow: hidden;
     text-overflow: ellipsis;
   }
-}
-</style>
-
-<style lang="scss">
-  .menu_submenu_popper {
-    .el-menu-item {
-      height: 50px;
-      line-height: 1;
-      font-size: 16px;
-      color: #505050;
-    }
-    .el-menu-item:hover {
-      background-color: #ecf5ff;
-    }
-    .el-menu-item span {
-      margin-left: 8px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+  :deep(.el-menu-item .svg-icon) {
+    fill: var(--theme-menuitem-font-color);
   }
+  
+  :deep(.el-menu-item.is-active) {
+    color: var(--theme-menuitem-active-font-color);
+    background-color: var(--theme-menuitem-active-bg-color);
+  }
+  :deep(.el-menu-item.is-active .svg-icon) {
+    fill: var(--theme-menuitem-active-font-color);
+  }
+}
 </style>

@@ -32,7 +32,7 @@ const handleLogin = () => {
       type: 'success',
       message: '登录成功',
     })
-    $router.push({ path: redirect || '/backstage' })
+    $router.push({ path: redirect || '/backstage/home' })
     loginBtnLoading.value = false
   }).catch(() => {
     loginBtnLoading.value = false

@@ -6,8 +6,8 @@ import resolveRoutes from '@/utils/resolveRoutes.js'
 const useUserStore = defineStore('User', {
   state: () => {
     return {
+      token: getToken(),
       userInfo: {},
-      token: getToken()
     }
   },
   actions: {
