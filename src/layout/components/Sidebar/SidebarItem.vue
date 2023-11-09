@@ -43,21 +43,5 @@ const onClickMenuItem = function(e, menu) {
 </template>
 
 <style lang="scss">
-.menu_submenu_popper {
-  .el-menu-item {
-    height: 50px;
-    line-height: 1;
-    font-size: 16px;
-    color: #505050;
-  }
-  .el-menu-item:hover {
-    background-color: #ecf5ff;
-  }
-  .el-menu-item span {
-    margin-left: 8px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-}
+
 </style>
