@@ -23,7 +23,7 @@ const onClickMenuItem = function(e, menu) {
 <template>
   <template v-for="(menu, index) in menus" :key="index">
     <template v-if="menu.children && menu.children.length > 0">
-      <el-sub-menu popper-class="menu_submenu_popper" :index="menu.path" :title="menu.title">
+      <el-sub-menu popper-class="menu_submenu_popper" :index="menu.name" :title="menu.title">
         <template #title>
           <svg-icon :name="menu.icon" :size="menu.iconSize"></svg-icon>
           <span>{{ menu.title }}</span>
@@ -32,9 +32,9 @@ const onClickMenuItem = function(e, menu) {
       </el-sub-menu>
     </template>
     <template v-else>
-      <el-menu-item :index="menu.path" :title="menu.title" @click="onClickMenuItem($event, menu)">
+      <el-menu-item :index="menu.name" :title="menu.title" @click="onClickMenuItem($event, menu)">
+        <svg-icon :name="menu.icon" :size="menu.iconSize"></svg-icon>
         <template #title>
-          <svg-icon :name="menu.icon" :size="menu.iconSize"></svg-icon>
           <span>{{ menu.title }}</span>
         </template>
       </el-menu-item>

@@ -3,6 +3,7 @@ import SidebarItem from './SidebarItem.vue'
 import useUserStore from '@/pinia/modules/user.js'
 import useAppStore from '@/pinia/modules/app.js'
 
+const $route = useRoute()
 const userStore = useUserStore()
 const appStore = useAppStore()
 
@@ -10,6 +11,8 @@ const appStore = useAppStore()
 const menus = computed(() => userStore.userInfo.routes || [])
 // 是否折叠菜单栏
 const collapse = computed(() => appStore.configData.collapse === 1 ? true : false)
+// 页面加载时默认激活的菜单
+const defaultActive = computed(() => $route.name)
 </script>
 
 <template>
@@ -20,6 +23,7 @@ const collapse = computed(() => appStore.configData.collapse === 1 ? true : fals
     </div>
     <el-menu
       :collapse="collapse"
+      :default-active="defaultActive"
       unique-opened
     >
       <SidebarItem :menus="menus" />
