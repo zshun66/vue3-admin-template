@@ -28,14 +28,16 @@ setcollapse(collapse.value)
 
 <template>
   <div class="comp_container toggle_comp" :title="collapse === 1 ? '展开菜单' : '收缩菜单'" @click="togglecollapse">
-    <template v-if="appStore.configData.theme === 'light'">
+    <!-- <template v-if="appStore.configData.theme === 'light'">
       <icon-menu-unfold-one theme="filled" size="28" fill="#505050" :strokeWidth="3" v-if="collapse === 0"/>
       <icon-menu-fold-one theme="filled" size="28" fill="#505050" :strokeWidth="3" v-if="collapse === 1"/>
     </template>
     <template v-if="appStore.configData.theme === 'dark'">
       <icon-menu-unfold-one theme="filled" size="28" fill="#cccccc" :strokeWidth="3" v-if="collapse === 0"/>
       <icon-menu-fold-one theme="filled" size="28" fill="#505050" :strokeWidth="3" v-if="collapse === 1"/>
-    </template>
+    </template> -->
+    <icon-menu-unfold-one theme="filled" size="28" :strokeWidth="3" v-if="collapse === 0"/>
+    <icon-menu-fold-one theme="filled" size="28" :strokeWidth="3" v-if="collapse === 1"/>
   </div>
 </template>
 

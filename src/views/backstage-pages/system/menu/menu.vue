@@ -102,7 +102,7 @@ getMenuList()
 </script>
 
 <template>
-  <div class="page_container menu_container">
+  <div class="page_container menu_page">
     <el-form :model="queryForm" label-width="auto" inline>
       <el-form-item label="菜单标题:" prop="title">
         <el-input
@@ -217,7 +217,7 @@ getMenuList()
 </template>
 
 <style scoped lang="scss">
-.menu_container {
+.menu_page {
   padding: 20px 20px;
   display: flex;
   flex-direction: column;

@@ -82,7 +82,7 @@ getPostList()
 </script>
 
 <template>
-  <div class="page_container post_container">
+  <div class="page_container post_page">
     <el-form :model="queryForm" label-width="auto" inline>
       <el-form-item label="岗位名称:" prop="name">
         <el-input
@@ -182,7 +182,7 @@ getPostList()
 </template>
 
 <style scoped lang="scss">
-.post_container {
+.post_page {
   padding: 20px 20px;
   display: flex;
   flex-direction: column;

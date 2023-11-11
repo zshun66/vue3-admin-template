@@ -82,7 +82,7 @@ getRoleList()
 </script>
 
 <template>
-  <div class="page_container role_container">
+  <div class="page_container role_page">
     <el-form :model="queryForm" label-width="auto" inline>
       <el-form-item label="角色名称:" prop="name">
         <el-input
@@ -177,7 +177,7 @@ getRoleList()
 </template>
 
 <style scoped lang="scss">
-.role_container {
+.role_page {
   padding: 20px 20px;
   display: flex;
   flex-direction: column;

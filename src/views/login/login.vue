@@ -42,7 +42,7 @@ const handleLogin = () => {
 
 <template>
   <div
-    class="page_container login_container"
+    class="page_container login_page"
     tabindex="1"
     @keyup.enter="handleLogin"
   >
@@ -83,7 +83,7 @@ const handleLogin = () => {
 </template>
 
 <style scoped lang="scss">
-.login_container {
+.login_page {
   width: 100%;
   height: 100vh;
   background: url('@/assets/images/login_page_bg.jpg') no-repeat;
@@ -117,7 +117,7 @@ const handleLogin = () => {
 }
 
 @media screen and (max-width: 1200px) {
-  .login_container {
+  .login_page {
     .login_form_box {
       top: 50%;
       left: 50%;
@@ -127,7 +127,7 @@ const handleLogin = () => {
 }
 
 @media screen and (max-width: 768px) {
-  .login_container {
+  .login_page {
     .login_form_box {
       width: 85%;
       top: 50%;
