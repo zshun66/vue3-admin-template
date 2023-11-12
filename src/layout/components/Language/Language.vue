@@ -52,12 +52,7 @@ setLanguage(currLang.value)
     @command="toggleLanguage"
   >
     <div class="comp_container language_comp" title="语言切换">
-      <template v-if="appStore.configData.theme === 'light'">
-        <icon-translate theme="outline" size="22" fill="#505050" :strokeWidth="3" />
-      </template>
-      <template v-if="appStore.configData.theme === 'dark'">
-        <icon-translate theme="outline" size="22" fill="#cccccc" :strokeWidth="3" />
-      </template>
+      <icon-translate theme="outline" size="22" :strokeWidth="3" />
     </div>
     <template #dropdown>
       <el-dropdown-menu class="language_list">
@@ -81,6 +76,10 @@ setLanguage(currLang.value)
   align-items: center;
   padding: 10px 10px;
   cursor: pointer;
+
+  :deep(.i-icon svg path) {
+    stroke: var(--theme-navbar-icon-color);
+  }
 }
 
 :deep(.language_list) {

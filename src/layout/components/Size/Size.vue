@@ -41,12 +41,7 @@ const toggleSize = function (size) {
     @command="toggleSize"
   >
     <div class="comp_container size_comp" title="组件大小">
-      <template v-if="appStore.configData.theme === 'light'">
-        <icon-add-text theme="outline" size="22" fill="#505050" :strokeWidth="3" />
-      </template>
-      <template v-if="appStore.configData.theme === 'dark'">
-        <icon-add-text theme="outline" size="22" fill="#cccccc" :strokeWidth="3" />
-      </template>
+      <icon-add-text theme="outline" size="22" :strokeWidth="3" />
     </div>
     <template #dropdown>
       <el-dropdown-menu class="size_list">
@@ -70,6 +65,10 @@ const toggleSize = function (size) {
   align-items: center;
   padding: 10px 10px;
   cursor: pointer;
+
+  :deep(.i-icon svg path) {
+    stroke: var(--theme-navbar-icon-color);
+  }
 }
 
 :deep(.size_list) {

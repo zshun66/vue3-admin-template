@@ -75,6 +75,7 @@ const defaultActive = computed(() => $route.name)
       font-size: 16px;
       color: var(--theme-submenu-title-font-color);
       background-color: var(--theme-submenu-title-bg-color);
+      border-radius: 7px;
     }
     .el-sub-menu__title span {
       margin-left: 5px;
@@ -128,6 +129,7 @@ const defaultActive = computed(() => $route.name)
     color: var(--theme-menuitem-font-color);
     background-color: var(--theme-menuitem-bg-color);
     transition: none;
+    border-radius: 7px;
   }
   :deep(.el-menu-item span) {
     margin-left: 5px;

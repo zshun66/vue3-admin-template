@@ -1,4 +1,6 @@
 :root {
+  --theme-layout-bg-color: #f9f9f9;
+
   --theme-aside-bg-color: #ffffff;
   --theme-aside-logo-font-color: #505050;
   --theme-aside-logo-bg-color: #ffffff;
@@ -21,8 +23,8 @@
 
   --theme-menuitem-font-color: #505050;
   --theme-menuitem-bg-color: transparent;
-  --theme-menuitem-hover-bg-color: #ECF5FF;
   --theme-menuitem-hover-font-color: #505050;
+  --theme-menuitem-hover-bg-color: #ECF5FF;
   --theme-menuitem-active-font-color: #ffffff;
   --theme-menuitem-active-bg-color: #4F97FF;
 
@@ -30,5 +32,8 @@
   --theme-navbar-icon-color: #505050;
   --theme-navbar-bg-color: #ffffff;
   
-  --theme-main-bg-color: #F0F2F5;
+  --theme-main-font-color: #505050;
+  --theme-main-bg-color: #ffffff;
+
+  --theme-page-bg-color: #f9f9f9;
 }

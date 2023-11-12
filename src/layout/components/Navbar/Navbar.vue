@@ -11,29 +11,15 @@ import UserInfo from '@/layout/components/UserInfo/UserInfo.vue'
 <template>
   <div class="comp_container navbar_comp">
     <div class="left_wrapper">
-      <div class="toggle_box">
-        <Toggle />
-      </div>
+      <Toggle />
     </div>
     <div class="right_wrapper">
-      <div class="toggle_screen_box">
-        <Fullscreen />
-      </div>
-      <div class="toggle_theme_box">
-        <Theme />
-      </div>
-      <div class="toggle_language_box">
-        <Language />
-      </div>
-      <div class="toggle_size_box">
-        <Size />
-      </div>
-      <div class="setting_box">
-        <Setting />
-      </div>
-      <div class="userinfo_box">
-        <UserInfo />
-      </div>
+      <Fullscreen />
+      <Theme />
+      <Language />
+      <Size />
+      <Setting />
+      <UserInfo />
     </div>
   </div>
 </template>
@@ -48,32 +34,12 @@ import UserInfo from '@/layout/components/UserInfo/UserInfo.vue'
   .left_wrapper {
     display: flex;
     align-items: center;
-    .toggle_box {
-    }
   }
 
   .right_wrapper {
     margin-left: auto;
     display: flex;
     align-items: center;
-
-    .toggle_screen_box {
-    }
-
-    .toggle_theme {
-    }
-
-    .toggle_language_box {
-    }
-
-    .toggle_size_box {}
-
-    .setting_box {
-      
-    }
-
-    .userinfo_box {
-    }
   }
 }
 </style>

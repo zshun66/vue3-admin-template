@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div>首页</div>
+  <div class="page_container home_page">首页</div>
 </template>
 
 <style scoped lang="scss"></style>

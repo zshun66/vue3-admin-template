@@ -10,12 +10,7 @@ const showDrawer = ref(false)
 
 <template>
   <div class="comp_container setting_comp" title="设置" @click="showDrawer = true">
-    <template v-if="appStore.configData.theme === 'light'">
-      <icon-setting-config theme="outline" size="22" fill="#505050" :strokeWidth="3"/>
-    </template>
-    <template v-if="appStore.configData.theme === 'dark'">
-      <icon-setting-config theme="outline" size="22" fill="#cccccc" :strokeWidth="3"/>
-    </template>
+    <icon-setting-config theme="outline" size="22" :strokeWidth="3"/>
   </div>
 
   <el-drawer
@@ -37,6 +32,10 @@ const showDrawer = ref(false)
   align-items: center;
   padding: 10px 10px;
   cursor: pointer;
+
+  :deep(.i-icon svg path) {
+    stroke: var(--theme-navbar-icon-color);
+  }
 }
 
 .setting_drawer {

@@ -6,14 +6,14 @@ const useAppStore = defineStore('App', {
   state: () => {
     return {
       // 配置数据
-      configData: Object.assign(config, getStorage('ADMIN_CONFIG')),
+      configData: Object.assign(config, getStorage('ZS_ADMIN_CONFIG')),
     }
   },
   actions: {
     // 设置配置数据
     setConfigData(key, value) {
       this.configData[key] = value
-      setStorage('ADMIN_CONFIG', this.configData)
+      setStorage('ZS_ADMIN_CONFIG', this.configData)
     }
   },
   getters: {

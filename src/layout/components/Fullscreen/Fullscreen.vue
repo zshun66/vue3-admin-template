@@ -67,15 +67,13 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="comp_container fullscreen_comp" :title="isFullscreen ? '退出全屏' : '进入全屏'" @click="toggleFullscreen">
-    <template v-if="appStore.configData.theme === 'light'">
-      <icon-full-screen theme="filled" size="22" fill="#505050" :strokeWidth="3" v-if="!isFullscreen" />
-      <icon-off-screen theme="filled" size="22" fill="#505050" :strokeWidth="3" v-if="isFullscreen" />
-    </template>
-    <template v-if="appStore.configData.theme === 'dark'">
-      <icon-full-screen theme="filled" size="22" fill="#cccccc" :strokeWidth="3" v-if="!isFullscreen" />
-      <icon-off-screen theme="filled" size="22" fill="#cccccc" :strokeWidth="3" v-if="isFullscreen" />
-    </template>
+  <div
+    class="comp_container fullscreen_comp"
+    :title="isFullscreen ? '退出全屏' : '进入全屏'"
+    @click="toggleFullscreen"
+  >
+    <icon-full-screen theme="filled" size="22" :strokeWidth="3" v-if="!isFullscreen" />
+    <icon-off-screen theme="filled" size="22" :strokeWidth="3" v-if="isFullscreen" />
   </div>
 </template>
 
@@ -85,5 +83,9 @@ onBeforeUnmount(() => {
   align-items: center;
   padding: 10px 10px;
   cursor: pointer;
+
+  :deep(.i-icon svg path) {
+    stroke: var(--theme-navbar-icon-color);
+  }
 }
 </style>

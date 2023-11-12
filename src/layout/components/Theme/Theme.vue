@@ -64,12 +64,7 @@ setTheme(currTheme.value)
     @command="toggleTheme"
   >
     <div class="comp_container theme_comp" title="主题切换">
-      <template v-if="appStore.configData.theme === 'light'">
-        <icon-theme theme="outline" size="22" fill="#505050" :strokeWidth="3"/>
-      </template>
-      <template v-if="appStore.configData.theme === 'dark'">
-        <icon-theme theme="outline" size="22" fill="#cccccc" :strokeWidth="3"/>
-      </template>
+      <icon-theme theme="outline" size="22" :strokeWidth="3"/>
     </div>
     <template #dropdown>
       <el-dropdown-menu class="theme_list">
@@ -94,6 +89,10 @@ setTheme(currTheme.value)
   align-items: center;
   padding: 10px 10px;
   cursor: pointer;
+
+  :deep(.i-icon svg path) {
+    stroke: var(--theme-navbar-icon-color);
+  }
 }
 
 :deep(.theme_list) {
