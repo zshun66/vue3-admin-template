@@ -25,7 +25,9 @@ const onClickMenuItem = function(e, menu) {
     <template v-if="menu.children && menu.children.length > 0">
       <el-sub-menu popper-class="menu_submenu_popper" :index="menu.name" :title="menu.title">
         <template #title>
-          <svg-icon :name="menu.icon" :size="menu.iconSize"></svg-icon>
+          <div class="menu_icon_box">
+            <svg-icon :name="menu.icon" :size="menu.iconSize"></svg-icon>
+          </div>
           <span>{{ menu.title }}</span>
         </template>
         <SidebarItem :menus="menu.children" />
@@ -33,7 +35,9 @@ const onClickMenuItem = function(e, menu) {
     </template>
     <template v-else>
       <el-menu-item :index="menu.name" :title="menu.title" @click="onClickMenuItem($event, menu)">
-        <svg-icon :name="menu.icon" :size="menu.iconSize"></svg-icon>
+        <div class="menu_icon_box">
+          <svg-icon :name="menu.icon" :size="menu.iconSize"></svg-icon>
+        </div>
         <template #title>
           <span>{{ menu.title }}</span>
         </template>
@@ -42,6 +46,35 @@ const onClickMenuItem = function(e, menu) {
   </template>
 </template>
 
-<style lang="scss">
+<style scoped lang="scss">
+.menu_icon_box {
+  width: 20px;
+  min-width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>
 
+<style lang="scss">
+.menu_submenu_popper {
+  .el-menu-item {
+    height: 50px;
+    line-height: 1;
+    font-size: 16px;
+    color: #505050;
+  }
+
+  .el-menu-item:hover {
+    background-color: #ecf5ff;
+  }
+
+  .el-menu-item span {
+    margin-left: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
 </style>

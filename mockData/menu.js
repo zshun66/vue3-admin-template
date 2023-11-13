@@ -18,6 +18,8 @@
  * isClearable      是否可关闭(1是 0否)
  * status						菜单状态(1正常 0禁用)
  * children         子菜单列表
+ * creator          创建者
+ * createTime       创建时间
  */
 const menuItemObj = {
   parentId: 0,
@@ -37,7 +39,9 @@ const menuItemObj = {
   isVisible: '1',
   isClearable: '1',
   status: '1',
-  children: []
+  children: [],
+  creator: '超级管理员',
+  createTime: '2023-11-13 17:08:36'
 }
 
 // 深拷贝
@@ -50,10 +54,11 @@ const menuList = [
   // 首页 ----------------------------------------------------------------
   Object.assign(deepCopy(menuItemObj), {
     id: 99,
-    sort: 9,
+    sort: 1,
     type: 'menu',
     title: '首页',
-    icon: 'system1',
+    icon: 'home1',
+    iconSize: '18px',
     path: 'home',
     name: 'home',
     component: 'backstage-pages/home/home',
@@ -64,7 +69,8 @@ const menuList = [
     id: 1,
     sort: 10,
     title: '控制台',
-    icon: 'system1',
+    icon: 'console1',
+    iconSize: '18px',
     path: 'dashboard',
     name: 'dashboard',
     perms: 'dashboard:manage',
@@ -76,7 +82,8 @@ const menuList = [
         sort: 10,
         type: 'menu',
         title: '工作台',
-        icon: 'menu3',
+        icon: 'work1',
+        iconSize: '16px',
         path: 'dashboard/workbenches',
         name: 'dashboard:workbenches',
         component: 'backstage-pages/dashboard/workbenches/workbenches',
@@ -89,7 +96,8 @@ const menuList = [
         sort: 20,
         type: 'menu',
         title: '监控台',
-        icon: 'menu3',
+        icon: 'monitor1',
+        iconSize: '16px',
         path: 'dashboard/monitor',
         name: 'dashboard:monitor',
         component: 'backstage-pages/dashboard/monitor/monitor',
@@ -102,7 +110,7 @@ const menuList = [
         sort: 30,
         type: 'menu',
         title: '分析台',
-        icon: 'menu3',
+        icon: 'analysis1',
         path: 'dashboard/analysis',
         name: 'dashboard:analysis',
         component: 'backstage-pages/dashboard/analysis/analysis',

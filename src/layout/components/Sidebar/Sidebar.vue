@@ -19,7 +19,7 @@ const defaultActive = computed(() => $route.name)
   <div class="comp_container sidebar_comp">
     <div class="logo_title">
       <img class="logo" src="@/assets/images/logo.svg" alt="logo">
-      <span class="title">后台管理系统</span>
+      <span class="title" v-if="!collapse">后台管理系统</span>
     </div>
     <el-menu
       :collapse="collapse"
@@ -154,28 +154,6 @@ const defaultActive = computed(() => $route.name)
   }
   :deep(.el-menu-item.is-active .svg-icon) {
     fill: var(--theme-menuitem-active-font-color);
-  }
-}
-</style>
-
-<style lang="scss">
-.menu_submenu_popper {
-  .el-menu-item {
-    height: 50px;
-    line-height: 1;
-    font-size: 16px;
-    color: #505050;
-  }
-
-  .el-menu-item:hover {
-    background-color: #ecf5ff;
-  }
-
-  .el-menu-item span {
-    margin-left: 8px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 }
 </style>

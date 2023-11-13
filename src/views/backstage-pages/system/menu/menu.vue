@@ -45,7 +45,6 @@ const initFormData = function() {
 // 获取菜单列表
 const getMenuList = async function() {
   const { result } = await reqMenuList(queryForm.value)
-  console.log(result)
   if (!result) return
   menuList.value = result.data || []
 }
@@ -84,7 +83,7 @@ const handleDelete = function(row) {
 
 // 展开/折叠
 const handleCollapse = function() {
-  menuTableRef.value.toggleRowExpansion(menuList.value[0])
+  // menuTableRef.value.toggleRowExpansion(menuList.value[0])
 }
 
 // 点击表格行
@@ -143,11 +142,11 @@ getMenuList()
         background: '#F8F8F9',
         color: '#666'
       }"
-      row-key="menuId"
+      row-key="id"
       :indent="0"
       @row-click="handleTableRowClick"
     >
-      <el-table-column label="菜单标题" prop="title" align="left" min-width="120" show-overflow-tooltip>
+      <el-table-column label="菜单标题" prop="title" align="left" min-width="150" show-overflow-tooltip>
         <template #default="scope">
           <span>{{ scope.row.title }}</span>
         </template>
@@ -166,10 +165,10 @@ getMenuList()
       </el-table-column>
       <el-table-column label="图标" prop="icon" align="center" min-width="80">
         <template #default="scope">
-          <svg-icon style="margin-top: 4px;" :name="scope.row.icon" color="#666" size="20px"></svg-icon>
+          <svg-icon style="margin-top: 4px;" :name="scope.row.icon" color="#666" :size="scope.row.iconSize"></svg-icon>
         </template>
       </el-table-column>
-      <el-table-column label="权限字符" prop="perms" align="center" min-width="150">
+      <el-table-column label="权限字符" prop="perms" align="center" min-width="200">
         <template #default="scope">
           <span>{{ scope.row.perms }}</span>
         </template>
@@ -187,18 +186,18 @@ getMenuList()
       </el-table-column>
       <el-table-column label="创建者" prop="creator" align="center" min-width="110">
         <template #default="scope">
-          <span>{{ scope.row.creator || '超级管理员' }}</span>
+          <span>{{ scope.row.creator }}</span>
         </template>
       </el-table-column>
       <el-table-column label="创建时间" prop="createTime" align="center" min-width="170">
         <template #default="scope">
-          <span>{{ scope.row.createTime || '2023-10-01 07:07:07' }}</span>
+          <span>{{ scope.row.createTime }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" prop="" align="center" width="200">
         <template #default="scope">
           <div style="display: flex; align-items: center; justify-content: center;">
-            <el-button style="padding: 0 0;" type="primary" text icon="icon-plus" @click.stop="handleAdd(scope.row.menuId)">新增</el-button>
+            <el-button style="padding: 0 0;" type="primary" text icon="icon-plus" @click.stop="handleAdd(scope.row.id)">新增</el-button>
             <el-button style="padding: 0 0;" type="primary" text icon="icon-edit" @click.stop="handleModify(scope.row)">修改</el-button>
             <el-button style="padding: 0 0;" type="primary" text icon="icon-delete" @click.stop="handleDelete(scope.row)">删除</el-button>
           </div>
