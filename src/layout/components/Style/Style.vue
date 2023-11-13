@@ -1,22 +1,21 @@
-<script setup name="Size">
+<script setup name="Style">
 import useAppStore from '@/pinia/modules/app.js'
 
 const appStore = useAppStore()
 
-// size列表
-const sizeList = [
-  { name: 'large', title: 'large' },
-  { name: 'default', title: 'default' },
-  { name: 'small', title: 'small' },
+// 风格列表
+const styleList = [
+  { name: 'style1', title: '风格一' },
+  { name: 'style2', title: '风格二' },
 ]
-// 当前size
-const currSize = ref(appStore.configData.size)
+// 当前风格
+const currStyle = ref(appStore.configData.style)
 
-// 切换组件大小
-const toggleSize = function (size) {
-  if (currSize.value !== size.name) {
-    currSize.value = size.name
-    appStore.setConfigData('size', currSize.value)
+// 切换风格
+const toggleStyle = function (style) {
+  if (currStyle.value !== style.name) {
+    currStyle.value = style.name
+    appStore.setConfigData('style', currStyle.value)
   }
 }
 </script>
@@ -38,21 +37,21 @@ const toggleSize = function (size) {
       ]
     }"
     :teleported="false"
-    @command="toggleSize"
+    @command="toggleStyle"
   >
-    <div class="comp_container size_comp" title="组件大小">
-      <icon-add-text theme="outline" size="22" :strokeWidth="3" />
+    <div class="comp_container style_comp" title="布局风格">
+      <icon-page theme="outline" size="22" :strokeWidth="3" />
     </div>
     <template #dropdown>
-      <el-dropdown-menu class="size_list">
+      <el-dropdown-menu class="style_list">
         <el-dropdown-item
-          class="size_item"
-          :class="{ active: currSize === size.name }"
-          v-for="(size, index) in sizeList"
+          class="style_item"
+          :class="{ active: currStyle === style.name }"
+          v-for="(style, index) in styleList"
           :key="index"
-          :command="size"
+          :command="style"
         >
-          <span class="size_name">{{ size.title }}</span>
+          <span class="style_name">{{ style.title }}</span>
         </el-dropdown-item>
       </el-dropdown-menu>
     </template>
@@ -60,7 +59,7 @@ const toggleSize = function (size) {
 </template>
 
 <style scoped lang="scss">
-.size_comp {
+.style_comp {
   display: flex;
   align-items: center;
   padding: 10px 10px;
@@ -72,19 +71,19 @@ const toggleSize = function (size) {
   }
 }
 
-:deep(.size_list) {
-  .size_item {
+:deep(.style_list) {
+  .style_item {
     font-size: 16px;
     line-height: 32px;
     padding: 0px 20px;
     color: #777777;
   }
 
-  .size_item:hover {
+  .style_item:hover {
     background: #ECF5FF;
   }
   
-  .size_item.active {
+  .style_item.active {
     color: #50A6FF;
   }
 }

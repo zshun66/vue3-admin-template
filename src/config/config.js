@@ -4,6 +4,10 @@ export default {
    */
   collapse: 0,
   /**
+   * 默认布局风格(style1、style2)
+   */
+  style: 'style2',
+  /**
    * 默认主题(light亮色、dark暗色)
    */
   theme: 'light',

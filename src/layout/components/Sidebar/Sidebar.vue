@@ -43,7 +43,6 @@ const defaultActive = computed(() => $route.name)
     display: flex;
     align-items: center;
     padding: 0 0 0 15px;
-    background-color: var(--theme-aside-logo-bg-color);
     color: var(--theme-aside-logo-font-color);
     transition: all 0.3s;
     
@@ -62,6 +61,7 @@ const defaultActive = computed(() => $route.name)
 
   // el-menu 样式 ------------------------------------------------------------------------------------------
   :deep(.el-menu) {
+    margin-top: 8px;
     border-right: none;
     background-color: var(--theme-menu-bg-color);
   }
@@ -75,6 +75,7 @@ const defaultActive = computed(() => $route.name)
       font-size: 16px;
       color: var(--theme-submenu-title-font-color);
       background-color: var(--theme-submenu-title-bg-color);
+      transition: none;
       border-radius: 7px;
     }
     .el-sub-menu__title span {

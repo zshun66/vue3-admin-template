@@ -34,6 +34,7 @@ const appStore = useAppStore()
   transition: all 0.3s;
 
   .layout_aside {
+    padding: 0 10px;
     width: $layout-aside-expand-width;
     overflow-x: hidden;
     overflow-y: auto;
@@ -62,6 +63,10 @@ const appStore = useAppStore()
       transition: background-color 0.3s;
       color: var(--theme-main-font-color);
       border-radius: 10px;
+
+      :deep(.page_container) {
+        background-color: var(--theme-page-bg-color_layout-style2);
+      }
     }
   }
 }

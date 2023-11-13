@@ -3,7 +3,6 @@
 
   --theme-aside-bg-color: #191A1F;
   --theme-aside-logo-font-color: #ffffff;
-  --theme-aside-logo-bg-color: #191A1F;
 
   --theme-menu-bg-color: transparent;
 
@@ -12,28 +11,29 @@
   --theme-submenu-opened-bg-color: transparent;
   --theme-submenu-active-bg-color: transparent;
 
-  --theme-submenu-title-font-color: #888888;
   --theme-submenu-title-bg-color: transparent;
-  --theme-submenu-title-hover-font-color: #ffffff;
+  --theme-submenu-title-font-color: #888888;
   --theme-submenu-title-hover-bg-color: transparent;
-  --theme-submenu-title-opened-font-color: #ffffff;
+  --theme-submenu-title-hover-font-color: #ffffff;
   --theme-submenu-title-opened-bg-color: transparent;
-  --theme-submenu-title-active-font-color: #ffffff;
+  --theme-submenu-title-opened-font-color: #ffffff;
   --theme-submenu-title-active-bg-color: transparent;
+  --theme-submenu-title-active-font-color: #ffffff;
 
-  --theme-menuitem-font-color: #888888;
   --theme-menuitem-bg-color: transparent;
-  --theme-menuitem-hover-font-color: #ffffff;
+  --theme-menuitem-font-color: #888888;
   --theme-menuitem-hover-bg-color: transparent;
-  --theme-menuitem-active-font-color: #ffffff;
+  --theme-menuitem-hover-font-color: #ffffff;
   --theme-menuitem-active-bg-color: #4F97FF;
+  --theme-menuitem-active-font-color: #ffffff;
 
+  --theme-navbar-bg-color: #191A1F;
   --theme-navbar-font-color: #ffffff;
   --theme-navbar-icon-color: #ffffff;
-  --theme-navbar-bg-color: #191A1F;
   
-  --theme-main-font-color: #ffffff;
   --theme-main-bg-color: #191A1F;
+  --theme-main-font-color: #ffffff;
 
-  --theme-page-bg-color: #252628;
+  --theme-page-bg-color_layout-style1: #252628;
+  --theme-page-bg-color_layout-style2: transparent;
 }

@@ -33,7 +33,8 @@ const showDrawer = ref(false)
   padding: 10px 10px;
   cursor: pointer;
 
-  :deep(.i-icon svg path) {
+  :deep(.i-icon svg path),
+  :deep(.i-icon svg rect) {
     stroke: var(--theme-navbar-icon-color);
   }
 }

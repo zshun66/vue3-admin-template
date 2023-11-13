@@ -35,7 +35,8 @@ const toggleCollapse = function () {
   padding: 10px 10px 10px 10px;
   cursor: pointer;
 
-  :deep(.i-icon svg path) {
+  :deep(.i-icon svg path),
+  :deep(.i-icon svg rect) {
     stroke: var(--theme-navbar-icon-color);
   }
 }
