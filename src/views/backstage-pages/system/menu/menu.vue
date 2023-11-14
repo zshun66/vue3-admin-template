@@ -4,16 +4,16 @@ import { reqMenuList } from '@/api/system/menu.js'
 
 // 查询参数
 const queryForm = ref({})
-// 表单数据
-const formData = ref({})
 // 菜单列表数据
 const menuList = ref([])
 // 表格实例
 const menuTableRef = ref(null)
 // 是否显示添加/修改弹框
 const showAddOrModifyDialog = ref(false)
-// 添加/修改弹框类型
-const addOrModifyDialogType = ref('add')
+// 添加/修改弹框类型(add添加、edit修改)
+const dialogType = ref('add')
+// 当前操作的行对象
+const currRow = ref({})
 
 
 // 初始化查询参数
@@ -21,24 +21,6 @@ const initQueryForm = function() {
   queryForm.value = {
     title: '', // 菜单标题
     status: '', // 菜单状态
-  }
-}
-
-// 初始化表单数据
-const initFormData = function() {
-  formData.value = {
-    parentId: 0,
-    icon: '',
-    type: 'directory',
-    title: '',
-    sort: null,
-    isLink: '0',
-    path: '',
-    component: '',
-    perms: '',
-    visible: '1',
-    isCache: '1',
-    status: '1',
   }
 }
 
@@ -60,43 +42,60 @@ const handleReset = function() {
   getMenuList()
 }
 
-// 新增
-const handleAdd = function(parentId = 0) {
-  initFormData()
-  formData.value.parentId = parentId
-  addOrModifyDialogType.value = 'add'
-  showAddOrModifyDialog.value = true
-}
 
-// 修改
-const handleModify = function(row) {
-  for (let key in formData.value) {
-    formData.value[key] = row[key]
-  }
-  addOrModifyDialogType.value = 'modify'
+// 处理操作
+const handleOperate = function(type, row) {
+  dialogType.value = type
+  currRow.value = row
   showAddOrModifyDialog.value = true
 }
 
 // 删除
 const handleDelete = function(row) {
+  ElMessageBox.confirm('确认删除该菜单?', '提示', {
+    type: 'warning',
+    beforeClose: (action, instance, done) => {
+      if (action === 'confirm') {
+        instance.confirmButtonLoading = true
+        setTimeout(() => {
+          instance.confirmButtonLoading = false
+          ElMessage.success('操作成功')
+          done()
+          getMenuList()
+        }, 2000)
+      } else if (action !== 'confirm') {
+        if (!instance.confirmButtonLoading) done()
+      }
+    }
+  }).catch(err => {})
 }
 
 // 展开/折叠
 const handleCollapse = function() {
-  // menuTableRef.value.toggleRowExpansion(menuList.value[0])
+  const loop = function(menuList) {
+    menuList.forEach(menu => {
+      menuTableRef.value.toggleRowExpansion(menu)
+      if (menu.children && menu.children.length > 0) {
+        loop(menu.children)
+      }
+    })
+  }
+  loop(menuList.value)
 }
 
 // 点击表格行
 const handleTableRowClick = function(row, column, event) {
-  menuTableRef.value.toggleRowExpansion(row)
+  if (row.children && row.children.length > 0) {
+    menuTableRef.value.toggleRowExpansion(row)
+  }
 }
 
-// 确定添加/修改
-const handleConfirmAddOrModify = function() {
+// 添加/修改成功
+const handleAddOrModifySuccess = function() {
+  getMenuList()
 }
 
 initQueryForm()
-initFormData()
 getMenuList()
 </script>
 
@@ -129,7 +128,7 @@ getMenuList()
     </el-form>
 
     <div class="operate_btn_group">
-      <el-button type="primary" icon="icon-plus" plain @click="handleAdd()">新增</el-button>
+      <el-button type="primary" icon="icon-plus" plain @click="handleOperate('add')">新增</el-button>
       <el-button type="info" icon="icon-switch" plain @click="handleCollapse">展开/折叠</el-button>
     </div>
 
@@ -197,21 +196,23 @@ getMenuList()
       <el-table-column label="操作" prop="" align="center" width="200">
         <template #default="scope">
           <div style="display: flex; align-items: center; justify-content: center;">
-            <el-button style="padding: 0 0;" type="primary" text icon="icon-plus" @click.stop="handleAdd(scope.row.id)">新增</el-button>
-            <el-button style="padding: 0 0;" type="primary" text icon="icon-edit" @click.stop="handleModify(scope.row)">修改</el-button>
+            <el-button style="padding: 0 0;" type="primary" text icon="icon-plus" @click.stop="handleOperate('add', scope.row)">新增</el-button>
+            <el-button style="padding: 0 0;" type="primary" text icon="icon-edit" @click.stop="handleOperate('edit', scope.row)">修改</el-button>
             <el-button style="padding: 0 0;" type="primary" text icon="icon-delete" @click.stop="handleDelete(scope.row)">删除</el-button>
           </div>
         </template>
       </el-table-column>
     </el-table>
+
+    <!-- <div v-for="i in 100">待定</div> -->
   </div>
 
   <AddOrModify
     v-model="showAddOrModifyDialog"
-    :type="addOrModifyDialogType"
-    :form="formData"
+    :type="dialogType"
     :menuTree="menuList"
-    @confirm="handleConfirmAddOrModify"
+    :row="currRow"
+    @success="handleAddOrModifySuccess"
   />
 </template>
 

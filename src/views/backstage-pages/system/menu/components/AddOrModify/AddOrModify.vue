@@ -1,6 +1,4 @@
 <script setup name="system:menu:AddOrModify">
-import rules from './formDataRules.js'
-
 const $props = defineProps({
   modelValue: {
     type: Boolean,
@@ -10,13 +8,13 @@ const $props = defineProps({
     type: String,
     default: 'add'
   },
-  form: {
-    type: Object,
-    default: () => ({})
-  },
   menuTree: {
     type: Array,
     default: () => ([])
+  },
+  row: {
+    type: Object,
+    default: () => ({})
   }
 })
 const $emits = defineEmits([
@@ -36,26 +34,91 @@ const showDialog = computed({
 // 表单数据
 const formData = ref(null)
 // 表单数据验证规则
-const formDataRules = ref(rules)
+const formDataRules = ref({
+  parentId: [
+    { required: true, message: '请选择父级菜单', trigger: 'change' }
+  ],
+  type: [
+    { required: true, message: '请选择菜单类型', trigger: 'change' }
+  ],
+  sort: [
+    { required: true, message: '请输入显示排序', trigger: 'blur' }
+  ],
+  title: [
+    { required: true, message: '请输入菜单标题', trigger: 'blur' }
+  ],
+  icon: [
+    { required: true, message: '请输入菜单图标', trigger: 'blur' }
+  ],
+  iconSize: [
+    { required: true, message: '请输入图标大小', trigger: 'blur' }
+  ],
+  isLink: [
+    { required: true, message: '请选择是否外链', trigger: 'change' }
+  ],
+  path: [
+    { required: true, message: '请输入路由路径', trigger: 'blur' }
+  ],
+  name: [
+    { required: true, message: '请输入路由名称', trigger: 'blur' }
+  ],
+  component: [
+    { required: true, message: '请输入组件路径', trigger: 'blur' }
+  ],
+  perms: [
+    { required: true, message: '请输入权限字符', trigger: 'blur' }
+  ],
+  isCache: [
+    { required: true, message: '请选择是否缓存', trigger: 'change' }
+  ],
+  isVisible: [
+    { required: true, message: '请选择显示状态', trigger: 'change' }
+  ],
+  isClearable: [
+    { required: true, message: '请选择关闭状态', trigger: 'change' }
+  ],
+  status: [
+    { required: true, message: '请选择菜单状态', trigger: 'change' }
+  ],
+})
 // 菜单树形数据
 const menuTreeData = computed(() => {
   const result = [{}]
-  result[0]['menuId'] = 0
+  result[0]['id'] = 0
   result[0]['title'] = '主类目'
   result[0]['children'] = $props.menuTree
   return result
 })
+// 表单实例
+const addOrModifyFormRef = ref(null)
 // 菜单树选择器实例
 const menuTreeSelectRef = ref(null)
 
 
-watch(() => $props.form, (newv, oldv) => {
-  formData.value = JSON.parse(JSON.stringify($props.form))
-}, { deep: true })
+// 初始化表单数据
+const initFormData = function() {
+  formData.value = {
+    parentId: 0,
+    type: 'directory',
+    sort: null,
+    title: '',
+    icon: '',
+    iconSize: '20px',
+    isLink: '0',
+    path: '',
+    name: '',
+    component: '',
+    perms: '',
+    isCache: '1',
+    isVisible: '1',
+    isClearable: '1',
+    status: '1',
+  }
+}
 
 // 当前选中节点变化时触发的事件
-const handleTreeSelectCurrentChange = function (data, node) {
-  formData.value.parentId = data.menuId
+const handleTreeSelectCurrentChange = function(data, node) {
+  formData.value.parentId = data.id
   menuTreeSelectRef.value.blur()
 }
 
@@ -65,16 +128,33 @@ const handleCancel = function() {
 }
 
 // 确定
-const handleConfirm = function() {
+const handleConfirm = async function() {
+  const valid = await addOrModifyFormRef.value.validate().catch(err => {})
+  if (!valid) return
   console.log(formData.value)
   showDialog.value = false
-  $emits('confirm')
+  ElMessage.success('操作成功')
+  $emits('success')
 }
 
-// 关闭弹框
-const handleDialogClosed = function() {
-  formData.value = JSON.parse(JSON.stringify($props.form))
+// 打开弹框时
+const handleDialogOpen = function() {
+  if ($props.type === 'add') {
+    formData.value.parentId = ($props.row && $props.row.id) || 0
+  } else if ($props.type === 'edit') {
+    for (let key in formData.value) {
+      formData.value[key] = $props.row[key]
+    }
+  }
 }
+
+// 关闭弹框时
+const handleDialogClosed = function() {
+  initFormData()
+  addOrModifyFormRef.value.resetFields()
+}
+
+initFormData()
 </script>
 
 <template>
@@ -86,6 +166,7 @@ const handleDialogClosed = function() {
       :append-to-body="false"
       :close-on-click-modal="false"
       :draggable="true"
+      @open="handleDialogOpen"
       @closed="handleDialogClosed"
     >
       <template #header>
@@ -93,20 +174,20 @@ const handleDialogClosed = function() {
           <span>添加菜单</span>
           <span style="color: #f00;">(*为必填项)</span>
         </div>
-        <div v-if="type === 'modify'">
+        <div v-if="type === 'edit'">
           <span>修改菜单</span>
           <span style="color: #f00;">(*为必填项)</span>
         </div>
       </template>
 
-      <el-form class="form" :model="formData" :rules="formDataRules" label-width="auto">
+      <el-form class="form" ref="addOrModifyFormRef" :model="formData" :rules="formDataRules" label-width="auto">
         <el-form-item label="父级菜单:" prop="parentId">
           <el-tree-select
             class="form_width"
             ref="menuTreeSelectRef"
             v-model="formData.parentId"
             :data="menuTreeData"
-            node-key="menuId"
+            node-key="id"
             render-after-expand
             :expand-on-click-node="false"
             :props="{
@@ -134,14 +215,6 @@ const handleDialogClosed = function() {
             placeholder="请输入显示排序"
           ></el-input-number>
         </el-form-item>
-        <el-form-item label="菜单图标:" prop="icon" v-if="['directory', 'menu'].includes(formData.type)">
-          <el-input
-            class="form_width"
-            v-model="formData.icon"
-            clearable
-            placeholder="请输入菜单图标"
-          ></el-input>
-        </el-form-item>
         <el-form-item label="菜单标题:" prop="title">
           <el-input
             class="form_width"
@@ -150,13 +223,37 @@ const handleDialogClosed = function() {
             placeholder="请输入菜单标题"
           ></el-input>
         </el-form-item>
-        <el-form-item label="是否外链:" prop="isLink" v-if="['directory', 'menu'].includes(formData.type)">
-          <el-select class="form_width" v-model="formData.isLink" :disabled="formData.type === 'directory'">
+        <el-form-item label="菜单图标:" prop="icon" v-if="formData.type !== 'button'">
+          <el-input
+            class="form_width"
+            v-model="formData.icon"
+            clearable
+            placeholder="请输入菜单图标"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="图标大小:" prop="iconSize" v-if="formData.type !== 'button'">
+          <el-input
+            class="form_width"
+            v-model="formData.iconSize"
+            clearable
+            placeholder="请输入图标大小"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="是否外链:" prop="isLink" v-if="formData.type === 'menu'">
+          <el-select class="form_width" v-model="formData.isLink">
             <el-option label="是" value="1"></el-option>
             <el-option label="否" value="0"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item style="width: 100%;" label="路由路径:" prop="path" v-if="['directory', 'menu'].includes(formData.type)">
+        <el-form-item label="路由名称:" prop="name" v-if="formData.type !== 'button'">
+          <el-input
+            class="form_width"
+            v-model="formData.name"
+            clearable
+            placeholder="请输入路由名称"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="路由路径:" prop="path" v-if="formData.type !== 'button'">
           <el-input
             class="form_width"
             v-model="formData.path"
@@ -164,15 +261,7 @@ const handleDialogClosed = function() {
             placeholder="请输入路由路径"
           ></el-input>
         </el-form-item>
-        <el-form-item style="width: 100%;" label="组件路径:" prop="component" v-if="['menu'].includes(formData.type)">
-          <el-input
-            class="form_width"
-            v-model="formData.component"
-            clearable
-            placeholder="请输入组件路径"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="权限字符:" prop="perms" v-if="['menu', 'button'].includes(formData.type)">
+        <el-form-item label="权限字符:" prop="perms">
           <el-input
             class="form_width"
             v-model="formData.perms"
@@ -180,14 +269,28 @@ const handleDialogClosed = function() {
             placeholder="请输入权限字符"
           ></el-input>
         </el-form-item>
-        <el-form-item label="显隐状态:" prop="visible" v-if="['directory', 'menu'].includes(formData.type)">
-          <el-select class="form_width" v-model="formData.visible">
+        <el-form-item style="width: 100%;" label="组件路径:" prop="component" v-if="formData.type === 'menu'">
+          <el-input
+            class="form_width"
+            v-model="formData.component"
+            clearable
+            placeholder="请输入组件路径"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="显隐状态:" prop="isVisible" v-if="formData.type !== 'button'">
+          <el-select class="form_width" v-model="formData.isVisible">
             <el-option label="显示" value="1"></el-option>
             <el-option label="隐藏" value="0"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="是否缓存:" prop="isCache" v-if="['menu'].includes(formData.type)">
+        <el-form-item label="是否缓存:" prop="isCache" v-if="formData.type !== 'button'">
           <el-select class="form_width" v-model="formData.isCache">
+            <el-option label="是" value="1"></el-option>
+            <el-option label="否" value="0"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="可否关闭:" prop="isClearable" v-if="formData.type !== 'button'">
+          <el-select class="form_width" v-model="formData.isClearable">
             <el-option label="是" value="1"></el-option>
             <el-option label="否" value="0"></el-option>
           </el-select>
@@ -215,6 +318,10 @@ const handleDialogClosed = function() {
     flex-wrap: wrap;
     justify-content: space-between;
 
+    .form_width {
+      width: 100%;
+    }
+
     :deep(.el-form-item) {
       width: 48%;
     }
@@ -222,10 +329,10 @@ const handleDialogClosed = function() {
     :deep(.el-input__inner) {
       text-align: left;
     }
+  }
 
-    .form_width {
-      width: 100%;
-    }
+  :deep(.el-dialog) {
+    border-radius: 7px;
   }
 
   :deep(.el-dialog__headerbtn) {
