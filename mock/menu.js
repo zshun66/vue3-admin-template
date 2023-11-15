@@ -9,6 +9,7 @@ export default [
 			return {
 				code: 200,
 				data: menuData,
+				total: menuData.length,
 				message: '操作成功'
 			}
 		}

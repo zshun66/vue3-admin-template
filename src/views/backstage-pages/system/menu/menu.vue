@@ -6,6 +6,8 @@ import { reqMenuList } from '@/api/system/menu.js'
 const queryForm = ref({})
 // 菜单列表数据
 const menuList = ref([])
+// 菜单数据总数
+const dataTotal = ref(0)
 // 表格实例
 const menuTableRef = ref(null)
 // 是否显示添加/修改弹框
@@ -19,6 +21,8 @@ const currRow = ref({})
 // 初始化查询参数
 const initQueryForm = function() {
   queryForm.value = {
+    pageNum: 1,
+    pageSize: 100,
     title: '', // 菜单标题
     status: '', // 菜单状态
   }
@@ -29,10 +33,12 @@ const getMenuList = async function() {
   const { result } = await reqMenuList(queryForm.value)
   if (!result) return
   menuList.value = result.data || []
+  dataTotal.value = result.total || 0
 }
 
 // 搜索
 const handleSearch = function() {
+  queryForm.value.pageNum = 1
   getMenuList()
 }
 
@@ -42,6 +48,17 @@ const handleReset = function() {
   getMenuList()
 }
 
+// 分页器页码改变时
+const handlePaginationCurrChange = function(page) {
+  queryForm.value.pageNum = page
+  getMenuList()
+}
+
+// 分页器页数大小改变时
+const handlePaginationSizeChange = function(size) {
+  queryForm.value.pageSize = size
+  getMenuList()
+}
 
 // 处理操作
 const handleOperate = function(type, row) {
@@ -204,7 +221,16 @@ getMenuList()
       </el-table-column>
     </el-table>
 
-    <!-- <div v-for="i in 100">待定</div> -->
+    <el-pagination
+      class="menu_list_pagination"
+      background
+      layout="total, sizes, prev, pager, next, jumper"
+      v-model:current-page="queryForm.pageNum"
+      v-model:page-size="queryForm.pageSize"
+      :total="dataTotal"
+      @current-change="handlePaginationCurrChange"
+      @size-change="handlePaginationSizeChange"
+    />
   </div>
 
   <AddOrModify
@@ -228,6 +254,11 @@ getMenuList()
 
   .menu_list_table {
     margin-top: 10px;
+  }
+
+  .menu_list_pagination {
+    margin-top: 10px;
+    justify-content: flex-end;
   }
 }
 </style>
