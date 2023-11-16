@@ -1,4 +1,5 @@
 import menuData from './menu.js'
+import { extractKeyNamesFromTree } from '@/utils/utils.js'
 
 /**
  * 角色项信息
@@ -8,6 +9,10 @@ import menuData from './menu.js'
  * perms						权限字符
  * status						角色状态
  * menus            角色拥有的菜单
+ * menuIds          角色拥有的菜单id集合
+ * remark           备注
+ * creator          创建者
+ * createTime       创建时间
  */
 
 export default [
@@ -18,6 +23,10 @@ export default [
     perms: 'administrator',
     status: '1',
     menus: menuData,
+    menuIds: extractKeyNamesFromTree(menuData, 'id'),
+    remark: '拥有所有权限',
+    creator: '超级管理员',
+    createTime: '2023-11-15 11:43:23'
   },
   {
     id: 2,
@@ -26,5 +35,9 @@ export default [
     perms: 'developer',
     status: '1',
     menus: menuData.filter(item => item.id === 99 || item.id === 1),
+    menuIds: extractKeyNamesFromTree(menuData.filter(item => item.id === 99 || item.id === 1), 'id'),
+    remark: '拥有部分权限',
+    creator: '超级管理员',
+    createTime: '2023-11-15 11:43:23'
   },
 ]

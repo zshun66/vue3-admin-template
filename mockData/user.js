@@ -14,9 +14,7 @@ import roleData from './role.js'
  */
 
 const adminRole = roleData.find(item => item.id === 1)
-const adminRoutes = adminRole.menus
 const developerRole = roleData.find(item => item.id === 2)
-const developerRoutes = developerRole.menus
 
 export default [
   {
@@ -27,7 +25,7 @@ export default [
     username: 'admin',
     password: '111111',
     roles: [adminRole],
-    routes: adminRoutes,
+    routes: adminRole.menus,
     token: 'Admin Token',
   },
   {
@@ -38,7 +36,7 @@ export default [
     username: 'developer',
     password: '111111',
     roles: [developerRole],
-    routes: developerRoutes,
+    routes: developerRole.menus,
     token: 'Developer Token',
   },
 ]

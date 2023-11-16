@@ -2,3 +2,8 @@
 button.el-button [class*=el-icon] + span {
   margin-left: 3px;
 }
+
+// el-form -------------------------------------------------------------------------------
+.el-form-item__label {
+  font-weight: 700;
+}

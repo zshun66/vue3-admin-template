@@ -1,5 +1,6 @@
 <script setup name="system:role:AddOrModify">
-import rules from './formDataRules.js'
+import { reqMenuList } from '@/api/system/menu.js'
+import { extractKeyNamesFromTree } from '@/utils/utils.js'
 
 const $props = defineProps({
   modelValue: {
@@ -10,7 +11,7 @@ const $props = defineProps({
     type: String,
     default: 'add'
   },
-  form: {
+  row: {
     type: Object,
     default: () => ({})
   }
@@ -29,15 +30,60 @@ const showDialog = computed({
     $emits('update:modelValue', value)
   }
 })
+// 菜单数据
+const menuData = ref([])
+// 表单实例
+const addOrModifyFormRef = ref(null)
 // 表单数据
 const formData = ref(null)
 // 表单数据验证规则
-const formDataRules = ref(rules)
+const formDataRules = ref({
+  name: [
+    { required: true, message: '请输入角色名称', trigger: 'blur' }
+  ],
+  perms: [
+    { required: true, message: '请输入权限字符', trigger: 'blur' }
+  ],
+  sort: [
+    { required: true, message: '请输入显示排序', trigger: 'blur' }
+  ],
+  status: [
+    { required: true, message: '请选择角色状态', trigger: 'change' }
+  ],
+  menuIds: [
+    { required: true, message: '请选择菜单权限', trigger: 'change' }
+  ],
+  remark: []
+})
+// 菜单树组件实例
+const menuTreeRef = ref(null)
+// 展开/折叠(true展开、false折叠)
+const isExpand = ref(false)
+// 全选状态(true全选、false全不选)
+const isAllSelect = ref(false)
+// 父子联动状态(true联动、false不联动)
+const isLinkage = ref(true)
 
 
-watch(() => $props.form, (newv, oldv) => {
-  formData.value = JSON.parse(JSON.stringify($props.form))
-}, { deep: true })
+// 获取菜单列表
+const getMenuList = async function() {
+  if (menuData.value.length > 0) return
+  const { result } = await reqMenuList()
+  if (!result) return
+  menuData.value = result.data || []
+}
+
+// 初始化表单数据
+const initFormData = function() {
+  formData.value = {
+    name: '',
+    perms: '',
+    sort: null,
+    status: '1',
+    menuIds: [],
+    remark: ''
+  }
+}
 
 // 取消
 const handleCancel = function() {
@@ -45,16 +91,61 @@ const handleCancel = function() {
 }
 
 // 确定
-const handleConfirm = function() {
+const handleConfirm = async function() {
+  const valid = await addOrModifyFormRef.value.validate().catch(err => {})
+  if (!valid) return
   console.log(formData.value)
   showDialog.value = false
-  $emits('confirm')
+  ElMessage.success('操作成功')
+  $emits('success')
 }
 
-// 关闭弹框
-const handleDialogClosed = function() {
-  formData.value = JSON.parse(JSON.stringify($props.form))
+// 打开弹框时
+const handleDialogOpen = function() {
+  if ($props.type === 'add') {
+    
+  } else if ($props.type === 'edit') {
+    for (let key in formData.value) {
+      formData.value[key] = $props.row[key]
+    }
+    menuTreeRef.value.setCheckedKeys(formData.value.menuIds)
+    const allKeyLength = extractKeyNamesFromTree(menuData.value, 'id').length
+    const checkedKeyLength = formData.value.menuIds.length
+    if (allKeyLength === checkedKeyLength) isAllSelect.value = true
+  }
 }
+
+// 关闭弹框时
+const handleDialogClosed = function() {
+  initFormData()
+  addOrModifyFormRef.value.resetFields()
+  menuTreeRef.value.setCheckedKeys([])
+  isExpand.value = false
+  isAllSelect.value = false
+}
+
+// 点击节点复选框之后触发
+const handleMenuTreeCheckChange = function() {
+  formData.value.menuIds = menuTreeRef.value.getCheckedKeys()
+  if (formData.value.menuIds.length > 0) {
+    addOrModifyFormRef.value.clearValidate('menuIds')
+  } else {
+    addOrModifyFormRef.value.validateField('menuIds').catch(err => {})
+  }
+}
+
+watch(isExpand, (newv, oldv) => {
+  const keys = extractKeyNamesFromTree(menuData.value, 'id')
+  keys.forEach(key => menuTreeRef.value.getNode(key).expanded = newv)
+})
+watch(isAllSelect, (newv, oldv) => {
+  const checkedKeys = newv ? extractKeyNamesFromTree(menuData.value, 'id') : []
+  menuTreeRef.value.setCheckedKeys(checkedKeys)
+  handleMenuTreeCheckChange()
+})
+
+initFormData()
+getMenuList()
 </script>
 
 <template>
@@ -66,6 +157,7 @@ const handleDialogClosed = function() {
       :append-to-body="false"
       :close-on-click-modal="false"
       :draggable="true"
+      @open="handleDialogOpen"
       @closed="handleDialogClosed"
     >
       <template #header>
@@ -73,13 +165,13 @@ const handleDialogClosed = function() {
           <span>添加角色</span>
           <span style="color: #f00;">(*为必填项)</span>
         </div>
-        <div v-if="type === 'modify'">
+        <div v-if="type === 'edit'">
           <span>修改角色</span>
           <span style="color: #f00;">(*为必填项)</span>
         </div>
       </template>
 
-      <el-form class="form" :model="formData" :rules="formDataRules" label-width="auto">
+      <el-form class="form" ref="addOrModifyFormRef" :model="formData" :rules="formDataRules" label-width="auto">
         <el-form-item label="显示排序:" prop="sort">
           <el-input-number
             class="form_width"
@@ -112,8 +204,35 @@ const handleDialogClosed = function() {
             <el-option label="禁用" value="0"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="菜单权限:" prop="menus">
-          
+        <el-form-item style="width: 100%;" label="菜单权限:" prop="menuIds">
+          <div>
+            <el-checkbox v-model="isExpand" label="展开/折叠" />
+            <el-checkbox v-model="isAllSelect" label="全选/全不选" />
+            <el-checkbox v-model="isLinkage" label="父子联动" />
+          </div>
+          <el-tree
+            class="menu_tree"
+            ref="menuTreeRef"
+            :data="menuData"
+            node-key="id"
+            show-checkbox
+            :props="{
+              label: 'title',
+              children: 'children',
+            }"
+            :check-strictly="!isLinkage"
+            @check="handleMenuTreeCheckChange"
+          ></el-tree>
+        </el-form-item>
+        <el-form-item style="width: 100%;" label="备注:" prop="remark">
+          <el-input
+            class="form_width"
+            v-model="formData.remark"
+            type="textarea"
+            :autosize="{ minRows: 2, maxRows: 3 }"
+            clearable
+            placeholder="请输入备注"
+          ></el-input>
         </el-form-item>
       </el-form>
 
@@ -132,6 +251,19 @@ const handleDialogClosed = function() {
     flex-wrap: wrap;
     justify-content: space-between;
 
+    .form_width {
+      width: 100%;
+    }
+
+    .menu_tree {
+      width: 100%;
+      height: 300px;
+      padding: 10px 0;
+      border: 1px solid #dcdfe6;
+      border-radius: 4px;
+      overflow-y: auto;
+    }
+
     :deep(.el-form-item) {
       width: 48%;
     }
@@ -139,10 +271,10 @@ const handleDialogClosed = function() {
     :deep(.el-input__inner) {
       text-align: left;
     }
+  }
 
-    .form_width {
-      width: 100%;
-    }
+  :deep(.el-dialog) {
+    border-radius: 7px;
   }
 
   :deep(.el-dialog__headerbtn) {
