@@ -1,44 +1,54 @@
 /**
  * 岗位项信息
- * postId						岗位ID
+ * id						    岗位ID
  * name						  岗位名称
  * code						  岗位编码
  * sort					    岗位排序
  * status						岗位状态
  * remark           岗位备注
+ * creator          创建者
+ * createTime       创建时间
  */
 
 export default [
   {
-    postId: 1,
+    id: 1,
     name: '项目经理',
-    code: 111,
-    sort: 1,
+    code: 'XMJL',
+    sort: 10,
     status: '1',
     remark: '项目经理',
+    creator: '超级管理员',
+    createTime: '2023-11-13 17:08:36'
   },
   {
-    postId: 2,
+    id: 2,
     name: '技术经理',
-    code: 222,
-    sort: 2,
+    code: 'JSJL',
+    sort: 20,
     status: '1',
     remark: '技术经理',
+    creator: '超级管理员',
+    createTime: '2023-11-13 17:08:36'
   },
   {
-    postId: 3,
+    id: 3,
     name: '后端开发工程师',
-    code: 333,
-    sort: 3,
+    code: 'HDKFGCS',
+    sort: 30,
     status: '1',
     remark: '后端开发工程师',
+    creator: '超级管理员',
+    createTime: '2023-11-13 17:08:36'
   },
   {
-    postId: 4,
+    id: 4,
     name: '前端开发工程师',
-    code: 444,
-    sort: 4,
+    code: 'QDKFGCS',
+    sort: 40,
     status: '0',
     remark: '前端开发工程师',
+    creator: '超级管理员',
+    createTime: '2023-11-13 17:08:36'
   },
 ]

@@ -1,6 +1,4 @@
 <script setup name="system:post:AddOrModify">
-import rules from './formDataRules.js'
-
 const $props = defineProps({
   modelValue: {
     type: Boolean,
@@ -10,7 +8,7 @@ const $props = defineProps({
     type: String,
     default: 'add'
   },
-  form: {
+  row: {
     type: Object,
     default: () => ({})
   }
@@ -32,12 +30,35 @@ const showDialog = computed({
 // 表单数据
 const formData = ref(null)
 // 表单数据验证规则
-const formDataRules = ref(rules)
+const formDataRules = ref({
+  name: [
+    { required: true, message: '请输入岗位名称', trigger: 'blur' }
+  ],
+  code: [
+    { required: true, message: '请输入岗位编码', trigger: 'blur' }
+  ],
+  sort: [
+    { required: true, message: '请输入显示排序', trigger: 'blur' }
+  ],
+  status: [
+    { required: true, message: '请选择岗位状态', trigger: 'change' }
+  ],
+  remark: [],
+})
+// 表单实例
+const addOrModifyFormRef = ref(null)
 
 
-watch(() => $props.form, (newv, oldv) => {
-  formData.value = JSON.parse(JSON.stringify($props.form))
-}, { deep: true })
+// 初始化表单数据
+const initFormData = function() {
+  formData.value = {
+    name: '',
+    code: '',
+    sort: null,
+    status: '1',
+    remark: ''
+  }
+}
 
 // 取消
 const handleCancel = function() {
@@ -45,16 +66,33 @@ const handleCancel = function() {
 }
 
 // 确定
-const handleConfirm = function() {
+const handleConfirm = async function() {
+  const valid = await addOrModifyFormRef.value.validate().catch(err => {})
+  if (!valid) return
   console.log(formData.value)
   showDialog.value = false
-  $emits('confirm')
+  ElMessage.success('操作成功')
+  $emits('success')
 }
 
-// 关闭弹框
-const handleDialogClosed = function() {
-  formData.value = JSON.parse(JSON.stringify($props.form))
+// 打开弹框时
+const handleDialogOpen = function() {
+  if ($props.type === 'add') {
+    formData.value.parentId = ($props.row && $props.row.id) || ''
+  } else if ($props.type === 'edit') {
+    for (let key in formData.value) {
+      formData.value[key] = $props.row[key]
+    }
+  }
 }
+
+// 关闭弹框时
+const handleDialogClosed = function() {
+  initFormData()
+  addOrModifyFormRef.value.resetFields()
+}
+
+initFormData()
 </script>
 
 <template>
@@ -66,6 +104,7 @@ const handleDialogClosed = function() {
       :append-to-body="false"
       :close-on-click-modal="false"
       :draggable="true"
+      @open="handleDialogOpen"
       @closed="handleDialogClosed"
     >
       <template #header>
@@ -73,13 +112,29 @@ const handleDialogClosed = function() {
           <span>添加岗位</span>
           <span style="color: #f00;">(*为必填项)</span>
         </div>
-        <div v-if="type === 'modify'">
+        <div v-if="type === 'edit'">
           <span>修改岗位</span>
           <span style="color: #f00;">(*为必填项)</span>
         </div>
       </template>
 
-      <el-form class="form" :model="formData" :rules="formDataRules" label-width="auto">
+      <el-form class="form" ref="addOrModifyFormRef" :model="formData" :rules="formDataRules" label-width="auto">
+        <el-form-item label="岗位名称:" prop="name">
+          <el-input
+            class="form_width"
+            v-model="formData.name"
+            clearable
+            placeholder="请输入岗位名称"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="岗位编码:" prop="code">
+          <el-input
+            class="form_width"
+            v-model="formData.code"
+            clearable
+            placeholder="请输入岗位编码"
+          ></el-input>
+        </el-form-item>
         <el-form-item label="显示排序:" prop="sort">
           <el-input-number
             class="form_width"
@@ -90,37 +145,20 @@ const handleDialogClosed = function() {
             placeholder="请输入显示排序"
           ></el-input-number>
         </el-form-item>
-        <el-form-item label="岗位名称:" prop="name">
-          <el-input
-            class="form_width"
-            v-model="formData.name"
-            clearable
-            placeholder="请输入岗位名称"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="岗位编码:" prop="code">
-          <el-input-number
-            class="form_width"
-            v-model="formData.code"
-            :min="0"
-            step-strictly
-            controls-position="right"
-            placeholder="请输入岗位编码"
-          ></el-input-number>
-        </el-form-item>
         <el-form-item label="岗位状态:" prop="status">
           <el-select class="form_width" v-model="formData.status">
             <el-option label="正常" value="1"></el-option>
             <el-option label="禁用" value="0"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item style="width: 100%;" label="岗位备注:" prop="remark">
+        <el-form-item style="width: 100%;" label="备注:" prop="remark">
           <el-input
             class="form_width"
-            type="textarea"
             v-model="formData.remark"
-            :autosize="{ minRows: 3, maxRows: 5 }"
-            placeholder="请输入岗位备注"
+            type="textarea"
+            :autosize="{ minRows: 2, maxRows: 3 }"
+            clearable
+            placeholder="请输入备注"
           ></el-input>
         </el-form-item>
       </el-form>
@@ -140,6 +178,10 @@ const handleDialogClosed = function() {
     flex-wrap: wrap;
     justify-content: space-between;
 
+    .form_width {
+      width: 100%;
+    }
+
     :deep(.el-form-item) {
       width: 48%;
     }
@@ -147,10 +189,10 @@ const handleDialogClosed = function() {
     :deep(.el-input__inner) {
       text-align: left;
     }
+  }
 
-    .form_width {
-      width: 100%;
-    }
+  :deep(.el-dialog) {
+    border-radius: 7px;
   }
 
   :deep(.el-dialog__headerbtn) {

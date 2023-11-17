@@ -4,32 +4,26 @@ import { reqPostList } from '@/api/system/post.js'
 
 // 查询参数
 const queryForm = ref({})
-// 表单数据
-const formData = ref({})
 // 岗位列表数据
 const postList = ref([])
+// 岗位数据总数
+const dataTotal = ref(0)
 // 是否显示添加/修改弹框
 const showAddOrModifyDialog = ref(false)
-// 添加/修改弹框类型
-const addOrModifyDialogType = ref('add')
+// 添加/修改弹框类型(add添加、edit修改)
+const dialogType = ref('add')
+// 当前操作的行对象
+const currRow = ref({})
 
 
 // 初始化查询参数
 const initQueryForm = function() {
   queryForm.value = {
-    name: '',
-    status: '',
-  }
-}
-
-// 初始化表单数据
-const initFormData = function() {
-  formData.value = {
-    name: '',
-    code: null,
-    sort: null,
-    status: '1',
-    remark: ''
+    pageNum: 1,
+    pageSize: 100,
+    name: '', // 岗位名称
+    code: '', // 岗位编码
+    status: '', // 岗位状态
   }
 }
 
@@ -38,10 +32,12 @@ const getPostList = async function() {
   const { result } = await reqPostList(queryForm.value)
   if (!result) return
   postList.value = result.data || []
+  dataTotal.value = result.total || 0
 }
 
 // 搜索
 const handleSearch = function() {
+  queryForm.value.pageNum = 1
   getPostList()
 }
 
@@ -51,33 +47,51 @@ const handleReset = function() {
   getPostList()
 }
 
-// 新增
-const handleAdd = function() {
-  initFormData()
-  addOrModifyDialogType.value = 'add'
-  showAddOrModifyDialog.value = true
+// 分页器页码改变时
+const handlePaginationCurrChange = function(page) {
+  queryForm.value.pageNum = page
+  getPostList()
 }
 
-// 修改
-const handleModify = function(row) {
-  for (let key in formData.value) {
-    formData.value[key] = row[key]
-  }
-  addOrModifyDialogType.value = 'modify'
+// 分页器页数大小改变时
+const handlePaginationSizeChange = function(size) {
+  queryForm.value.pageSize = size
+  getPostList()
+}
+
+// 处理操作
+const handleOperate = function(type, row) {
+  dialogType.value = type
+  currRow.value = row
   showAddOrModifyDialog.value = true
 }
 
 // 删除
 const handleDelete = function(row) {
+  ElMessageBox.confirm('确认删除该岗位?', '提示', {
+    type: 'warning',
+    beforeClose: (action, instance, done) => {
+      if (action === 'confirm') {
+        instance.confirmButtonLoading = true
+        setTimeout(() => {
+          instance.confirmButtonLoading = false
+          ElMessage.success('操作成功')
+          done()
+          getPostList()
+        }, 2000)
+      } else if (action !== 'confirm') {
+        if (!instance.confirmButtonLoading) done()
+      }
+    }
+  }).catch(err => {})
 }
 
-// 确定添加/修改
-const handleConfirmAddOrModify = function() {
+// 添加/修改成功
+const handleAddOrModifySuccess = function() {
+  getPostList()
 }
-
 
 initQueryForm()
-initFormData()
 getPostList()
 </script>
 
@@ -90,6 +104,14 @@ getPostList()
           v-model="queryForm.name"
           clearable
           placeholder="请输入岗位名称"
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="岗位编码:" prop="code">
+        <el-input
+          style="width: 200px;"
+          v-model="queryForm.code"
+          clearable
+          placeholder="请输入岗位编码"
         ></el-input>
       </el-form-item>
       <el-form-item label="岗位状态:" prop="status">
@@ -110,7 +132,7 @@ getPostList()
     </el-form>
 
     <div class="operate_btn_group">
-      <el-button type="primary" plain icon="icon-plus" @click="handleAdd">新增</el-button>
+      <el-button type="primary" icon="icon-plus" plain @click="handleOperate('add')">新增</el-button>
     </div>
 
     <el-table
@@ -121,11 +143,16 @@ getPostList()
         background: '#F8F8F9',
         color: '#666'
       }"
-      row-key="postId"
+      row-key="id"
     >
-      <el-table-column label="岗位编号" prop="postId" align="center" width="100">
+      <el-table-column label="岗位名称" prop="name" align="center" min-width="200" show-overflow-tooltip>
         <template #default="scope">
-          <span>{{ scope.row.postId }}</span>
+          <span>{{ scope.row.name }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="排序" prop="sort" align="center" min-width="80">
+        <template #default="scope">
+          <span>{{ scope.row.sort }}</span>
         </template>
       </el-table-column>
       <el-table-column label="岗位编码" prop="code" align="center" min-width="120">
@@ -133,51 +160,54 @@ getPostList()
           <span>{{ scope.row.code }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="岗位名称" prop="name" align="center" min-width="150">
-        <template #default="scope">
-          <span>{{ scope.row.name }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="排序" prop="sort" align="center" min-width="100">
-        <template #default="scope">
-          <span>{{ scope.row.sort }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="备注" prop="remark" align="center" min-width="150">
+      <el-table-column label="备注" prop="remark" align="center" min-width="200">
         <template #default="scope">
           <span>{{ scope.row.remark }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="状态" prop="status" align="center" min-width="80">
+      <el-table-column label="状态" prop="status" align="center" min-width="100">
         <template #default="scope">
           <el-tag type="" v-if="scope.row.status === '1'">正常</el-tag>
           <el-tag type="danger" v-if="scope.row.status === '0'">禁用</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="创建者" prop="creator" align="center" min-width="120">
+      <el-table-column label="创建者" prop="creator" align="center" min-width="110">
         <template #default="scope">
-          <span>{{ scope.row.creator || '超级管理员' }}</span>
+          <span>{{ scope.row.creator }}</span>
         </template>
       </el-table-column>
       <el-table-column label="创建时间" prop="createTime" align="center" min-width="170">
         <template #default="scope">
-          <span>{{ scope.row.createTime || '2023-10-01 07:07:07' }}</span>
+          <span>{{ scope.row.createTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" prop="" align="center" width="150">
+      <el-table-column label="操作" prop="" align="center" width="160">
         <template #default="scope">
-          <el-button style="padding: 0 0;" type="primary" text icon="icon-edit" @click="handleModify(scope.row)">修改</el-button>
-          <el-button style="padding: 0 0;" type="primary" text icon="icon-delete" @click="handleDelete(scope.row)">删除</el-button>
+          <div style="display: flex; align-items: center; justify-content: center;">
+            <el-button style="padding: 0 0;" type="primary" text icon="icon-edit" @click.stop="handleOperate('edit', scope.row)">修改</el-button>
+            <el-button style="padding: 0 0;" type="primary" text icon="icon-delete" @click.stop="handleDelete(scope.row)">删除</el-button>
+          </div>
         </template>
       </el-table-column>
     </el-table>
+
+    <el-pagination
+      class="post_list_pagination"
+      background
+      layout="total, sizes, prev, pager, next, jumper"
+      v-model:current-page="queryForm.pageNum"
+      v-model:page-size="queryForm.pageSize"
+      :total="dataTotal"
+      @current-change="handlePaginationCurrChange"
+      @size-change="handlePaginationSizeChange"
+    />
   </div>
 
   <AddOrModify
     v-model="showAddOrModifyDialog"
-    :type="addOrModifyDialogType"
-    :form="formData"
-    @confirm="handleConfirmAddOrModify"
+    :type="dialogType"
+    :row="currRow"
+    @success="handleAddOrModifySuccess"
   />
 </template>
 
@@ -193,6 +223,11 @@ getPostList()
 
   .post_list_table {
     margin-top: 10px;
+  }
+
+  .post_list_pagination {
+    margin-top: 10px;
+    justify-content: flex-end;
   }
 }
 </style>

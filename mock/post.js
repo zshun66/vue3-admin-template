@@ -9,6 +9,7 @@ export default [
 			return {
 				code: 200,
 				data: postData,
+				total: postData.length,
 				message: '操作成功'
 			}
 		}
