@@ -1,4 +1,6 @@
 import roleData from './role.js'
+import deptData from './dept.js'
+import postData from './post.js'
 
 /**
  * 用户信息
@@ -16,6 +18,14 @@ import roleData from './role.js'
 const adminRole = roleData.find(item => item.id === 1)
 const developerRole = roleData.find(item => item.id === 2)
 
+const adminDept = deptData.find(item => item.id === 1)
+const developerDept = adminDept.children.find(item => item.id === 11)
+delete adminDept['children']
+delete developerDept['children']
+
+const adminPost = postData.find(item => item.id === 1)
+const developerPost = postData.find(item => item.id === 5)
+
 export default [
   {
     id: 1,
@@ -26,6 +36,8 @@ export default [
     password: '111111',
     roles: [adminRole],
     routes: adminRole.menus,
+    dept: adminDept,
+    post: adminPost,
     token: 'Admin Token',
   },
   {
@@ -37,6 +49,8 @@ export default [
     password: '111111',
     roles: [developerRole],
     routes: developerRole.menus,
+    dept: developerDept,
+    post: developerPost,
     token: 'Developer Token',
   },
 ]

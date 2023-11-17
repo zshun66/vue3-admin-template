@@ -13,7 +13,7 @@
  * creator          创建者
  * createTime       创建时间
  */
-const menuItemObj = {
+const deptItemObj = {
   parentId: 0,
   parentName: null,
   id: null,
@@ -34,9 +34,9 @@ const deepCopy = function (obj) {
 }
 
 // 部门列表
-const menuList = [
+const deptList = [
   // 控制台部门 ---------------------------------------------------------
-  Object.assign(deepCopy(menuItemObj), {
+  Object.assign(deepCopy(deptItemObj), {
     id: 1,
     sort: 10,
     name: '江西天顺软件有限公司',
@@ -44,7 +44,7 @@ const menuList = [
     telephone: '13755609011',
     email: 'jxtsrjyxgs@163.com',
     children: [
-      Object.assign(deepCopy(menuItemObj), {
+      Object.assign(deepCopy(deptItemObj), {
         parentId: 1,
         parentName: '江西天顺软件有限公司',
         id: 11,
@@ -54,7 +54,7 @@ const menuList = [
         telephone: '13755609022',
         email: 'jxtsrjyxgsjsb@163.com',
       }),
-      Object.assign(deepCopy(menuItemObj), {
+      Object.assign(deepCopy(deptItemObj), {
         parentId: 1,
         parentName: '江西天顺软件有限公司',
         id: 12,
@@ -64,7 +64,7 @@ const menuList = [
         telephone: '13755609033',
         email: 'jxtsrjyxgsssb@163.com',
       }),
-      Object.assign(deepCopy(menuItemObj), {
+      Object.assign(deepCopy(deptItemObj), {
         parentId: 1,
         parentName: '江西天顺软件有限公司',
         id: 13,
@@ -74,7 +74,7 @@ const menuList = [
         telephone: '13755609044',
         email: 'jxtsrjyxgsyyb@163.com',
       }),
-      Object.assign(deepCopy(menuItemObj), {
+      Object.assign(deepCopy(deptItemObj), {
         parentId: 1,
         parentName: '江西天顺软件有限公司',
         id: 14,
@@ -88,4 +88,4 @@ const menuList = [
   })
 ]
 
-export default menuList
+export default deptList
