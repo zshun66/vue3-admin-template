@@ -1,15 +1,13 @@
-<script setup name="system:menu">
+<script setup name="system:user">
 import AddOrModify from './components/AddOrModify/AddOrModify.vue'
-import { reqMenuList } from '@/api/system/menu.js'
+import { reqUserList } from '@/api/system/user.js'
 
 // 查询参数
 const queryForm = ref({})
-// 菜单列表数据
-const menuList = ref([])
-// 菜单数据总数
+// 用户列表数据
+const userList = ref([])
+// 用户数据总数
 const dataTotal = ref(0)
-// 表格实例
-const menuTableRef = ref(null)
 // 是否显示添加/修改弹框
 const showAddOrModifyDialog = ref(false)
 // 添加/修改弹框类型(add添加、edit修改)
@@ -23,42 +21,49 @@ const initQueryForm = function() {
   queryForm.value = {
     pageNum: 1,
     pageSize: 100,
-    title: '', // 菜单标题
-    status: '', // 菜单状态
+    username: '', // 用户名称
+    nickname: '', // 用户昵称
+    phone: '', // 手机号码
+    email: '', // 邮箱
+    status: '', // 用户状态
+    createTime: [], // 创建时间
   }
 }
 
-// 获取菜单列表
-const getMenuList = async function() {
+// 获取用户列表
+const getUserList = async function() {
   const params = JSON.parse(JSON.stringify(queryForm.value))
-  const { result } = await reqMenuList(params)
+  params['startDate'] = (params.createTime && params.createTime[0]) || ''
+  params['endDate'] = (params.createTime && params.createTime[1]) || ''
+  delete params['createTime']
+  const { result } = await reqUserList(params)
   if (!result) return
-  menuList.value = result.data || []
+  userList.value = result.data || []
   dataTotal.value = result.total || 0
 }
 
 // 搜索
 const handleSearch = function() {
   queryForm.value.pageNum = 1
-  getMenuList()
+  getUserList()
 }
 
 // 重置
 const handleReset = function() {
   initQueryForm()
-  getMenuList()
+  getUserList()
 }
 
 // 分页器页码改变时
 const handlePaginationCurrChange = function(page) {
   queryForm.value.pageNum = page
-  getMenuList()
+  getUserList()
 }
 
 // 分页器页数大小改变时
 const handlePaginationSizeChange = function(size) {
   queryForm.value.pageSize = size
-  getMenuList()
+  getUserList()
 }
 
 // 处理操作
@@ -70,7 +75,7 @@ const handleOperate = function(type, row) {
 
 // 删除
 const handleDelete = function(row) {
-  ElMessageBox.confirm('确认删除该菜单?', '提示', {
+  ElMessageBox.confirm('确认删除该用户?', '提示', {
     type: 'warning',
     beforeClose: (action, instance, done) => {
       if (action === 'confirm') {
@@ -79,7 +84,7 @@ const handleDelete = function(row) {
           instance.confirmButtonLoading = false
           ElMessage.success('操作成功')
           done()
-          getMenuList()
+          getUserList()
         }, 2000)
       } else if (action !== 'confirm') {
         if (!instance.confirmButtonLoading) done()
@@ -88,47 +93,51 @@ const handleDelete = function(row) {
   }).catch(err => {})
 }
 
-// 展开/折叠
-const handleCollapse = function() {
-  const loop = function(menuList) {
-    menuList.forEach(menu => {
-      menuTableRef.value.toggleRowExpansion(menu)
-      if (menu.children && menu.children.length > 0) {
-        loop(menu.children)
-      }
-    })
-  }
-  loop(menuList.value)
-}
-
-// 点击表格行
-const handleTableRowClick = function(row, column, event) {
-  if (row.children && row.children.length > 0) {
-    menuTableRef.value.toggleRowExpansion(row)
-  }
-}
-
 // 添加/修改成功
 const handleAddOrModifySuccess = function() {
-  getMenuList()
+  getUserList()
 }
 
 initQueryForm()
-getMenuList()
+getUserList()
 </script>
 
 <template>
-  <div class="page_container menu_page">
+  <div class="page_container user_page">
     <el-form :model="queryForm" label-width="auto" inline>
-      <el-form-item label="菜单标题:" prop="title">
+      <el-form-item label="用户名称:" prop="username">
         <el-input
           style="width: 200px;"
-          v-model="queryForm.title"
+          v-model="queryForm.username"
           clearable
-          placeholder="请输入菜单标题"
+          placeholder="请输入用户名称"
         ></el-input>
       </el-form-item>
-      <el-form-item label="菜单状态:" prop="status">
+      <el-form-item label="用户昵称:" prop="nickname">
+        <el-input
+          style="width: 200px;"
+          v-model="queryForm.nickname"
+          clearable
+          placeholder="请输入用户昵称"
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="手机号码:" prop="phone">
+        <el-input
+          style="width: 200px;"
+          v-model="queryForm.phone"
+          clearable
+          placeholder="请输入手机号码"
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="邮箱:" prop="email">
+        <el-input
+          style="width: 200px;"
+          v-model="queryForm.email"
+          clearable
+          placeholder="请输入邮箱"
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="用户状态:" prop="status">
         <el-select
           style="width: 150px;"
           v-model="queryForm.status"
@@ -139,6 +148,18 @@ getMenuList()
           <el-option label="禁用" value="0"></el-option>
         </el-select>
       </el-form-item>
+      <el-form-item label="创建时间:" prop="email">
+        <el-date-picker
+          style="width: 250px;"
+          v-model="queryForm.createTime"
+          type="daterange"
+          format="YYYY-MM-DD"
+          value-format="YYYY-MM-DD"
+          start-placeholder="开始时间"
+          end-placeholder="结束时间"
+          unlink-panels
+        ></el-date-picker>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="icon-search" @click="handleSearch">搜索</el-button>
         <el-button type="info" icon="icon-refresh" @click="handleReset">重置</el-button>
@@ -147,32 +168,26 @@ getMenuList()
 
     <div class="operate_btn_group">
       <el-button type="primary" icon="icon-plus" plain @click="handleOperate('add')">新增</el-button>
-      <el-button type="info" icon="icon-switch" plain @click="handleCollapse">展开/折叠</el-button>
     </div>
 
     <el-table
-      class="menu_list_table"
-      ref="menuTableRef"
+      class="user_list_table"
       height="100%"
-      :data="menuList"
+      :data="userList"
       :header-cell-style="{
         background: '#F8F8F9',
         color: '#666'
       }"
       row-key="id"
-      :indent="0"
-      @row-click="handleTableRowClick"
     >
-      <el-table-column label="菜单标题" prop="title" align="left" min-width="150" show-overflow-tooltip>
+      <el-table-column label="用户编号" prop="id" align="center" min-width="80">
         <template #default="scope">
-          <span>{{ scope.row.title }}</span>
+          <span>{{ scope.row.id }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="菜单类型" prop="type" align="center" min-width="80">
+      <el-table-column label="用户名称" prop="username" align="center" min-width="120">
         <template #default="scope">
-          <span v-if="scope.row.type === 'directory'">目录</span>
-          <span v-if="scope.row.type === 'menu'">菜单</span>
-          <span v-if="scope.row.type === 'button'">按钮</span>
+          <span>{{ scope.row.username }}</span>
         </template>
       </el-table-column>
       <el-table-column label="排序" prop="sort" align="center" min-width="80">
@@ -180,19 +195,50 @@ getMenuList()
           <span>{{ scope.row.sort }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="图标" prop="icon" align="center" min-width="80">
+      <el-table-column label="用户昵称" prop="nickname" align="center" min-width="150">
         <template #default="scope">
-          <svg-icon style="margin-top: 4px;" :name="scope.row.icon" color="#666" :size="scope.row.iconSize"></svg-icon>
+          <span>{{ scope.row.nickname }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="权限字符" prop="perms" align="center" min-width="200">
+      <el-table-column label="用户头像" prop="avatar" align="center" min-width="100">
         <template #default="scope">
-          <span>{{ scope.row.perms }}</span>
+          <el-avatar style="position: relative; top: 3px;" :size="30" :src="scope.row.avatar" />
         </template>
       </el-table-column>
-      <el-table-column label="组价路径" prop="component" align="center" min-width="250" show-overflow-tooltip>
+      <el-table-column label="用户性别" prop="sex" align="center" min-width="100">
         <template #default="scope">
-          <span>{{ scope.row.component }}</span>
+          <span v-if="scope.row.sex === '1'">男</span>
+          <span v-if="scope.row.sex === '0'">女</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="手机号码" prop="phone" align="center" min-width="120">
+        <template #default="scope">
+          <span>{{ scope.row.phone }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="邮箱" prop="email" align="center" min-width="180">
+        <template #default="scope">
+          <span>{{ scope.row.email }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="所属角色" prop="roles" align="center" min-width="150">
+        <template #default="scope">
+          <span>{{ scope.row.roles.map(item => item.name) }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="所属部门" prop="dept" align="center" min-width="180">
+        <template #default="scope">
+          <span>{{ scope.row.dept.name }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="所属岗位" prop="post" align="center" min-width="180">
+        <template #default="scope">
+          <span>{{ scope.row.post.name }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="备注" prop="remark" align="center" min-width="200">
+        <template #default="scope">
+          <span>{{ scope.row.remark }}</span>
         </template>
       </el-table-column>
       <el-table-column label="状态" prop="status" align="center" min-width="80">
@@ -211,10 +257,9 @@ getMenuList()
           <span>{{ scope.row.createTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" prop="" align="center" width="200">
+      <el-table-column label="操作" prop="" align="center" width="140">
         <template #default="scope">
           <div style="display: flex; align-items: center; justify-content: center;">
-            <el-button style="padding: 0 0;" type="primary" text icon="icon-plus" @click.stop="handleOperate('add', scope.row)">新增</el-button>
             <el-button style="padding: 0 0;" type="primary" text icon="icon-edit" @click.stop="handleOperate('edit', scope.row)">修改</el-button>
             <el-button style="padding: 0 0;" type="primary" text icon="icon-delete" @click.stop="handleDelete(scope.row)">删除</el-button>
           </div>
@@ -223,7 +268,7 @@ getMenuList()
     </el-table>
 
     <el-pagination
-      class="menu_list_pagination"
+      class="user_list_pagination"
       background
       layout="total, sizes, prev, pager, next, jumper"
       v-model:current-page="queryForm.pageNum"
@@ -237,14 +282,14 @@ getMenuList()
   <AddOrModify
     v-model="showAddOrModifyDialog"
     :type="dialogType"
-    :menuTree="menuList"
+    :userTree="userList"
     :row="currRow"
     @success="handleAddOrModifySuccess"
   />
 </template>
 
 <style scoped lang="scss">
-.menu_page {
+.user_page {
   padding: 20px 20px;
   display: flex;
   flex-direction: column;
@@ -253,11 +298,11 @@ getMenuList()
     margin-top: 10px;
   }
 
-  .menu_list_table {
+  .user_list_table {
     margin-top: 10px;
   }
 
-  .menu_list_pagination {
+  .user_list_pagination {
     margin-top: 10px;
     justify-content: flex-end;
   }

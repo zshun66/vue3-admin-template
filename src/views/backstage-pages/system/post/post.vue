@@ -29,7 +29,8 @@ const initQueryForm = function() {
 
 // 获取岗位列表
 const getPostList = async function() {
-  const { result } = await reqPostList(queryForm.value)
+  const params = JSON.parse(JSON.stringify(queryForm.value))
+  const { result } = await reqPostList(params)
   if (!result) return
   postList.value = result.data || []
   dataTotal.value = result.total || 0

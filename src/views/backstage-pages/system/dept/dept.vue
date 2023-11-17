@@ -30,7 +30,8 @@ const initQueryForm = function() {
 
 // 获取部门列表
 const getDeptList = async function() {
-  const { result } = await reqDeptList(queryForm.value)
+  const params = JSON.parse(JSON.stringify(queryForm.value))
+  const { result } = await reqDeptList(params)
   if (!result) return
   deptList.value = result.data || []
   dataTotal.value = result.total || 0

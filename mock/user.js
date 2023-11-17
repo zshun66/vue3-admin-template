@@ -26,7 +26,7 @@ export default [
 			}
 		},
 	},
-	// 获取用户信息
+	// 获取用户详细信息
 	{
 		url: '/dev-api/user/info',
 		method: 'get',
@@ -48,5 +48,18 @@ export default [
 				message: '操作成功'
 			}
 		},
+	},
+	// 获取用户列表
+	{
+		url: '/dev-api/user/list',
+		method: 'get',
+		response: (request) => {
+			return {
+				code: 200,
+				data: userData,
+				total: userData.length,
+				message: '操作成功'
+			}
+		}
 	},
 ]

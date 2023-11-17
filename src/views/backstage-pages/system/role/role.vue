@@ -28,7 +28,8 @@ const initQueryForm = function() {
 
 // 获取角色列表
 const getRoleList = async function() {
-  const { result } = await reqRoleList(queryForm.value)
+  const params = JSON.parse(JSON.stringify(queryForm.value))
+  const { result } = await reqRoleList(params)
   if (!result) return
   roleList.value = result.data || []
   dataTotal.value = result.total || 0
