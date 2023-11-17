@@ -282,7 +282,6 @@ getUserList()
   <AddOrModify
     v-model="showAddOrModifyDialog"
     :type="dialogType"
-    :userTree="userList"
     :row="currRow"
     @success="handleAddOrModifySuccess"
   />

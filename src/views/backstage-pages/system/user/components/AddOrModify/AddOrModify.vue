@@ -1,4 +1,8 @@
-<script setup name="system:menu:AddOrModify">
+<script setup name="system:user:AddOrModify">
+import { reqRoleList } from '@/api/system/role.js'
+import { reqDeptList } from '@/api/system/dept.js'
+import { reqPostList } from '@/api/system/post.js'
+
 const $props = defineProps({
   modelValue: {
     type: Boolean,
@@ -7,10 +11,6 @@ const $props = defineProps({
   type: {
     type: String,
     default: 'add'
-  },
-  menuTree: {
-    type: Array,
-    default: () => ([])
   },
   row: {
     type: Object,
@@ -31,95 +31,104 @@ const showDialog = computed({
     $emits('update:modelValue', value)
   }
 })
+// 角色数据
+const roleList = ref([])
+// 部门数据
+const deptList = ref([])
+// 岗位数据
+const postList = ref([])
 // 表单数据
 const formData = ref(null)
 // 表单数据验证规则
 const formDataRules = ref({
-  parentId: [
-    { required: true, message: '请选择父级菜单', trigger: 'change' }
+  username: [
+    { required: true, message: '请输入用户名称', trigger: 'blur' }
   ],
-  type: [
-    { required: true, message: '请选择菜单类型', trigger: 'change' }
+  password: [
+    { required: true, message: '请输入用户密码', trigger: 'blur' }
   ],
   sort: [
     { required: true, message: '请输入显示排序', trigger: 'blur' }
   ],
-  title: [
-    { required: true, message: '请输入菜单标题', trigger: 'blur' }
+  avatar: [
+    { required: true, message: '请选择用户头像', trigger: 'change' }
   ],
-  icon: [
-    { required: true, message: '请输入菜单图标', trigger: 'blur' }
+  nickname: [
+    { required: true, message: '请输入用户昵称', trigger: 'blur' }
   ],
-  iconSize: [
-    { required: true, message: '请输入图标大小', trigger: 'blur' }
+  sex: [
+    { required: true, message: '请选择用户性别', trigger: 'change' }
   ],
-  isLink: [
-    { required: true, message: '请选择是否外链', trigger: 'change' }
+  phone: [
+    { required: true, message: '请输入用户电话号码', trigger: 'blur' }
   ],
-  path: [
-    { required: true, message: '请输入路由路径', trigger: 'blur' }
+  email: [
+    { required: true, message: '请输入用户邮箱', trigger: 'blur' }
   ],
-  name: [
-    { required: true, message: '请输入路由名称', trigger: 'blur' }
+  roleIds: [
+    { required: true, message: '请选择用户所属角色', trigger: 'change' }
   ],
-  component: [
-    { required: true, message: '请输入组件路径', trigger: 'blur' }
+  deptId: [
+    { required: true, message: '请选择用户所属部门', trigger: 'change' }
   ],
-  perms: [
-    { required: true, message: '请输入权限字符', trigger: 'blur' }
-  ],
-  isCache: [
-    { required: true, message: '请选择是否缓存', trigger: 'change' }
-  ],
-  isVisible: [
-    { required: true, message: '请选择显示状态', trigger: 'change' }
-  ],
-  isClearable: [
-    { required: true, message: '请选择关闭状态', trigger: 'change' }
+  postId: [
+    { required: true, message: '请选择用户所属岗位', trigger: 'change' }
   ],
   status: [
-    { required: true, message: '请选择菜单状态', trigger: 'change' }
+    { required: true, message: '请选择用户状态', trigger: 'change' }
   ],
-})
-// 菜单树形数据
-const menuTreeData = computed(() => {
-  const result = [{}]
-  result[0]['id'] = 0
-  result[0]['title'] = '主类目'
-  result[0]['children'] = $props.menuTree
-  return result
+  remark: [],
 })
 // 表单实例
 const addOrModifyFormRef = ref(null)
-// 菜单树选择器实例
-const menuTreeSelectRef = ref(null)
+// 部门树形组件实例
+const deptTreeSelectRef = ref(null)
 
 
 // 初始化表单数据
 const initFormData = function() {
   formData.value = {
-    parentId: 0,
-    type: 'directory',
+    username: '',
+    password: '',
     sort: null,
-    title: '',
-    icon: '',
-    iconSize: '20px',
-    isLink: '0',
-    path: '',
-    name: '',
-    component: '',
-    perms: '',
-    isCache: '1',
-    isVisible: '1',
-    isClearable: '1',
+    avatar: '',
+    nickname: '',
+    sex: '1',
+    phone: '',
+    email: '',
+    roleIds: [],
+    deptId: '',
+    postId: '',
     status: '1',
+    remark: '',
   }
 }
 
-// 当前选中节点变化时触发的事件
-const handleTreeSelectCurrentChange = function(data, node) {
-  formData.value.parentId = data.id
-  menuTreeSelectRef.value.blur()
+// 获取角色列表
+const getRoleList = async function() {
+  if (roleList.value.length > 0) return
+  const params = {}
+  const { result } = await reqRoleList(params)
+  if (!result) return
+  roleList.value = result.data || []
+}
+
+// 获取部门列表
+const getDeptList = async function() {
+  if (deptList.value.length > 0) return
+  const params = {}
+  const { result } = await reqDeptList(params)
+  if (!result) return
+  deptList.value = result.data || []
+}
+
+// 获取岗位列表
+const getPostList = async function() {
+  if (postList.value.length > 0) return
+  const params = {}
+  const { result } = await reqPostList(params)
+  if (!result) return
+  postList.value = result.data || []
 }
 
 // 取消
@@ -139,12 +148,18 @@ const handleConfirm = async function() {
 
 // 打开弹框时
 const handleDialogOpen = function() {
+  getRoleList()
+  getDeptList()
+  getPostList()
   if ($props.type === 'add') {
-    formData.value.parentId = ($props.row && $props.row.id) || 0
+    
   } else if ($props.type === 'edit') {
     for (let key in formData.value) {
       formData.value[key] = $props.row[key]
     }
+    formData.value['roleIds'] = $props.row['roles'].map(item => item.id)
+    formData.value['deptId'] = $props.row['dept'].id
+    formData.value['postId'] = $props.row['post'].id
   }
 }
 
@@ -152,6 +167,12 @@ const handleDialogOpen = function() {
 const handleDialogClosed = function() {
   initFormData()
   addOrModifyFormRef.value.resetFields()
+}
+
+// 当前所属部门选中节点变化时触发的事件
+const handleTreeSelectCurrentChange = function(data, node) {
+  formData.value.deptId = data.id
+  deptTreeSelectRef.value.blur()
 }
 
 initFormData()
@@ -171,39 +192,33 @@ initFormData()
     >
       <template #header>
         <div v-if="type === 'add'">
-          <span>添加菜单</span>
+          <span>添加用户</span>
           <span style="color: #f00;">(*为必填项)</span>
         </div>
         <div v-if="type === 'edit'">
-          <span>修改菜单</span>
+          <span>修改用户</span>
           <span style="color: #f00;">(*为必填项)</span>
         </div>
       </template>
 
       <el-form class="form" ref="addOrModifyFormRef" :model="formData" :rules="formDataRules" label-width="auto">
-        <el-form-item label="父级菜单:" prop="parentId">
-          <el-tree-select
+        <el-form-item label="用户名称:" prop="username">
+          <el-input
             class="form_width"
-            ref="menuTreeSelectRef"
-            v-model="formData.parentId"
-            :data="menuTreeData"
-            node-key="id"
-            render-after-expand
-            :expand-on-click-node="false"
-            :props="{
-              label: 'title',
-              children: 'children'
-            }"
-            placeholder="请选择上级菜单"
-            @current-change="handleTreeSelectCurrentChange"
-          ></el-tree-select>
+            v-model="formData.username"
+            clearable
+            placeholder="请输入用户名称"
+          ></el-input>
         </el-form-item>
-        <el-form-item label="菜单类型:" prop="type">
-          <el-select class="form_width" v-model="formData.type">
-            <el-option label="目录" value="directory"></el-option>
-            <el-option label="菜单" value="menu"></el-option>
-            <el-option label="按钮" value="button"></el-option>
-          </el-select>
+        <el-form-item label="用户密码:" prop="password">
+          <el-input
+            class="form_width"
+            v-model="formData.password"
+            type="password"
+            clearable
+            show-password
+            placeholder="请输入用户密码"
+          ></el-input>
         </el-form-item>
         <el-form-item label="显示排序:" prop="sort">
           <el-input-number
@@ -215,91 +230,115 @@ initFormData()
             placeholder="请输入显示排序"
           ></el-input-number>
         </el-form-item>
-        <el-form-item label="菜单标题:" prop="title">
+        <el-form-item label="用户头像:" prop="avatar">
+          <el-avatar
+            style="margin-right: 8px; cursor: pointer;"
+            :size="30"
+            :src="formData.avatar"
+          />
           <el-input
-            class="form_width"
-            v-model="formData.title"
+            style="width: 80%;"
+            v-model="formData.avatar"
             clearable
-            placeholder="请输入菜单标题"
+            readonly
+            placeholder="请选择用户头像"
           ></el-input>
         </el-form-item>
-        <el-form-item label="菜单图标:" prop="icon" v-if="formData.type !== 'button'">
+        <el-form-item label="用户昵称:" prop="nickname">
           <el-input
             class="form_width"
-            v-model="formData.icon"
+            v-model="formData.nickname"
             clearable
-            placeholder="请输入菜单图标"
+            placeholder="请输入用户昵称"
           ></el-input>
         </el-form-item>
-        <el-form-item label="图标大小:" prop="iconSize" v-if="formData.type !== 'button'">
-          <el-input
-            class="form_width"
-            v-model="formData.iconSize"
-            clearable
-            placeholder="请输入图标大小"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="是否外链:" prop="isLink" v-if="formData.type === 'menu'">
-          <el-select class="form_width" v-model="formData.isLink">
-            <el-option label="是" value="1"></el-option>
-            <el-option label="否" value="0"></el-option>
+        <el-form-item label="用户性别:" prop="sex">
+          <el-select class="form_width" v-model="formData.sex">
+            <el-option label="男" value="1"></el-option>
+            <el-option label="女" value="0"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="路由名称:" prop="name" v-if="formData.type !== 'button'">
+        <el-form-item label="电话号码:" prop="phone">
           <el-input
             class="form_width"
-            v-model="formData.name"
+            v-model="formData.phone"
             clearable
-            placeholder="请输入路由名称"
+            placeholder="请输入用户电话号码"
           ></el-input>
         </el-form-item>
-        <el-form-item label="路由路径:" prop="path" v-if="formData.type !== 'button'">
+        <el-form-item label="用户邮箱:" prop="email">
           <el-input
             class="form_width"
-            v-model="formData.path"
+            v-model="formData.email"
             clearable
-            placeholder="请输入路由路径"
+            placeholder="请输入用户邮箱"
           ></el-input>
         </el-form-item>
-        <el-form-item label="权限字符:" prop="perms">
-          <el-input
+        <el-form-item label="所属角色:" prop="roleIds">
+          <el-select
             class="form_width"
-            v-model="formData.perms"
-            clearable
-            placeholder="请输入权限字符"
-          ></el-input>
-        </el-form-item>
-        <el-form-item style="width: 100%;" label="组件路径:" prop="component" v-if="formData.type === 'menu'">
-          <el-input
-            class="form_width"
-            v-model="formData.component"
-            clearable
-            placeholder="请输入组件路径"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="显隐状态:" prop="isVisible" v-if="formData.type !== 'button'">
-          <el-select class="form_width" v-model="formData.isVisible">
-            <el-option label="显示" value="1"></el-option>
-            <el-option label="隐藏" value="0"></el-option>
+            v-model="formData.roleIds"
+            placeholder="请选择用户所属角色"
+            multiple
+            collapse-tags
+            filterable
+          >
+            <el-option
+              v-for="(role, index) in roleList"
+              :key="index"
+              :label="role.name"
+              :value="role.id"
+            ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="是否缓存:" prop="isCache" v-if="formData.type !== 'button'">
-          <el-select class="form_width" v-model="formData.isCache">
-            <el-option label="是" value="1"></el-option>
-            <el-option label="否" value="0"></el-option>
+        <el-form-item label="所属部门:" prop="deptId">
+          <el-tree-select
+            class="form_width"
+            ref="deptTreeSelectRef"
+            v-model="formData.deptId"
+            :data="deptList"
+            node-key="id"
+            render-after-expand
+            :expand-on-click-node="false"
+            :props="{
+              label: 'name',
+              children: 'children'
+            }"
+            filterable
+            placeholder="请选择用户所属部门"
+            @current-change="handleTreeSelectCurrentChange"
+          ></el-tree-select>
+        </el-form-item>
+        <el-form-item label="所属岗位:" prop="postId">
+          <el-select
+            class="form_width"
+            v-model="formData.postId"
+            placeholder="请选择用户所属岗位"
+            filterable
+          >
+            <el-option
+              v-for="(post, index) in postList"
+              :key="index"
+              :label="post.name"
+              :value="post.id"
+            ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="可否关闭:" prop="isClearable" v-if="formData.type !== 'button'">
-          <el-select class="form_width" v-model="formData.isClearable">
-            <el-option label="是" value="1"></el-option>
-            <el-option label="否" value="0"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="菜单状态:" prop="status">
+        <el-form-item label="用户状态:" prop="status">
           <el-select class="form_width" v-model="formData.status">
             <el-option label="正常" value="1"></el-option>
             <el-option label="禁用" value="0"></el-option>
           </el-select>
+        </el-form-item>
+        <el-form-item style="width: 100%;" label="备注:" prop="remark">
+          <el-input
+            class="form_width"
+            v-model="formData.remark"
+            type="textarea"
+            :autosize="{ minRows: 2, maxRows: 3 }"
+            clearable
+            placeholder="请输入备注"
+          ></el-input>
         </el-form-item>
       </el-form>
 
