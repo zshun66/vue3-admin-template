@@ -38,56 +38,18 @@ const formDataRules = ref({
   parentId: [
     { required: true, message: '请选择父级部门', trigger: 'change' }
   ],
-  type: [
-    { required: true, message: '请选择部门类型', trigger: 'change' }
-  ],
   sort: [
     { required: true, message: '请输入显示排序', trigger: 'blur' }
   ],
-  title: [
-    { required: true, message: '请输入部门标题', trigger: 'blur' }
-  ],
-  icon: [
-    { required: true, message: '请输入部门图标', trigger: 'blur' }
-  ],
-  iconSize: [
-    { required: true, message: '请输入图标大小', trigger: 'blur' }
-  ],
-  isLink: [
-    { required: true, message: '请选择是否外链', trigger: 'change' }
-  ],
-  path: [
-    { required: true, message: '请输入路由路径', trigger: 'blur' }
-  ],
   name: [
-    { required: true, message: '请输入路由名称', trigger: 'blur' }
+    { required: true, message: '请输入部门名称', trigger: 'blur' }
   ],
-  component: [
-    { required: true, message: '请输入组件路径', trigger: 'blur' }
-  ],
-  perms: [
-    { required: true, message: '请输入权限字符', trigger: 'blur' }
-  ],
-  isCache: [
-    { required: true, message: '请选择是否缓存', trigger: 'change' }
-  ],
-  isVisible: [
-    { required: true, message: '请选择显示状态', trigger: 'change' }
-  ],
-  isClearable: [
-    { required: true, message: '请选择关闭状态', trigger: 'change' }
-  ],
+  head: [],
+  telephone: [],
+  email: [],
   status: [
     { required: true, message: '请选择部门状态', trigger: 'change' }
   ],
-})
-// 部门树形数据
-const deptTreeData = computed(() => {
-  const result = [{}]
-  result[0]['id'] = 0
-  result[0]['title'] = '主类目'
-  result[0]['children'] = $props.deptTree
-  return result
 })
 // 表单实例
 const addOrModifyFormRef = ref(null)
@@ -98,20 +60,12 @@ const deptTreeSelectRef = ref(null)
 // 初始化表单数据
 const initFormData = function() {
   formData.value = {
-    parentId: 0,
-    type: 'directory',
+    parentId: '',
     sort: null,
-    title: '',
-    icon: '',
-    iconSize: '20px',
-    isLink: '0',
-    path: '',
     name: '',
-    component: '',
-    perms: '',
-    isCache: '1',
-    isVisible: '1',
-    isClearable: '1',
+    head: '',
+    telephone: '',
+    email: '',
     status: '1',
   }
 }
@@ -140,7 +94,7 @@ const handleConfirm = async function() {
 // 打开弹框时
 const handleDialogOpen = function() {
   if ($props.type === 'add') {
-    formData.value.parentId = ($props.row && $props.row.id) || 0
+    formData.value.parentId = ($props.row && $props.row.id) || ''
   } else if ($props.type === 'edit') {
     for (let key in formData.value) {
       formData.value[key] = $props.row[key]
@@ -181,17 +135,17 @@ initFormData()
       </template>
 
       <el-form class="form" ref="addOrModifyFormRef" :model="formData" :rules="formDataRules" label-width="auto">
-        <el-form-item label="父级部门:" prop="parentId">
+        <el-form-item style="width: 100%;" label="父级部门:" prop="parentId">
           <el-tree-select
             class="form_width"
             ref="deptTreeSelectRef"
             v-model="formData.parentId"
-            :data="deptTreeData"
+            :data="deptTree"
             node-key="id"
             render-after-expand
             :expand-on-click-node="false"
             :props="{
-              label: 'title',
+              label: 'name',
               children: 'children'
             }"
             placeholder="请选择上级部门"
@@ -208,18 +162,42 @@ initFormData()
             placeholder="请输入显示排序"
           ></el-input-number>
         </el-form-item>
-        <el-form-item label="部门标题:" prop="title">
+        <el-form-item label="部门名称:" prop="name">
           <el-input
             class="form_width"
-            v-model="formData.title"
+            v-model="formData.name"
             clearable
-            placeholder="请输入部门标题"
+            placeholder="请输入部门名称"
           ></el-input>
         </el-form-item>
-        <el-form-item label="显隐状态:" prop="isVisible" v-if="formData.type !== 'button'">
-          <el-select class="form_width" v-model="formData.isVisible">
-            <el-option label="显示" value="1"></el-option>
-            <el-option label="隐藏" value="0"></el-option>
+        <el-form-item label="负责人:" prop="head">
+          <el-input
+            class="form_width"
+            v-model="formData.head"
+            clearable
+            placeholder="请输入负责人"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="联系电话:" prop="telephone">
+          <el-input
+            class="form_width"
+            v-model="formData.telephone"
+            clearable
+            placeholder="请输入联系电话"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱:" prop="email">
+          <el-input
+            class="form_width"
+            v-model="formData.email"
+            clearable
+            placeholder="请输入邮箱"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="部门状态:" prop="status">
+          <el-select class="form_width" v-model="formData.status">
+            <el-option label="正常" value="1"></el-option>
+            <el-option label="禁用" value="0"></el-option>
           </el-select>
         </el-form-item>
       </el-form>

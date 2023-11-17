@@ -117,7 +117,7 @@ getDeptList()
 </script>
 
 <template>
-  <div class="page_container menu_page">
+  <div class="page_container dept_page">
     <el-form :model="queryForm" label-width="auto" inline>
       <el-form-item label="部门名称:" prop="name">
         <el-input
@@ -150,7 +150,7 @@ getDeptList()
     </div>
 
     <el-table
-      class="menu_list_table"
+      class="dept_list_table"
       ref="deptTableRef"
       height="100%"
       :data="deptList"
@@ -162,29 +162,29 @@ getDeptList()
       :indent="0"
       @row-click="handleTableRowClick"
     >
-      <el-table-column label="部门名称" prop="name" align="left" min-width="150" show-overflow-tooltip>
+      <el-table-column label="部门名称" prop="name" align="left" min-width="240" show-overflow-tooltip>
         <template #default="scope">
           <span>{{ scope.row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="排序" prop="sort" align="center" min-width="80">
+      <el-table-column label="排序" prop="sort" align="center" min-width="60">
         <template #default="scope">
           <span>{{ scope.row.sort }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="图标" prop="icon" align="center" min-width="80">
+      <el-table-column label="负责人" prop="head" align="center" min-width="100">
         <template #default="scope">
-          <svg-icon style="margin-top: 4px;" :name="scope.row.icon" color="#666" :size="scope.row.iconSize"></svg-icon>
+          <span>{{ scope.row.head }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="权限字符" prop="perms" align="center" min-width="200">
+      <el-table-column label="联系电话" prop="telephone" align="center" min-width="120">
         <template #default="scope">
-          <span>{{ scope.row.perms }}</span>
+          <span>{{ scope.row.telephone }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="组价路径" prop="component" align="center" min-width="250" show-overflow-tooltip>
+      <el-table-column label="邮箱" prop="email" align="center" min-width="200">
         <template #default="scope">
-          <span>{{ scope.row.component }}</span>
+          <span>{{ scope.row.email }}</span>
         </template>
       </el-table-column>
       <el-table-column label="状态" prop="status" align="center" min-width="80">
@@ -215,7 +215,7 @@ getDeptList()
     </el-table>
 
     <el-pagination
-      class="menu_list_pagination"
+      class="dept_list_pagination"
       background
       layout="total, sizes, prev, pager, next, jumper"
       v-model:current-page="queryForm.pageNum"
@@ -229,14 +229,14 @@ getDeptList()
   <AddOrModify
     v-model="showAddOrModifyDialog"
     :type="dialogType"
-    :menuTree="deptList"
+    :deptTree="deptList"
     :row="currRow"
     @success="handleAddOrModifySuccess"
   />
 </template>
 
 <style scoped lang="scss">
-.menu_page {
+.dept_page {
   padding: 20px 20px;
   display: flex;
   flex-direction: column;
@@ -245,11 +245,11 @@ getDeptList()
     margin-top: 10px;
   }
 
-  .menu_list_table {
+  .dept_list_table {
     margin-top: 10px;
   }
 
-  .menu_list_pagination {
+  .dept_list_pagination {
     margin-top: 10px;
     justify-content: flex-end;
   }
