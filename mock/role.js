@@ -3,7 +3,7 @@ import roleData from '../mockData/role.js'
 export default [
 	// 获取角色列表
 	{
-		url: '/dev-api/role/list',
+		url: '/dev-api/system/role/list',
 		method: 'get',
 		response: (request) => {
 			return {

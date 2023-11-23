@@ -1,7 +1,8 @@
 import request from '@/utils/request.js'
 
 const API = {
-	POSTLIST_URL: '/post/list',
+	// 岗位列表
+	POSTLIST_URL: '/system/post/list',
 }
 
 // 获取岗位列表

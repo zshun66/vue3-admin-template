@@ -3,7 +3,7 @@ import userData from '../mockData/user.js'
 export default [
 	// 用户登录接口
 	{
-		url: '/dev-api/user/login',
+		url: '/dev-api/system/user/login',
 		method: 'post',
 		response: ({ body }) => {
 			const { username, password } = body
@@ -28,7 +28,7 @@ export default [
 	},
 	// 获取用户详细信息
 	{
-		url: '/dev-api/user/info',
+		url: '/dev-api/system/user/info',
 		method: 'get',
 		response: (request) => {
 			const token = request.headers.authorization.substr(7, 100)
@@ -51,7 +51,7 @@ export default [
 	},
 	// 获取用户列表
 	{
-		url: '/dev-api/user/list',
+		url: '/dev-api/system/user/list',
 		method: 'get',
 		response: (request) => {
 			return {

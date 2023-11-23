@@ -192,6 +192,19 @@ const menuList = [
         name: 'system:user',
         component: 'backstage-pages/system/user/user',
         perms: 'system:user:page',
+      }),
+      Object.assign(deepCopy(menuItemObj), {
+        parentId: 2,
+        parentTitle: '系统管理',
+        id: 26,
+        sort: 60,
+        type: 'menu',
+        title: '字典管理',
+        icon: 'user1',
+        path: 'system/dict',
+        name: 'system:dict',
+        component: 'backstage-pages/system/dict/dict',
+        perms: 'system:dict:page',
       })
     ]
   })

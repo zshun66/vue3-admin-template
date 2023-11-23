@@ -1,0 +1,247 @@
+<script setup name="system:dict">
+import TypeAddOrModify from './components/TypeAddOrModify/TypeAddOrModify.vue'
+import DictTypeDetail from './components/DictTypeDetail/DictTypeDetail.vue'
+import { reqDictTypeList } from '@/api/system/dict.js'
+
+// 查询参数
+const queryForm = ref({})
+// 字典类型列表数据
+const dictList = ref([])
+// 字典类型数据总数
+const dataTotal = ref(0)
+// 是否显示字典类型添加/修改弹框
+const showTypeAddOrModifyDialog = ref(false)
+// 是否显示字典类型详情弹框
+const showDictTypeDetailDialog = ref(false)
+// 添加/修改弹框类型(add添加、edit修改)
+const dialogType = ref('add')
+// 当前操作的行对象
+const currRow = ref({})
+
+
+// 初始化查询参数
+const initQueryForm = function() {
+  queryForm.value = {
+    pageNum: 1,
+    pageSize: 100,
+    name: '', // 字典名称
+    type: '', // 字典类型
+    status: '', // 字典状态
+  }
+}
+
+// 获取字典类型列表
+const getDictList = async function() {
+  const params = JSON.parse(JSON.stringify(queryForm.value))
+  const { result } = await reqDictTypeList(params)
+  if (!result) return
+  dictList.value = result.data || []
+  dataTotal.value = result.total || 0
+}
+
+// 搜索
+const handleSearch = function() {
+  queryForm.value.pageNum = 1
+  getDictList()
+}
+
+// 重置
+const handleReset = function() {
+  initQueryForm()
+  getDictList()
+}
+
+// 分页器页码改变时
+const handlePaginationCurrChange = function(page) {
+  queryForm.value.pageNum = page
+  getDictList()
+}
+
+// 分页器页数大小改变时
+const handlePaginationSizeChange = function(size) {
+  queryForm.value.pageSize = size
+  getDictList()
+}
+
+// 处理操作
+const handleOperate = function(type, row) {
+  dialogType.value = type
+  currRow.value = row
+  showTypeAddOrModifyDialog.value = true
+}
+
+// 删除
+const handleDelete = function(row) {
+  ElMessageBox.confirm('确认删除该字典?', '提示', {
+    type: 'warning',
+    beforeClose: (action, instance, done) => {
+      if (action === 'confirm') {
+        instance.confirmButtonLoading = true
+        setTimeout(() => {
+          instance.confirmButtonLoading = false
+          ElMessage.success('操作成功')
+          done()
+          getDictList()
+        }, 2000)
+      } else if (action !== 'confirm') {
+        if (!instance.confirmButtonLoading) done()
+      }
+    }
+  }).catch(err => {})
+}
+
+// 添加/修改成功
+const handleAddOrModifySuccess = function() {
+  getDictList()
+}
+
+// 点击字典详情
+const handleClickDictType = function(row) {
+  currRow.value = row
+  showDictTypeDetailDialog.value = true
+}
+
+initQueryForm()
+getDictList()
+</script>
+
+<template>
+  <div class="page_container dict_page">
+    <el-form :model="queryForm" label-width="auto" inline>
+      <el-form-item label="字典名称:" prop="name">
+        <el-input
+          style="width: 200px;"
+          v-model="queryForm.name"
+          clearable
+          placeholder="请输入字典名称"
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="字典类型:" prop="type">
+        <el-input
+          style="width: 200px;"
+          v-model="queryForm.type"
+          clearable
+          placeholder="请输入字典类型"
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="字典状态:" prop="status">
+        <el-select
+          style="width: 150px;"
+          v-model="queryForm.status"
+          clearable
+          placeholder="请选择"
+        >
+          <el-option label="正常" value="1"></el-option>
+          <el-option label="禁用" value="0"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" icon="icon-search" @click="handleSearch">搜索</el-button>
+        <el-button type="info" icon="icon-refresh" @click="handleReset">重置</el-button>
+      </el-form-item>
+    </el-form>
+
+    <div class="operate_btn_group">
+      <el-button type="primary" icon="icon-plus" plain @click="handleOperate('add')">新增</el-button>
+    </div>
+
+    <el-table
+      class="dict_list_table"
+      height="100%"
+      :data="dictList"
+      :header-cell-style="{
+        background: '#F8F8F9',
+        color: '#666'
+      }"
+      row-key="id"
+    >
+      <el-table-column label="字典编号" prop="id" align="center" min-width="120">
+        <template #default="scope">
+          <span>{{ scope.row.id }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="字典名称" prop="name" align="center" min-width="150">
+        <template #default="scope">
+          <span>{{ scope.row.name }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="字典类型" prop="type" align="center" min-width="200">
+        <template #default="scope">
+          <span style="color: #20a0ff; cursor: pointer;" @click="handleClickDictType(scope.row)">{{ scope.row.type }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="备注" prop="remark" align="center" min-width="200">
+        <template #default="scope">
+          <span>{{ scope.row.remark }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="状态" prop="status" align="center" min-width="100">
+        <template #default="scope">
+          <el-tag type="" v-if="scope.row.status === '1'">正常</el-tag>
+          <el-tag type="danger" v-if="scope.row.status === '0'">禁用</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column label="创建者" prop="creator" align="center" min-width="120">
+        <template #default="scope">
+          <span>{{ scope.row.creator }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="创建时间" prop="createTime" align="center" min-width="170">
+        <template #default="scope">
+          <span>{{ scope.row.createTime }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" prop="" align="center" width="160">
+        <template #default="scope">
+          <div style="display: flex; align-items: center; justify-content: center;">
+            <el-button style="padding: 0 0;" type="primary" text icon="icon-edit" @click.stop="handleOperate('edit', scope.row)">修改</el-button>
+            <el-button style="padding: 0 0;" type="primary" text icon="icon-delete" @click.stop="handleDelete(scope.row)">删除</el-button>
+          </div>
+        </template>
+      </el-table-column>
+    </el-table>
+
+    <el-pagination
+      class="dict_list_pagination"
+      background
+      layout="total, sizes, prev, pager, next, jumper"
+      v-model:current-page="queryForm.pageNum"
+      v-model:page-size="queryForm.pageSize"
+      :total="dataTotal"
+      @current-change="handlePaginationCurrChange"
+      @size-change="handlePaginationSizeChange"
+    />
+  </div>
+
+  <TypeAddOrModify
+    v-model="showTypeAddOrModifyDialog"
+    :type="dialogType"
+    :row="currRow"
+    @success="handleAddOrModifySuccess"
+  />
+  <DictTypeDetail
+    v-model="showDictTypeDetailDialog"
+    :row="currRow"
+  />
+</template>
+
+<style scoped lang="scss">
+.dict_page {
+  padding: 20px 20px;
+  display: flex;
+  flex-direction: column;
+
+  .operate_btn_group {
+    margin-top: 10px;
+  }
+
+  .dict_list_table {
+    margin-top: 10px;
+  }
+
+  .dict_list_pagination {
+    margin-top: 10px;
+    justify-content: flex-end;
+  }
+}
+</style>

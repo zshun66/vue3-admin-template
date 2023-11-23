@@ -3,7 +3,7 @@ import deptData from '../mockData/dept.js'
 export default [
 	// 获取菜单列表
 	{
-		url: '/dev-api/dept/list',
+		url: '/dev-api/system/dept/list',
 		method: 'get',
 		response: (request) => {
 			return {

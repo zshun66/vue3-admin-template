@@ -1,4 +1,4 @@
-<script setup name="system:post:AddOrModify">
+<script setup name="system:dict:DataAddOrModify">
 const $props = defineProps({
   modelValue: {
     type: Boolean,
@@ -31,30 +31,45 @@ const showDialog = computed({
 const formData = ref(null)
 // 表单数据验证规则
 const formDataRules = ref({
-  name: [
-    { required: true, message: '请输入岗位名称', trigger: 'blur' }
-  ],
-  code: [
-    { required: true, message: '请输入岗位编码', trigger: 'blur' }
+  type: [
+    { required: true, message: '请输入字典类型', trigger: 'blur' }
   ],
   sort: [
     { required: true, message: '请输入显示排序', trigger: 'blur' }
   ],
+  value: [
+    { required: true, message: '请输入数据键值', trigger: 'blur' }
+  ],
+  label: [
+    { required: true, message: '请输入数据标签', trigger: 'blur' }
+  ],
+  cssStyle: [],
   status: [
-    { required: true, message: '请选择岗位状态', trigger: 'change' }
+    { required: true, message: '请选择字典状态', trigger: 'change' }
   ],
   remark: [],
 })
+// 数据标签回显样式
+const cssStyleOptions = ref([
+  { value: 'default', label: '默认' }, 
+  { value: 'primary', label: '主要' }, 
+  { value: 'success', label: '成功' },
+  { value: 'info', label: '信息' },
+  { value: 'warning', label: '警告' },
+  { value: 'danger', label: '危险' }
+])
 // 表单实例
-const addOrModifyFormRef = ref(null)
+const dataAddOrModifyFormRef = ref(null)
 
 
 // 初始化表单数据
 const initFormData = function() {
   formData.value = {
-    name: '',
-    code: '',
+    type: '',
     sort: null,
+    value: '',
+    label: '',
+    cssStyle: '',
     status: '1',
     remark: ''
   }
@@ -67,7 +82,7 @@ const handleCancel = function() {
 
 // 确定
 const handleConfirm = async function() {
-  const valid = await addOrModifyFormRef.value.validate().catch(err => {})
+  const valid = await dataAddOrModifyFormRef.value.validate().catch(err => {})
   if (!valid) return
   console.log(formData.value)
   showDialog.value = false
@@ -89,17 +104,17 @@ const handleDialogOpen = function() {
 // 关闭弹框时
 const handleDialogClosed = function() {
   initFormData()
-  addOrModifyFormRef.value.resetFields()
+  dataAddOrModifyFormRef.value.resetFields()
 }
 
 initFormData()
 </script>
 
 <template>
-  <div class="comp_container addormodify_comp">
+  <div class="comp_container dataaddormodify_comp">
     <el-dialog
       v-model="showDialog"
-      width="650px"
+      width="450px"
       top="15vh"
       :append-to-body="false"
       :close-on-click-modal="false"
@@ -109,30 +124,23 @@ initFormData()
     >
       <template #header>
         <div v-if="type === 'add'">
-          <span>添加岗位</span>
+          <span>添加字典</span>
           <span style="color: #f00;">(*为必填项)</span>
         </div>
         <div v-if="type === 'edit'">
-          <span>修改岗位</span>
+          <span>修改字典</span>
           <span style="color: #f00;">(*为必填项)</span>
         </div>
       </template>
 
-      <el-form class="form" ref="addOrModifyFormRef" :model="formData" :rules="formDataRules" label-width="auto">
-        <el-form-item label="岗位名称:" prop="name">
+      <el-form class="form" ref="dataAddOrModifyFormRef" :model="formData" :rules="formDataRules" label-width="auto">
+        <el-form-item label="字典类型:" prop="type">
           <el-input
             class="form_width"
-            v-model="formData.name"
+            v-model="formData.type"
             clearable
-            placeholder="请输入岗位名称"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="岗位编码:" prop="code">
-          <el-input
-            class="form_width"
-            v-model="formData.code"
-            clearable
-            placeholder="请输入岗位编码"
+            disabled
+            placeholder="请输入字典类型"
           ></el-input>
         </el-form-item>
         <el-form-item label="显示排序:" prop="sort">
@@ -145,7 +153,38 @@ initFormData()
             placeholder="请输入显示排序"
           ></el-input-number>
         </el-form-item>
-        <el-form-item label="岗位状态:" prop="status">
+        <el-form-item label="数据键值:" prop="value">
+          <el-input
+            class="form_width"
+            v-model="formData.value"
+            clearable
+            placeholder="请输入数据键值"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="数据标签:" prop="label">
+          <el-input
+            class="form_width"
+            v-model="formData.label"
+            clearable
+            placeholder="请输入数据标签"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="回显样式:" prop="cssStyle">
+          <el-select
+            class="form_width"
+            v-model="formData.cssStyle"
+            filterable
+            placeholder="请选择"
+          >
+            <el-option
+              v-for="(item, index) in cssStyleOptions"
+              :key="index"
+              :value="item.value"
+              :label="`${item.label}(${item.value})`"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="字典状态:" prop="status">
           <el-select class="form_width" v-model="formData.status">
             <el-option label="正常" value="1"></el-option>
             <el-option label="禁用" value="0"></el-option>
@@ -156,7 +195,7 @@ initFormData()
             class="form_width"
             v-model="formData.remark"
             type="textarea"
-            :autosize="{ minRows: 2, maxRows: 3 }"
+            :autosize="{ minRows: 3, maxRows: 5 }"
             clearable
             placeholder="请输入备注"
           ></el-input>
@@ -172,7 +211,7 @@ initFormData()
 </template>
 
 <style scoped lang="scss">
-.addormodify_comp {
+.dataaddormodify_comp {
   .form {
     display: flex;
     flex-wrap: wrap;
@@ -183,7 +222,7 @@ initFormData()
     }
 
     :deep(.el-form-item) {
-      width: 48%;
+      width: 100%;
     }
 
     :deep(.el-input__inner) {
@@ -200,7 +239,8 @@ initFormData()
   }
 
   :deep(.el-dialog__body) {
-    padding: 20px 35px 20px 30px;
+    padding: 20px 35px 20px 30px !important;
+    height: auto !important;
   }
 
   :deep(.el-dialog__footer) {

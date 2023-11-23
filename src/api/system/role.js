@@ -1,7 +1,8 @@
 import request from '@/utils/request.js'
 
 const API = {
-	ROLELIST_URL: '/role/list',
+	// 角色列表
+	ROLELIST_URL: '/system/role/list',
 }
 
 // 获取角色列表

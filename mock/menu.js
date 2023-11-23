@@ -3,7 +3,7 @@ import menuData from '../mockData/menu.js'
 export default [
 	// 获取菜单列表
 	{
-		url: '/dev-api/menu/list',
+		url: '/dev-api/system/menu/list',
 		method: 'get',
 		response: (request) => {
 			return {

@@ -3,7 +3,7 @@ import postData from '../mockData/post.js'
 export default [
 	// 获取岗位列表
 	{
-		url: '/dev-api/post/list',
+		url: '/dev-api/system/post/list',
 		method: 'get',
 		response: (request) => {
 			return {

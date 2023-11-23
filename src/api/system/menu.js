@@ -1,7 +1,8 @@
 import request from '@/utils/request.js'
 
 const API = {
-	MENULIST_URL: '/menu/list',
+	// 菜单列表
+	MENULIST_URL: '/system/menu/list',
 }
 
 // 获取菜单列表

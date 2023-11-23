@@ -1,9 +1,12 @@
 import request from '@/utils/request.js'
 
 const API = {
-	LOGIN_URL: '/user/login',
-	USERINFO_URL: '/user/info',
-	USERLIST_URL: '/user/list',
+	// 用户登录
+	LOGIN_URL: '/system/user/login',
+	// 用户详细信息
+	USERINFO_URL: '/system/user/info',
+	// 用户列表
+	USERLIST_URL: '/system/user/list',
 }
 
 // 登录
