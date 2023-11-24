@@ -257,7 +257,7 @@ const menuList = [
         iconSize: '16px',
         path: 'system/log',
         name: 'system:log',
-        perms: 'system:log:manage',
+        perms: 'system:log',
         children: [
           Object.assign(deepCopy(menuItemObj), {
             parentId: 30,
@@ -266,12 +266,12 @@ const menuList = [
             sort: 10,
             type: 'menu',
             title: '操作日志',
-            icon: 'operatelog1',
+            icon: 'operlog1',
             iconSize: '21px',
             path: 'system/log/operate',
             name: 'system:log:operate',
-            component: 'backstage-pages/system/log/operate/operate',
-            perms: 'system:log:operate:page',
+            component: 'backstage-pages/system/operlog/operlog',
+            perms: 'system:operlog:page',
           }),
           Object.assign(deepCopy(menuItemObj), {
             parentId: 30,
@@ -284,8 +284,8 @@ const menuList = [
             iconSize: '18px',
             path: 'system/log/login',
             name: 'system:log:login',
-            component: 'backstage-pages/system/log/login/login',
-            perms: 'system:log:login:page',
+            component: 'backstage-pages/system/loginlog/loginlog',
+            perms: 'system:loginlog:page',
           }),
           Object.assign(deepCopy(menuItemObj), {
             parentId: 30,
@@ -298,8 +298,8 @@ const menuList = [
             iconSize: '16px',
             path: 'system/log/error',
             name: 'system:log:error',
-            component: 'backstage-pages/system/log/error/error',
-            perms: 'system:log:error:page',
+            component: 'backstage-pages/system/errorlog/errorlog',
+            perms: 'system:errorlog:page',
           }),
         ]
       })

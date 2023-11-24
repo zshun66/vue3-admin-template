@@ -1,14 +1,27 @@
-<script setup name="system:log:error">
-import { reqErrorLogList } from '@/api/system/errorlog.js'
+<script setup name="system:operlog">
+import { reqOperLogList } from '@/api/system/operlog.js'
 
+// 操作类型选项
+const operTypeOptions = ref([
+  { label: '新增', value: '1' },
+  { label: '修改', value: '2' },
+  { label: '删除', value: '3' },
+  { label: '授权', value: '4' },
+  { label: '导出', value: '5' },
+  { label: '导入', value: '6' },
+  { label: '强退', value: '7' },
+  { label: '生成代码', value: '8' },
+  { label: '清空数据', value: '9' },
+  { label: '其他', value: '0' },
+])
 // 查询参数
 const queryForm = ref({})
-// 错误日志列表数据
-const errorlogList = ref([])
-// 错误日志数据总数
+// 操作日志列表数据
+const operlogList = ref([])
+// 操作日志数据总数
 const dataTotal = ref(0)
 // 表格组件实例
-const errorlogTableRef = ref(null)
+const operlogTableRef = ref(null)
 // 选择的数据
 const selectRows = ref([])
 
@@ -17,59 +30,61 @@ const initQueryForm = function() {
   queryForm.value = {
     pageNum: 1,
     pageSize: 100,
-    userName: '', // 用户名称
-    ipAddr: '', // 错误地址
-    errorLoc: '', // 错误地点
-    status: '', // 错误状态
-    errorTime: [], // 错误时间
+    title: '', // 系统模块
+    operIp: '', // 操作地址
+    operLoc: '', // 操作地点
+    operName: '', // 操作人
+    operType: '', // 操作类型
+    status: '', // 操作状态
+    operTime: [], // 操作时间
   }
 }
 
-// 获取错误日志列表
-const getErrorLogList = async function() {
+// 获取操作日志列表
+const getOperLogList = async function() {
   const params = JSON.parse(JSON.stringify(queryForm.value))
-  const { result } = await reqErrorLogList(params)
+  const { result } = await reqOperLogList(params)
   if (!result) return
-  errorlogList.value = result.data || []
+  operlogList.value = result.data || []
   dataTotal.value = result.total || 0
 }
 
 // 搜索
 const handleSearch = function() {
   queryForm.value.pageNum = 1
-  getErrorLogList()
+  getOperLogList()
 }
 
 // 重置
 const handleReset = function() {
   initQueryForm()
-  getErrorLogList()
+  getOperLogList()
 }
 
 // 分页器页码改变时
 const handlePaginationCurrChange = function(page) {
   queryForm.value.pageNum = page
-  getErrorLogList()
+  getOperLogList()
 }
 
 // 分页器页数大小改变时
 const handlePaginationSizeChange = function(size) {
   queryForm.value.pageSize = size
-  getErrorLogList()
+  getOperLogList()
 }
 
 // 删除
 const handleDelete = function(row) {
-  ElMessageBox.confirm('确认删除所选错误日志?', '提示', {
+  ElMessageBox.confirm('确认删除所选操作日志?', '提示', {
     type: 'warning',
     beforeClose: (action, instance, done) => {
       if (action === 'confirm') {
         instance.confirmButtonLoading = true
         setTimeout(() => {
           instance.confirmButtonLoading = false
-          ElMessage.success('错误成功')
+          ElMessage.success('操作成功')
           done()
-          getErrorLogList()
+          getOperLogList()
         }, 2000)
       } else if (action !== 'confirm') {
         if (!instance.confirmButtonLoading) done()
@@ -80,16 +95,16 @@ const handleDelete = function(row) {
 
 // 清空
 const handleClearAll = function() {
-  ElMessageBox.confirm('确认清空错误日志?', '提示', {
+  ElMessageBox.confirm('确认清空操作日志?', '提示', {
     type: 'warning',
     beforeClose: (action, instance, done) => {
       if (action === 'confirm') {
         instance.confirmButtonLoading = true
         setTimeout(() => {
           instance.confirmButtonLoading = false
-          ElMessage.success('错误成功')
+          ElMessage.success('操作成功')
           done()
-          getErrorLogList()
+          getOperLogList()
         }, 2000)
       } else if (action !== 'confirm') {
         if (!instance.confirmButtonLoading) done()
@@ -100,7 +115,7 @@ const handleClearAll = function() {
 
 // 点击表格行
 const handleTableRowClick = function(row, column, event) {
-  errorlogTableRef.value.toggleRowSelection(row)
+  operlogTableRef.value.toggleRowSelection(row)
 }
 
 // 当表格选择项发生变化时
@@ -109,37 +124,60 @@ const handleTableSelectionChange = function(selection) {
 }
 
 initQueryForm()
-getErrorLogList()
+getOperLogList()
 </script>
 
 <template>
-  <div class="page_container errorlog_page">
+  <div class="page_container operlog_page">
     <el-form :model="queryForm" label-width="auto" inline>
-      <el-form-item label="用户名称:" prop="userName">
+      <el-form-item label="系统模块:" prop="title">
         <el-input
           style="width: 200px;"
-          v-model="queryForm.userName"
+          v-model="queryForm.title"
           clearable
-          placeholder="请输入用户名称"
+          placeholder="请输入系统模块"
         ></el-input>
       </el-form-item>
-      <el-form-item label="错误地址:" prop="ipAddr">
+      <el-form-item label="操作地址:" prop="operIp">
         <el-input
           style="width: 200px;"
-          v-model="queryForm.ipAddr"
+          v-model="queryForm.operIp"
           clearable
-          placeholder="请输入错误地址"
+          placeholder="请输入操作地址"
         ></el-input>
       </el-form-item>
-      <el-form-item label="错误地点:" prop="errorLoc">
+      <el-form-item label="操作地点:" prop="operLoc">
         <el-input
           style="width: 200px;"
-          v-model="queryForm.errorLoc"
+          v-model="queryForm.operLoc"
           clearable
-          placeholder="请输入错误地点"
+          placeholder="请输入操作地点"
         ></el-input>
       </el-form-item>
-      <el-form-item label="错误状态:" prop="status">
+      <el-form-item label="操作人:" prop="operName">
+        <el-input
+          style="width: 200px;"
+          v-model="queryForm.operName"
+          clearable
+          placeholder="请输入操作人"
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="操作类型:" prop="operType">
+        <el-select
+          style="width: 200px;"
+          v-model="queryForm.operType"
+          clearable
+          placeholder="请选择"
+        >
+          <el-option
+            v-for="(item, index) in operTypeOptions"
+            :key="index"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="操作状态:" prop="status">
         <el-select
           style="width: 150px;"
           v-model="queryForm.status"
@@ -150,10 +188,10 @@ getErrorLogList()
           <el-option label="失败" value="0"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="错误时间:" prop="errorTime">
+      <el-form-item label="操作时间:" prop="operTime">
         <el-date-picker
           style="width: 250px;"
-          v-model="queryForm.errorTime"
+          v-model="queryForm.operTime"
           type="daterange"
           start-placeholder="开始时间"
           end-placeholder="开始时间"
@@ -175,10 +213,10 @@ getErrorLogList()
     </div>
 
     <el-table
-      class="errorlog_list_table"
-      ref="errorlogTableRef"
+      class="operlog_list_table"
+      ref="operlogTableRef"
       height="100%"
-      :data="errorlogList"
+      :data="operlogList"
       :header-cell-style="{
         background: '#F8F8F9',
         color: '#666'
@@ -187,58 +225,78 @@ getErrorLogList()
       @row-click="handleTableRowClick"
       @selection-change="handleTableSelectionChange"
     >
-      <el-table-column type="selection" align="center" width="60">
+      <el-table-column type="selection" align="center" width="40">
       </el-table-column>
-      <el-table-column label="错误编号" prop="id" align="center" min-width="80">
+      <el-table-column label="日志编号" prop="id" align="center" min-width="80">
         <template #default="scope">
           <span>{{ scope.row.id }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="用户名称" prop="userName" align="center" min-width="120">
+      <el-table-column label="系统模块" prop="title" align="center" min-width="80">
         <template #default="scope">
-          <span>{{ scope.row.userName }}</span>
+          <span>{{ scope.row.title }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="错误地址" prop="ipAddr" align="center" min-width="150">
+      <el-table-column label="操作类型" prop="operType" align="center" min-width="80">
         <template #default="scope">
-          <span>{{ scope.row.ipAddr }}</span>
+          <el-tag type="warning">{{ operTypeOptions.find(item => item.value === scope.row.operType).label }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="错误地点" prop="errorLoc" align="center" min-width="120">
+      <el-table-column label="操作人员" prop="operName" align="center" min-width="80">
         <template #default="scope">
-          <span>{{ scope.row.errorLoc }}</span>
+          <span>{{ scope.row.operName }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="浏览器" prop="browser" align="center" min-width="120">
+      <el-table-column label="操作地址" prop="operIp" align="center" min-width="135">
         <template #default="scope">
-          <span>{{ scope.row.browser }}</span>
+          <span>{{ scope.row.operIp }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作系统" prop="os" align="center" min-width="120">
+      <el-table-column label="操作地点" prop="operLoc" align="center" min-width="120">
         <template #default="scope">
-          <span>{{ scope.row.os }}</span>
+          <span>{{ scope.row.operLoc }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="错误状态" prop="status" align="center" min-width="100">
+      <el-table-column label="消耗时间" prop="costTime" align="center" min-width="80">
+        <template #default="scope">
+          <span>{{ scope.row.costTime }}毫秒</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作状态" prop="status" align="center" min-width="80">
         <template #default="scope">
           <el-tag type="" v-if="scope.row.status === '1'">成功</el-tag>
           <el-tag type="danger" v-if="scope.row.status === '0'">失败</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="操作信息" prop="msg" align="center" min-width="120">
+      <el-table-column label="操作时间" prop="operTime" align="center" min-width="170">
         <template #default="scope">
-          <span>{{ scope.row.msg }}</span>
+          <span>{{ scope.row.operTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="错误时间" prop="errorTime" align="center" min-width="170">
+      <el-table-column label="请求地址" prop="operUrl" align="center" min-width="200" show-overflow-tooltip>
         <template #default="scope">
-          <span>{{ scope.row.errorTime }}</span>
+          <span>{{ scope.row.operUrl }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="请求方法" prop="reqMethod" align="center" min-width="80">
+        <template #default="scope">
+          <span>{{ scope.row.reqMethod }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="请求参数" prop="operParam" align="center" min-width="160" show-overflow-tooltip>
+        <template #default="scope">
+          <span>{{ scope.row.operParam }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作方法" prop="operMethod" align="center" min-width="200" show-overflow-tooltip>
+        <template #default="scope">
+          <span>{{ scope.row.operMethod }}</span>
         </template>
       </el-table-column>
     </el-table>
 
     <el-pagination
-      class="errorlog_list_pagination"
+      class="operlog_list_pagination"
       background
       layout="total, sizes, prev, pager, next, jumper"
       v-model:current-page="queryForm.pageNum"
@@ -251,7 +309,7 @@ getErrorLogList()
 </template>
 
 <style scoped lang="scss">
-.errorlog_page {
+.operlog_page {
   padding: 20px 20px;
   display: flex;
   flex-direction: column;
@@ -260,11 +318,11 @@ getErrorLogList()
     margin-top: 10px;
   }
 
-  .errorlog_list_table {
+  .operlog_list_table {
     margin-top: 10px;
   }
 
-  .errorlog_list_pagination {
+  .operlog_list_pagination {
     margin-top: 10px;
     justify-content: flex-end;
   }

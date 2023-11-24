@@ -2,13 +2,13 @@ import request from '@/utils/request.js'
 
 const API = {
 	// 操作日志列表
-	OPERATELOGLIST_URL: '/system/operatelog/list',
+	OPERLOGLIST_URL: '/system/operlog/list',
 }
 
 // 获取操作日志列表
-export const reqOperateLogList = (params) => {
+export const reqOperLogList = (params) => {
 	return request({
-		url: API.OPERATELOGLIST_URL,
+		url: API.OPERLOGLIST_URL,
 		method: 'get',
 		params: params
 	})
