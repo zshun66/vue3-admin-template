@@ -272,7 +272,8 @@ initQueryForm()
       <DataAddOrModify
         v-model="showTypeAddOrModifyDialog"
         :type="dialogType"
-        :row="currRow"
+        :outRow="row"
+        :curRow="currRow"
         @success="handleAddOrModifySuccess"
       />
     </el-dialog>
