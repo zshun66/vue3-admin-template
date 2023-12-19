@@ -2,6 +2,8 @@
 import AddOrModify from './components/AddOrModify/AddOrModify.vue'
 import { reqMenuList } from '@/api/system/menu.js'
 
+// 数据加载状态
+const showLoading = ref(false)
 // 查询参数
 const queryForm = ref({})
 // 菜单列表数据
@@ -31,10 +33,12 @@ const initQueryForm = function() {
 // 获取菜单列表
 const getMenuList = async function() {
   const params = JSON.parse(JSON.stringify(queryForm.value))
+  showLoading.value = true
   const { result } = await reqMenuList(params)
+  showLoading.value = false
   if (!result) return
-  menuList.value = result.data || []
-  dataTotal.value = result.total || 0
+  menuList.value = result.data.list || []
+  dataTotal.value = result.data.total || 0
 }
 
 // 搜索
@@ -161,6 +165,7 @@ getMenuList()
       }"
       row-key="id"
       :indent="0"
+      v-loading="showLoading"
       @row-click="handleTableRowClick"
     >
       <el-table-column label="菜单标题" prop="title" align="left" min-width="150" show-overflow-tooltip>
