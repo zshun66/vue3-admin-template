@@ -6,6 +6,8 @@ import 'nprogress/nprogress.css'
 
 NProgress.configure({ showSpinner: false })
 
+// 是否处理过路由
+let isResolveRoutes = false
 // 白名单页面
 const whitePageList = ['/login']
 
@@ -13,36 +15,33 @@ const whitePageList = ['/login']
 router.beforeEach(async (to, from) => {
   NProgress.start()
   const userStore = useUserStore()
+  // console.log('from:', from.path)
+  // console.log('to:', to.path)
   // 存在用户信息
   if (userStore.token) {
-    // // 判断是否存在用户信息
-    // const existUserInfo = !!userStore.userInfo.id
-    // // 有用户信息
-    // if (existUserInfo) {
-    //   // 去往登录页
-    //   if (to.path === '/login') {
-    //     return from
-    //   }
-    // }
-    // // 没有用户信息
-    // else if(!existUserInfo) {
-    //   resolveRoutes(userStore.userInfo.routes)
-    //   // 去往登录页
-    //   if (to.path === '/login') {
-    //     return { path: '/backstage/home' }
-    //   }
-    //   // 不是去往登录页
-    //   else if (to.path !== '/login') {
-    //     return { path: location.hash.slice(1) }
-    //   }
-    // }
+    if (!isResolveRoutes) {
+      resolveRoutes(userStore.userInfo.routes)
+      isResolveRoutes = true
+    }
+
+    if (from.path === '/' && to.path === '/login') {
+      return { path: '/backstage/home' }
+    }
+
+    if (from.path === '/' && to.path === '/404') {
+      return { path: location.hash.slice(1) }
+    }
+
+    if (from.path !== '/' && to.path === '/login') {
+      return false
+    }
   }
   // 不存在用户信息
   else if (!userStore.token) {
     // 不是白名单中的页面
-    // if (whitePageList.indexOf(to.path) === -1) {
-    //   return { path: `/login?redirect=${to.fullPath}` }
-    // }
+    if (whitePageList.indexOf(to.path) === -1) {
+      return { path: `/login?redirect=${to.fullPath}` }
+    }
   }
 })
 
