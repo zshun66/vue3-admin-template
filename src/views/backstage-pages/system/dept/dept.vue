@@ -2,6 +2,8 @@
 import AddOrModify from './components/AddOrModify/AddOrModify.vue'
 import { reqDeptList } from '@/api/system/dept.js'
 
+// 数据加载状态
+const showLoading = ref(false)
 // 查询参数
 const queryForm = ref({})
 // 部门列表数据
@@ -31,10 +33,12 @@ const initQueryForm = function() {
 // 获取部门列表
 const getDeptList = async function() {
   const params = JSON.parse(JSON.stringify(queryForm.value))
+  showLoading.value = true
   const { result } = await reqDeptList(params)
+  showLoading.value = false
   if (!result) return
-  deptList.value = result.data || []
-  dataTotal.value = result.total || 0
+  deptList.value = result.data.list || []
+  dataTotal.value = result.data.total || 0
 }
 
 // 搜索
@@ -161,6 +165,7 @@ getDeptList()
       }"
       row-key="id"
       :indent="0"
+      v-loading="showLoading"
       @row-click="handleTableRowClick"
     >
       <el-table-column label="部门名称" prop="name" align="left" min-width="240" show-overflow-tooltip>

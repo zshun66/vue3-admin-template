@@ -1,8 +1,10 @@
 <script setup name="system:user">
 import AddOrModify from './components/AddOrModify/AddOrModify.vue'
-import { reqUserList } from '@/api/system/user.js'
 import { reqDeptList } from '@/api/system/dept.js'
+import { reqUserList } from '@/api/system/user.js'
 
+// 数据加载状态
+const showLoading = ref(false)
 // 部门过滤文本
 const filterDeptText = ref('')
 // 部门树数据
@@ -28,7 +30,7 @@ const getDeptList = async function() {
   const params = {}
   const { result } = await reqDeptList(params)
   if (!result) return
-  deptTree.value = result.data || []
+  deptTree.value = result.data.list || []
 }
 
 // 过滤部门方法
@@ -66,10 +68,12 @@ const getUserList = async function() {
   params['startDate'] = (params.createTime && params.createTime[0]) || ''
   params['endDate'] = (params.createTime && params.createTime[1]) || ''
   delete params['createTime']
+  showLoading.value = true
   const { result } = await reqUserList(params)
+  showLoading.value = false
   if (!result) return
-  userList.value = result.data || []
-  dataTotal.value = result.total || 0
+  userList.value = result.data.list || []
+  dataTotal.value = result.data.total || 0
 }
 
 // 搜索
@@ -243,6 +247,7 @@ getUserList()
           color: '#666'
         }"
         row-key="id"
+        v-loading="showLoading"
       >
         <el-table-column label="用户编号" prop="id" align="center" min-width="80">
           <template #default="scope">

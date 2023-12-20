@@ -2,6 +2,8 @@
 import AddOrModify from './components/AddOrModify/AddOrModify.vue'
 import { reqParamList } from '@/api/system/param.js'
 
+// 数据加载状态
+const showLoading = ref(false)
 // 查询参数
 const queryForm = ref({})
 // 参数列表数据
@@ -31,10 +33,12 @@ const initQueryForm = function() {
 // 获取参数列表
 const getParamList = async function() {
   const params = JSON.parse(JSON.stringify(queryForm.value))
+  showLoading.value = true
   const { result } = await reqParamList(params)
+  showLoading.value = false
   if (!result) return
-  paramList.value = result.data || []
-  dataTotal.value = result.total || 0
+  paramList.value = result.data.list || []
+  dataTotal.value = result.data.total || 0
 }
 
 // 搜索
@@ -157,6 +161,7 @@ getParamList()
         color: '#666'
       }"
       row-key="id"
+      v-loading="showLoading"
     >
       <el-table-column label="参数名称" prop="name" align="center" min-width="200" show-overflow-tooltip>
         <template #default="scope">

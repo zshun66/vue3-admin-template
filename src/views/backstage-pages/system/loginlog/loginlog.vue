@@ -1,6 +1,8 @@
 <script setup name="system:loginlog">
 import { reqLoginLogList } from '@/api/system/loginlog.js'
 
+// 数据加载状态
+const showLoading = ref(false)
 // 查询参数
 const queryForm = ref({})
 // 登录日志列表数据
@@ -28,10 +30,12 @@ const initQueryForm = function() {
 // 获取登录日志列表
 const getLoginLogList = async function() {
   const params = JSON.parse(JSON.stringify(queryForm.value))
+  showLoading.value = true
   const { result } = await reqLoginLogList(params)
+  showLoading.value = false
   if (!result) return
-  loginlogList.value = result.data || []
-  dataTotal.value = result.total || 0
+  loginlogList.value = result.data.list || []
+  dataTotal.value = result.data.total || 0
 }
 
 // 搜索
@@ -184,6 +188,7 @@ getLoginLogList()
         color: '#666'
       }"
       row-key="id"
+      v-loading="showLoading"
       @row-click="handleTableRowClick"
       @selection-change="handleTableSelectionChange"
     >

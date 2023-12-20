@@ -27,6 +27,8 @@ const showDialog = computed({
   }
 })
 
+// 数据加载状态
+const showLoading = ref(false)
 // 字典类型数据
 const dictTypeList = ref([])
 // 查询参数
@@ -60,16 +62,18 @@ const getDictTypeList = async function() {
   const params = {}
   const { result } = await reqDictTypeList(params)
   if (!result) return
-  dictTypeList.value = result.data || []
+  dictTypeList.value = result.data.list || []
 }
 
 // 获取字典数据列表
 const getDictDataList = async function() {
   const params = JSON.parse(JSON.stringify(queryForm.value))
+  showLoading.value = true
   const { result } = await reqDictDataList(params)
+  showLoading.value = false
   if (!result) return
-  dictDataList.value = result.data || []
-  dataTotal.value = result.total || 0
+  dictDataList.value = result.data.list || []
+  dataTotal.value = result.data.total || 0
 }
 
 // 搜索
@@ -211,6 +215,7 @@ initQueryForm()
           background: '#F8F8F9',
           color: '#666'
         }"
+        v-loading="showLoading"
       >
         <el-table-column label="字典排序" prop="sort" align="center" width="120">
           <template #default="scope">

@@ -14,6 +14,8 @@ const operTypeOptions = ref([
   { label: '清空数据', value: '9' },
   { label: '其他', value: '0' },
 ])
+// 数据加载状态
+const showLoading = ref(false)
 // 查询参数
 const queryForm = ref({})
 // 操作日志列表数据
@@ -43,10 +45,12 @@ const initQueryForm = function() {
 // 获取操作日志列表
 const getOperLogList = async function() {
   const params = JSON.parse(JSON.stringify(queryForm.value))
+  showLoading.value = true
   const { result } = await reqOperLogList(params)
+  showLoading.value = false
   if (!result) return
-  operlogList.value = result.data || []
-  dataTotal.value = result.total || 0
+  operlogList.value = result.data.list || []
+  dataTotal.value = result.data.total || 0
 }
 
 // 搜索
@@ -222,6 +226,7 @@ getOperLogList()
         color: '#666'
       }"
       row-key="id"
+      v-loading="showLoading"
       @row-click="handleTableRowClick"
       @selection-change="handleTableSelectionChange"
     >

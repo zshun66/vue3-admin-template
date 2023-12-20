@@ -2,11 +2,9 @@ import request from '@/utils/request.js'
 
 const API = {
 	// 用户登录
-	LOGIN_URL: '/system/user/login',
-	// 用户详细信息
-	USERINFO_URL: '/system/user/info',
+	LOGIN_URL: 'https://www.fastmock.site/mock/3ae7841ac891478dce1568a9b20de8e4/zve-admin/system/user/login',
 	// 用户列表
-	USERLIST_URL: '/system/user/list',
+	USERLIST_URL: 'https://www.fastmock.site/mock/3ae7841ac891478dce1568a9b20de8e4/zve-admin/system/user/list',
 }
 
 // 登录
@@ -18,14 +16,6 @@ export const reqLogin = (data) => {
 		headers: {
 			isAuth: false
 		}
-	})
-}
-
-// 获取用户详细信息
-export const reqUserInfo = () => {
-	return request({
-		url: API.USERINFO_URL,
-		method: 'get'
 	})
 }
 

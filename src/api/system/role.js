@@ -2,7 +2,7 @@ import request from '@/utils/request.js'
 
 const API = {
 	// 角色列表
-	ROLELIST_URL: '/system/role/list',
+	ROLELIST_URL: 'https://www.fastmock.site/mock/3ae7841ac891478dce1568a9b20de8e4/zve-admin/system/role/list',
 }
 
 // 获取角色列表

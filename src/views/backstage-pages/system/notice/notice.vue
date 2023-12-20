@@ -2,6 +2,8 @@
 import AddOrModify from './components/AddOrModify/AddOrModify.vue'
 import { reqPostList } from '@/api/system/post.js'
 
+// 数据加载状态
+const showLoading = ref(false)
 // 查询参数
 const queryForm = ref({})
 // 岗位列表数据
@@ -30,10 +32,12 @@ const initQueryForm = function() {
 // 获取岗位列表
 const getPostList = async function() {
   const params = JSON.parse(JSON.stringify(queryForm.value))
+  showLoading.value = true
   const { result } = await reqPostList(params)
+  showLoading.value = false
   if (!result) return
-  postList.value = result.data || []
-  dataTotal.value = result.total || 0
+  postList.value = result.data.list || []
+  dataTotal.value = result.data.total || 0
 }
 
 // 搜索
@@ -145,6 +149,7 @@ getPostList()
         color: '#666'
       }"
       row-key="id"
+      v-loading="showLoading"
     >
       <el-table-column label="岗位名称" prop="name" align="center" min-width="200" show-overflow-tooltip>
         <template #default="scope">

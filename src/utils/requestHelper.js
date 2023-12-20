@@ -1,4 +1,4 @@
-import { getToken } from '@/utils/token.js'
+import useUserStore from '@/pinia/modules/user.js'
 import { getSession, setSession } from '@/utils/storage.js'
 
 /**
@@ -6,10 +6,11 @@ import { getSession, setSession } from '@/utils/storage.js'
  * @param { Object } config 请求拦截器中的config对象
  */
 export const addTokenByIsAuth = function (config) {
+  const userStore = useUserStore()
   // 此次请求是否需要token
   let isAuth = config.headers.isAuth
   isAuth = isAuth === undefined ? true : isAuth
-  isAuth && (config.headers['Authorization'] = 'Bearer ' + getToken())
+  isAuth && (config.headers['Authorization'] = 'Bearer ' + userStore.token)
 }
 
 /**

@@ -3,6 +3,8 @@ import TypeAddOrModify from './components/TypeAddOrModify/TypeAddOrModify.vue'
 import DictTypeDetail from './components/DictTypeDetail/DictTypeDetail.vue'
 import { reqDictTypeList } from '@/api/system/dict.js'
 
+// 数据加载状态
+const showLoading = ref(false)
 // 查询参数
 const queryForm = ref({})
 // 字典类型列表数据
@@ -31,36 +33,38 @@ const initQueryForm = function() {
 }
 
 // 获取字典类型列表
-const getDictList = async function() {
+const getDictTypeList = async function() {
   const params = JSON.parse(JSON.stringify(queryForm.value))
+  showLoading.value = true
   const { result } = await reqDictTypeList(params)
+  showLoading.value = false
   if (!result) return
-  dictList.value = result.data || []
-  dataTotal.value = result.total || 0
+  dictList.value = result.data.list || []
+  dataTotal.value = result.data.total || 0
 }
 
 // 搜索
 const handleSearch = function() {
   queryForm.value.pageNum = 1
-  getDictList()
+  getDictTypeList()
 }
 
 // 重置
 const handleReset = function() {
   initQueryForm()
-  getDictList()
+  getDictTypeList()
 }
 
 // 分页器页码改变时
 const handlePaginationCurrChange = function(page) {
   queryForm.value.pageNum = page
-  getDictList()
+  getDictTypeList()
 }
 
 // 分页器页数大小改变时
 const handlePaginationSizeChange = function(size) {
   queryForm.value.pageSize = size
-  getDictList()
+  getDictTypeList()
 }
 
 // 处理操作
@@ -81,7 +85,7 @@ const handleDelete = function(row) {
           instance.confirmButtonLoading = false
           ElMessage.success('操作成功')
           done()
-          getDictList()
+          getDictTypeList()
         }, 2000)
       } else if (action !== 'confirm') {
         if (!instance.confirmButtonLoading) done()
@@ -92,7 +96,7 @@ const handleDelete = function(row) {
 
 // 添加/修改成功
 const handleAddOrModifySuccess = function() {
-  getDictList()
+  getDictTypeList()
 }
 
 // 点击字典详情
@@ -102,7 +106,7 @@ const handleClickDictType = function(row) {
 }
 
 initQueryForm()
-getDictList()
+getDictTypeList()
 </script>
 
 <template>
@@ -154,6 +158,7 @@ getDictList()
         color: '#666'
       }"
       row-key="id"
+      v-loading="showLoading"
     >
       <el-table-column label="字典编号" prop="id" align="center" min-width="120">
         <template #default="scope">

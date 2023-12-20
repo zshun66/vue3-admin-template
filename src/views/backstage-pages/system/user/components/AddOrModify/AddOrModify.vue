@@ -110,7 +110,7 @@ const getRoleList = async function() {
   const params = {}
   const { result } = await reqRoleList(params)
   if (!result) return
-  roleList.value = result.data || []
+  roleList.value = result.data.list || []
 }
 
 // 获取部门列表
@@ -119,7 +119,7 @@ const getDeptList = async function() {
   const params = {}
   const { result } = await reqDeptList(params)
   if (!result) return
-  deptList.value = result.data || []
+  deptList.value = result.data.list || []
 }
 
 // 获取岗位列表
@@ -128,7 +128,7 @@ const getPostList = async function() {
   const params = {}
   const { result } = await reqPostList(params)
   if (!result) return
-  postList.value = result.data || []
+  postList.value = result.data.list || []
 }
 
 // 取消

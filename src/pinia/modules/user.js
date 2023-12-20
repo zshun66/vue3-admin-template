@@ -1,13 +1,12 @@
 import { defineStore } from 'pinia'
-import { reqLogin, reqUserInfo } from '@/api/system/user.js'
-import { getToken, setToken } from '@/utils/token.js'
+import { reqLogin } from '@/api/system/user.js'
+import { getStorage, setStorage } from '@/utils/storage.js'
 import resolveRoutes from '@/utils/resolveRoutes.js'
 
 const useUserStore = defineStore('User', {
   state: () => {
     return {
-      token: getToken(),
-      userInfo: {},
+      userInfo: getStorage('ZS_ADMIN_USERINFO') || {},
     }
   },
   actions: {
@@ -15,22 +14,16 @@ const useUserStore = defineStore('User', {
     async handleUserLogin(data) {
       const { result } = await reqLogin(data)
       if (!result) return Promise.reject()
-      this.token = result.data.token
-      setToken(this.token)
-      await this.getUserInfo()
-      return Promise.resolve()
-    },
-    // 获取用户信息
-    async getUserInfo() {
-      const { result } = await reqUserInfo()
-      if (!result) return Promise.reject()
-      this.userInfo = result.data.userInfo
+      this.userInfo = result.data.userInfo || {}
       resolveRoutes(this.userInfo.routes || [])
+      setStorage('ZS_ADMIN_USERINFO', this.userInfo)
       return Promise.resolve()
     },
   },
   getters: {
-
+    token: (state) => {
+      return state.userInfo.token || ''
+    }
   }
 })
 

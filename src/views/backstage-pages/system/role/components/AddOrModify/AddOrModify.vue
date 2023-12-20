@@ -70,7 +70,7 @@ const getMenuList = async function() {
   if (menuData.value.length > 0) return
   const { result } = await reqMenuList()
   if (!result) return
-  menuData.value = result.data || []
+  menuData.value = result.data.list || []
 }
 
 // 初始化表单数据

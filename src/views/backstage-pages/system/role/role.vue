@@ -2,6 +2,8 @@
 import AddOrModify from './components/AddOrModify/AddOrModify.vue'
 import { reqRoleList } from '@/api/system/role.js'
 
+// 数据加载状态
+const showLoading = ref(false)
 // 查询参数
 const queryForm = ref({})
 // 角色列表数据
@@ -29,10 +31,12 @@ const initQueryForm = function() {
 // 获取角色列表
 const getRoleList = async function() {
   const params = JSON.parse(JSON.stringify(queryForm.value))
+  showLoading.value = true
   const { result } = await reqRoleList(params)
+  showLoading.value = false
   if (!result) return
-  roleList.value = result.data || []
-  dataTotal.value = result.total || 0
+  roleList.value = result.data.list || []
+  dataTotal.value = result.data.total || 0
 }
 
 // 搜索
@@ -136,6 +140,7 @@ getRoleList()
         color: '#666'
       }"
       row-key="id"
+      v-loading="showLoading"
     >
       <el-table-column label="角色编号" prop="id" align="center" width="100">
         <template #default="scope">
