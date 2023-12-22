@@ -18,8 +18,9 @@ const selectRows = ref([])
 const initQueryForm = function() {
   queryForm.value = {
     pageNum: 1,
-    pageSize: 100,
-    userName: '', // 用户名称
+    pageSize: 10,
+    nickname: '', // 用户昵称
+    username: '', // 用户名称
     ipAddr: '', // 登录地址
     loginLoc: '', // 登录地点
     status: '', // 登录状态
@@ -30,6 +31,9 @@ const initQueryForm = function() {
 // 获取登录日志列表
 const getLoginLogList = async function() {
   const params = JSON.parse(JSON.stringify(queryForm.value))
+  params.startLoginTime = (params.loginTime && params.loginTime[0]) || ''
+  params.endLoginTime = (params.loginTime && params.loginTime[1]) || ''
+  delete params.loginTime
   showLoading.value = true
   const { result } = await reqLoginLogList(params)
   showLoading.value = false
@@ -119,10 +123,18 @@ getLoginLogList()
 <template>
   <div class="page_container loginlog_page">
     <el-form :model="queryForm" label-width="auto" inline>
-      <el-form-item label="用户名称:" prop="userName">
+      <el-form-item label="用户昵称:" prop="nickname">
         <el-input
           style="width: 200px;"
-          v-model="queryForm.userName"
+          v-model="queryForm.nickname"
+          clearable
+          placeholder="请输入用户名称"
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="用户名称:" prop="username">
+        <el-input
+          style="width: 200px;"
+          v-model="queryForm.username"
           clearable
           placeholder="请输入用户名称"
         ></el-input>
@@ -199,9 +211,14 @@ getLoginLogList()
           <span>{{ scope.row.id }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="用户名称" prop="userName" align="center" min-width="120">
+      <el-table-column label="用户昵称" prop="nickname" align="center" min-width="80">
         <template #default="scope">
-          <span>{{ scope.row.userName }}</span>
+          <span>{{ scope.row.nickname }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="用户名称" prop="username" align="center" min-width="120">
+        <template #default="scope">
+          <span>{{ scope.row.username }}</span>
         </template>
       </el-table-column>
       <el-table-column label="登录地址" prop="ipAddr" align="center" min-width="150">
