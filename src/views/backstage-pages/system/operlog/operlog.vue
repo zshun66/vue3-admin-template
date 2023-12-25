@@ -45,6 +45,9 @@ const initQueryForm = function() {
 // 获取操作日志列表
 const getOperLogList = async function() {
   const params = JSON.parse(JSON.stringify(queryForm.value))
+  params.startOperTime = (params.operTime && params.operTime[0]) || ''
+  params.endOperTime = (params.operTime && params.operTime[1]) || ''
+  delete params.operTime
   showLoading.value = true
   const { result } = await reqOperLogList(params)
   showLoading.value = false
