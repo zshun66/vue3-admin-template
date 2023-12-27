@@ -1,5 +1,5 @@
 <script setup name="system:role:AddOrModify">
-import { reqMenuList } from '@/api/system/menu.js'
+import { reqMenuListAll } from '@/api/system/menu.js'
 import { extractKeyNamesFromTree } from '@/utils/utils.js'
 
 const $props = defineProps({
@@ -68,7 +68,7 @@ const isLinkage = ref(true)
 // 获取菜单列表
 const getMenuList = async function() {
   if (menuData.value.length > 0) return
-  const { result } = await reqMenuList()
+  const { result } = await reqMenuListAll()
   if (!result) return
   menuData.value = result.data.list || []
 }

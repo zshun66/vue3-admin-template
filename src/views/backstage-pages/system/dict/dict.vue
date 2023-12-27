@@ -1,7 +1,7 @@
 <script setup name="system:dict">
 import TypeAddOrModify from './components/TypeAddOrModify/TypeAddOrModify.vue'
 import DictTypeDetail from './components/DictTypeDetail/DictTypeDetail.vue'
-import { reqDictTypeList } from '@/api/system/dict.js'
+import { reqDictTypeListPage } from '@/api/system/dict.js'
 
 // 数据加载状态
 const showLoading = ref(false)
@@ -25,7 +25,7 @@ const currRow = ref({})
 const initQueryForm = function() {
   queryForm.value = {
     pageNum: 1,
-    pageSize: 100,
+    pageSize: 10,
     name: '', // 字典名称
     type: '', // 字典类型
     status: '', // 字典状态
@@ -33,10 +33,10 @@ const initQueryForm = function() {
 }
 
 // 获取字典类型列表
-const getDictTypeList = async function() {
+const getDictTypeListPage = async function() {
   const params = JSON.parse(JSON.stringify(queryForm.value))
   showLoading.value = true
-  const { result } = await reqDictTypeList(params)
+  const { result } = await reqDictTypeListPage(params)
   showLoading.value = false
   if (!result) return
   dictList.value = result.data.list || []
@@ -46,25 +46,25 @@ const getDictTypeList = async function() {
 // 搜索
 const handleSearch = function() {
   queryForm.value.pageNum = 1
-  getDictTypeList()
+  getDictTypeListPage()
 }
 
 // 重置
 const handleReset = function() {
   initQueryForm()
-  getDictTypeList()
+  getDictTypeListPage()
 }
 
 // 分页器页码改变时
 const handlePaginationCurrChange = function(page) {
   queryForm.value.pageNum = page
-  getDictTypeList()
+  getDictTypeListPage()
 }
 
 // 分页器页数大小改变时
 const handlePaginationSizeChange = function(size) {
   queryForm.value.pageSize = size
-  getDictTypeList()
+  getDictTypeListPage()
 }
 
 // 处理操作
@@ -85,7 +85,7 @@ const handleDelete = function(row) {
           instance.confirmButtonLoading = false
           ElMessage.success('操作成功')
           done()
-          getDictTypeList()
+          getDictTypeListPage()
         }, 2000)
       } else if (action !== 'confirm') {
         if (!instance.confirmButtonLoading) done()
@@ -96,7 +96,7 @@ const handleDelete = function(row) {
 
 // 添加/修改成功
 const handleAddOrModifySuccess = function() {
-  getDictTypeList()
+  getDictTypeListPage()
 }
 
 // 点击字典详情
@@ -106,7 +106,7 @@ const handleClickDictType = function(row) {
 }
 
 initQueryForm()
-getDictTypeList()
+getDictTypeListPage()
 </script>
 
 <template>

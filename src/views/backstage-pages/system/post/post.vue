@@ -1,6 +1,6 @@
 <script setup name="system:post">
 import AddOrModify from './components/AddOrModify/AddOrModify.vue'
-import { reqPostList } from '@/api/system/post.js'
+import { reqPostListPage } from '@/api/system/post.js'
 
 // 数据加载状态
 const showLoading = ref(false)
@@ -22,18 +22,18 @@ const currRow = ref({})
 const initQueryForm = function() {
   queryForm.value = {
     pageNum: 1,
-    pageSize: 100,
+    pageSize: 10,
     name: '', // 岗位名称
     code: '', // 岗位编码
     status: '', // 岗位状态
   }
 }
 
-// 获取岗位列表
-const getPostList = async function() {
+// 获取岗位列表(分页)
+const getPostListPage = async function() {
   const params = JSON.parse(JSON.stringify(queryForm.value))
   showLoading.value = true
-  const { result } = await reqPostList(params)
+  const { result } = await reqPostListPage(params)
   showLoading.value = false
   if (!result) return
   postList.value = result.data.list || []
@@ -43,25 +43,25 @@ const getPostList = async function() {
 // 搜索
 const handleSearch = function() {
   queryForm.value.pageNum = 1
-  getPostList()
+  getPostListPage()
 }
 
 // 重置
 const handleReset = function() {
   initQueryForm()
-  getPostList()
+  getPostListPage()
 }
 
 // 分页器页码改变时
 const handlePaginationCurrChange = function(page) {
   queryForm.value.pageNum = page
-  getPostList()
+  getPostListPage()
 }
 
 // 分页器页数大小改变时
 const handlePaginationSizeChange = function(size) {
   queryForm.value.pageSize = size
-  getPostList()
+  getPostListPage()
 }
 
 // 处理操作
@@ -82,7 +82,7 @@ const handleDelete = function(row) {
           instance.confirmButtonLoading = false
           ElMessage.success('操作成功')
           done()
-          getPostList()
+          getPostListPage()
         }, 2000)
       } else if (action !== 'confirm') {
         if (!instance.confirmButtonLoading) done()
@@ -93,11 +93,11 @@ const handleDelete = function(row) {
 
 // 添加/修改成功
 const handleAddOrModifySuccess = function() {
-  getPostList()
+  getPostListPage()
 }
 
 initQueryForm()
-getPostList()
+getPostListPage()
 </script>
 
 <template>

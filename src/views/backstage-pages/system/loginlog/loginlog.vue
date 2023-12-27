@@ -1,5 +1,5 @@
 <script setup name="system:loginlog">
-import { reqLoginLogList } from '@/api/system/loginlog.js'
+import { reqLoginLogListPage } from '@/api/system/loginlog.js'
 
 // 数据加载状态
 const showLoading = ref(false)
@@ -29,13 +29,13 @@ const initQueryForm = function() {
 }
 
 // 获取登录日志列表
-const getLoginLogList = async function() {
+const getLoginLogListPage = async function() {
   const params = JSON.parse(JSON.stringify(queryForm.value))
   params.startLoginTime = (params.loginTime && params.loginTime[0]) || ''
   params.endLoginTime = (params.loginTime && params.loginTime[1]) || ''
   delete params.loginTime
   showLoading.value = true
-  const { result } = await reqLoginLogList(params)
+  const { result } = await reqLoginLogListPage(params)
   showLoading.value = false
   if (!result) return
   loginlogList.value = result.data.list || []
@@ -45,25 +45,25 @@ const getLoginLogList = async function() {
 // 搜索
 const handleSearch = function() {
   queryForm.value.pageNum = 1
-  getLoginLogList()
+  getLoginLogListPage()
 }
 
 // 重置
 const handleReset = function() {
   initQueryForm()
-  getLoginLogList()
+  getLoginLogListPage()
 }
 
 // 分页器页码改变时
 const handlePaginationCurrChange = function(page) {
   queryForm.value.pageNum = page
-  getLoginLogList()
+  getLoginLogListPage()
 }
 
 // 分页器页数大小改变时
 const handlePaginationSizeChange = function(size) {
   queryForm.value.pageSize = size
-  getLoginLogList()
+  getLoginLogListPage()
 }
 
 // 删除
@@ -77,7 +77,7 @@ const handleDelete = function(row) {
           instance.confirmButtonLoading = false
           ElMessage.success('登录成功')
           done()
-          getLoginLogList()
+          getLoginLogListPage()
         }, 2000)
       } else if (action !== 'confirm') {
         if (!instance.confirmButtonLoading) done()
@@ -97,7 +97,7 @@ const handleClearAll = function() {
           instance.confirmButtonLoading = false
           ElMessage.success('登录成功')
           done()
-          getLoginLogList()
+          getLoginLogListPage()
         }, 2000)
       } else if (action !== 'confirm') {
         if (!instance.confirmButtonLoading) done()
@@ -117,7 +117,7 @@ const handleTableSelectionChange = function(selection) {
 }
 
 initQueryForm()
-getLoginLogList()
+getLoginLogListPage()
 </script>
 
 <template>

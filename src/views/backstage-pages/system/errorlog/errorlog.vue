@@ -1,5 +1,5 @@
 <script setup name="system:errorlog">
-import { reqErrorLogList } from '@/api/system/errorlog.js'
+import { reqErrorLogListPage } from '@/api/system/errorlog.js'
 
 // 数据加载状态
 const showLoading = ref(false)
@@ -18,7 +18,7 @@ const selectRows = ref([])
 const initQueryForm = function() {
   queryForm.value = {
     pageNum: 1,
-    pageSize: 100,
+    pageSize: 10,
     userName: '', // 用户名称
     ipAddr: '', // 错误地址
     errorLoc: '', // 错误地点
@@ -27,11 +27,11 @@ const initQueryForm = function() {
   }
 }
 
-// 获取错误日志列表
-const getErrorLogList = async function() {
+// 获取错误日志列表(分页)
+const getErrorLogListPage = async function() {
   const params = JSON.parse(JSON.stringify(queryForm.value))
   showLoading.value = true
-  const { result } = await reqErrorLogList(params)
+  const { result } = await reqErrorLogListPage(params)
   showLoading.value = false
   if (!result) return
   errorlogList.value = result.data.list || []
@@ -41,25 +41,25 @@ const getErrorLogList = async function() {
 // 搜索
 const handleSearch = function() {
   queryForm.value.pageNum = 1
-  getErrorLogList()
+  getErrorLogListPage()
 }
 
 // 重置
 const handleReset = function() {
   initQueryForm()
-  getErrorLogList()
+  getErrorLogListPage()
 }
 
 // 分页器页码改变时
 const handlePaginationCurrChange = function(page) {
   queryForm.value.pageNum = page
-  getErrorLogList()
+  getErrorLogListPage()
 }
 
 // 分页器页数大小改变时
 const handlePaginationSizeChange = function(size) {
   queryForm.value.pageSize = size
-  getErrorLogList()
+  getErrorLogListPage()
 }
 
 // 删除
@@ -73,7 +73,7 @@ const handleDelete = function(row) {
           instance.confirmButtonLoading = false
           ElMessage.success('错误成功')
           done()
-          getErrorLogList()
+          getErrorLogListPage()
         }, 2000)
       } else if (action !== 'confirm') {
         if (!instance.confirmButtonLoading) done()
@@ -93,7 +93,7 @@ const handleClearAll = function() {
           instance.confirmButtonLoading = false
           ElMessage.success('错误成功')
           done()
-          getErrorLogList()
+          getErrorLogListPage()
         }, 2000)
       } else if (action !== 'confirm') {
         if (!instance.confirmButtonLoading) done()
@@ -113,7 +113,7 @@ const handleTableSelectionChange = function(selection) {
 }
 
 initQueryForm()
-getErrorLogList()
+getErrorLogListPage()
 </script>
 
 <template>

@@ -1,5 +1,5 @@
 <script setup name="system:operlog">
-import { reqOperLogList } from '@/api/system/operlog.js'
+import { reqOperLogListPage } from '@/api/system/operlog.js'
 
 // 操作类型选项
 const operTypeOptions = ref([
@@ -31,7 +31,7 @@ const selectRows = ref([])
 const initQueryForm = function() {
   queryForm.value = {
     pageNum: 1,
-    pageSize: 100,
+    pageSize: 10,
     title: '', // 系统模块
     operIp: '', // 操作地址
     operLoc: '', // 操作地点
@@ -43,13 +43,13 @@ const initQueryForm = function() {
 }
 
 // 获取操作日志列表
-const getOperLogList = async function() {
+const getOperLogListPage = async function() {
   const params = JSON.parse(JSON.stringify(queryForm.value))
   params.startOperTime = (params.operTime && params.operTime[0]) || ''
   params.endOperTime = (params.operTime && params.operTime[1]) || ''
   delete params.operTime
   showLoading.value = true
-  const { result } = await reqOperLogList(params)
+  const { result } = await reqOperLogListPage(params)
   showLoading.value = false
   if (!result) return
   operlogList.value = result.data.list || []
@@ -59,25 +59,25 @@ const getOperLogList = async function() {
 // 搜索
 const handleSearch = function() {
   queryForm.value.pageNum = 1
-  getOperLogList()
+  getOperLogListPage()
 }
 
 // 重置
 const handleReset = function() {
   initQueryForm()
-  getOperLogList()
+  getOperLogListPage()
 }
 
 // 分页器页码改变时
 const handlePaginationCurrChange = function(page) {
   queryForm.value.pageNum = page
-  getOperLogList()
+  getOperLogListPage()
 }
 
 // 分页器页数大小改变时
 const handlePaginationSizeChange = function(size) {
   queryForm.value.pageSize = size
-  getOperLogList()
+  getOperLogListPage()
 }
 
 // 删除
@@ -91,7 +91,7 @@ const handleDelete = function(row) {
           instance.confirmButtonLoading = false
           ElMessage.success('操作成功')
           done()
-          getOperLogList()
+          getOperLogListPage()
         }, 2000)
       } else if (action !== 'confirm') {
         if (!instance.confirmButtonLoading) done()
@@ -111,7 +111,7 @@ const handleClearAll = function() {
           instance.confirmButtonLoading = false
           ElMessage.success('操作成功')
           done()
-          getOperLogList()
+          getOperLogListPage()
         }, 2000)
       } else if (action !== 'confirm') {
         if (!instance.confirmButtonLoading) done()
@@ -131,7 +131,7 @@ const handleTableSelectionChange = function(selection) {
 }
 
 initQueryForm()
-getOperLogList()
+getOperLogListPage()
 </script>
 
 <template>

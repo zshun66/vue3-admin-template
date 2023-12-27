@@ -1,6 +1,6 @@
 <script setup name="system:menu">
 import AddOrModify from './components/AddOrModify/AddOrModify.vue'
-import { reqMenuList } from '@/api/system/menu.js'
+import { reqMenuListPage } from '@/api/system/menu.js'
 
 // 数据加载状态
 const showLoading = ref(false)
@@ -24,17 +24,17 @@ const currRow = ref({})
 const initQueryForm = function() {
   queryForm.value = {
     pageNum: 1,
-    pageSize: 100,
+    pageSize: 10,
     title: '', // 菜单标题
     status: '', // 菜单状态
   }
 }
 
-// 获取菜单列表
-const getMenuList = async function() {
+// 获取菜单列表(分页)
+const getMenuListPage = async function() {
   const params = JSON.parse(JSON.stringify(queryForm.value))
   showLoading.value = true
-  const { result } = await reqMenuList(params)
+  const { result } = await reqMenuListPage(params)
   showLoading.value = false
   if (!result) return
   menuList.value = result.data.list || []
@@ -44,25 +44,25 @@ const getMenuList = async function() {
 // 搜索
 const handleSearch = function() {
   queryForm.value.pageNum = 1
-  getMenuList()
+  getMenuListPage()
 }
 
 // 重置
 const handleReset = function() {
   initQueryForm()
-  getMenuList()
+  getMenuListPage()
 }
 
 // 分页器页码改变时
 const handlePaginationCurrChange = function(page) {
   queryForm.value.pageNum = page
-  getMenuList()
+  getMenuListPage()
 }
 
 // 分页器页数大小改变时
 const handlePaginationSizeChange = function(size) {
   queryForm.value.pageSize = size
-  getMenuList()
+  getMenuListPage()
 }
 
 // 处理操作
@@ -83,7 +83,7 @@ const handleDelete = function(row) {
           instance.confirmButtonLoading = false
           ElMessage.success('操作成功')
           done()
-          getMenuList()
+          getMenuListPage()
         }, 2000)
       } else if (action !== 'confirm') {
         if (!instance.confirmButtonLoading) done()
@@ -114,11 +114,11 @@ const handleTableRowClick = function(row, column, event) {
 
 // 添加/修改成功
 const handleAddOrModifySuccess = function() {
-  getMenuList()
+  getMenuListPage()
 }
 
 initQueryForm()
-getMenuList()
+getMenuListPage()
 </script>
 
 <template>

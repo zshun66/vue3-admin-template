@@ -1,6 +1,6 @@
 <script setup name="system:dept">
 import AddOrModify from './components/AddOrModify/AddOrModify.vue'
-import { reqDeptList } from '@/api/system/dept.js'
+import { reqDeptListPage } from '@/api/system/dept.js'
 
 // 数据加载状态
 const showLoading = ref(false)
@@ -24,17 +24,17 @@ const currRow = ref({})
 const initQueryForm = function() {
   queryForm.value = {
     pageNum: 1,
-    pageSize: 100,
+    pageSize: 10,
     name: '', // 部门名称
     status: '', // 部门状态
   }
 }
 
-// 获取部门列表
-const getDeptList = async function() {
+// 获取部门列表(分页)
+const getDeptListPage = async function() {
   const params = JSON.parse(JSON.stringify(queryForm.value))
   showLoading.value = true
-  const { result } = await reqDeptList(params)
+  const { result } = await reqDeptListPage(params)
   showLoading.value = false
   if (!result) return
   deptList.value = result.data.list || []
@@ -44,25 +44,25 @@ const getDeptList = async function() {
 // 搜索
 const handleSearch = function() {
   queryForm.value.pageNum = 1
-  getDeptList()
+  getDeptListPage()
 }
 
 // 重置
 const handleReset = function() {
   initQueryForm()
-  getDeptList()
+  getDeptListPage()
 }
 
 // 分页器页码改变时
 const handlePaginationCurrChange = function(page) {
   queryForm.value.pageNum = page
-  getDeptList()
+  getDeptListPage()
 }
 
 // 分页器页数大小改变时
 const handlePaginationSizeChange = function(size) {
   queryForm.value.pageSize = size
-  getDeptList()
+  getDeptListPage()
 }
 
 // 处理操作
@@ -83,7 +83,7 @@ const handleDelete = function(row) {
           instance.confirmButtonLoading = false
           ElMessage.success('操作成功')
           done()
-          getDeptList()
+          getDeptListPage()
         }, 2000)
       } else if (action !== 'confirm') {
         if (!instance.confirmButtonLoading) done()
@@ -114,11 +114,11 @@ const handleTableRowClick = function(row, column, event) {
 
 // 添加/修改成功
 const handleAddOrModifySuccess = function() {
-  getDeptList()
+  getDeptListPage()
 }
 
 initQueryForm()
-getDeptList()
+getDeptListPage()
 </script>
 
 <template>

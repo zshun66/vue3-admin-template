@@ -1,6 +1,6 @@
 <script setup name="system:role">
 import AddOrModify from './components/AddOrModify/AddOrModify.vue'
-import { reqRoleList } from '@/api/system/role.js'
+import { reqRoleListPage } from '@/api/system/role.js'
 
 // 数据加载状态
 const showLoading = ref(false)
@@ -22,17 +22,17 @@ const currRow = ref({})
 const initQueryForm = function() {
   queryForm.value = {
     pageNum: 1,
-    pageSize: 100,
+    pageSize: 10,
     name: '', // 角色名称
     status: '', // 角色状态
   }
 }
 
-// 获取角色列表
-const getRoleList = async function() {
+// 获取角色列表(分页)
+const getRoleListPage = async function() {
   const params = JSON.parse(JSON.stringify(queryForm.value))
   showLoading.value = true
-  const { result } = await reqRoleList(params)
+  const { result } = await reqRoleListPage(params)
   showLoading.value = false
   if (!result) return
   roleList.value = result.data.list || []
@@ -42,25 +42,25 @@ const getRoleList = async function() {
 // 搜索
 const handleSearch = function() {
   queryForm.value.pageNum = 1
-  getRoleList()
+  getRoleListPage()
 }
 
 // 重置
 const handleReset = function() {
   initQueryForm()
-  getRoleList()
+  getRoleListPage()
 }
 
 // 分页器页码改变时
 const handlePaginationCurrChange = function(page) {
   queryForm.value.pageNum = page
-  getRoleList()
+  getRoleListPage()
 }
 
 // 分页器页数大小改变时
 const handlePaginationSizeChange = function(size) {
   queryForm.value.pageSize = size
-  getRoleList()
+  getRoleListPage()
 }
 
 // 处理操作
@@ -81,7 +81,7 @@ const handleDelete = function(row) {
           instance.confirmButtonLoading = false
           ElMessage.success('操作成功')
           done()
-          getRoleList()
+          getRoleListPage()
         }, 2000)
       } else if (action !== 'confirm') {
         if (!instance.confirmButtonLoading) done()
@@ -92,11 +92,11 @@ const handleDelete = function(row) {
 
 // 添加/修改成功
 const handleAddOrModifySuccess = function() {
-  getRoleList()
+  getRoleListPage()
 }
 
 initQueryForm()
-getRoleList()
+getRoleListPage()
 </script>
 
 <template>

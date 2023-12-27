@@ -1,6 +1,6 @@
 <script setup name="system:dict:DictTypeDetail">
 import DataAddOrModify from '../DataAddOrModify/DataAddOrModify.vue'
-import { reqDictTypeList, reqDictDataList } from '@/api/system/dict.js'
+import { reqDictTypeListAll, reqDictDataListPage } from '@/api/system/dict.js'
 
 const $props = defineProps({
   modelValue: {
@@ -49,27 +49,26 @@ const currRow = ref({})
 const initQueryForm = function() {
   queryForm.value = {
     pageNum: 1,
-    pageSize: 100,
-    nameId: $props.row.id, // 字典名称
+    pageSize: 10,
+    typeId: $props.row.id, // 字典名称
     label: '', // 字典标签
     status: '', // 字典状态
   }
 }
 
-// 获取字典类型列表
-const getDictTypeList = async function() {
+// 获取字典类型列表(全部)
+const getDictTypeListAll = async function() {
   if (dictTypeList.value.length > 0) return
-  const params = {}
-  const { result } = await reqDictTypeList(params)
+  const { result } = await reqDictTypeListAll()
   if (!result) return
-  dictTypeList.value = result.data.list || []
+  dictTypeList.value = result.data || []
 }
 
-// 获取字典数据列表
-const getDictDataList = async function() {
+// 获取字典数据列表(分页)
+const getDictDataListPage = async function() {
   const params = JSON.parse(JSON.stringify(queryForm.value))
   showLoading.value = true
-  const { result } = await reqDictDataList(params)
+  const { result } = await reqDictDataListPage(params)
   showLoading.value = false
   if (!result) return
   dictDataList.value = result.data.list || []
@@ -79,25 +78,25 @@ const getDictDataList = async function() {
 // 搜索
 const handleSearch = function() {
   queryForm.value.pageNum = 1
-  getDictDataList()
+  getDictDataListPage()
 }
 
 // 重置
 const handleReset = function() {
   initQueryForm()
-  getDictDataList()
+  getDictDataListPage()
 }
 
 // 分页器页码改变时
 const handlePaginationCurrChange = function(page) {
   queryForm.value.pageNum = page
-  getDictDataList()
+  getDictDataListPage()
 }
 
 // 分页器页数大小改变时
 const handlePaginationSizeChange = function(size) {
   queryForm.value.pageSize = size
-  getDictDataList()
+  getDictDataListPage()
 }
 
 // 处理操作
@@ -118,7 +117,7 @@ const handleDelete = function(row) {
           instance.confirmButtonLoading = false
           ElMessage.success('操作成功')
           done()
-          getDictDataList()
+          getDictDataListPage()
         }, 2000)
       } else if (action !== 'confirm') {
         if (!instance.confirmButtonLoading) done()
@@ -129,14 +128,14 @@ const handleDelete = function(row) {
 
 // 添加/修改成功
 const handleAddOrModifySuccess = function() {
-  getDictDataList()
+  getDictDataListPage()
 }
 
 // 打开弹框时
 const handleDialogOpen = function() {
   initQueryForm()
-  getDictTypeList()
-  getDictDataList()
+  getDictTypeListAll()
+  getDictDataListPage()
 }
 
 // 关闭弹框时
@@ -163,10 +162,10 @@ initQueryForm()
         <div>{{ row.name }} - 字典类型详情</div>
       </template>
       <el-form :model="queryForm" label-width="auto" inline>
-        <el-form-item label="字典名称:" prop="nameId">
+        <el-form-item label="字典名称:" prop="typeId">
           <el-select
             style="width: 200px;"
-            v-model="queryForm.nameId"
+            v-model="queryForm.typeId"
             filterable
             placeholder="请选择"
           >

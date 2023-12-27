@@ -1,6 +1,6 @@
 <script setup name="system:param">
 import AddOrModify from './components/AddOrModify/AddOrModify.vue'
-import { reqParamList } from '@/api/system/param.js'
+import { reqParamListPage } from '@/api/system/param.js'
 
 // 数据加载状态
 const showLoading = ref(false)
@@ -22,7 +22,7 @@ const currRow = ref({})
 const initQueryForm = function() {
   queryForm.value = {
     pageNum: 1,
-    pageSize: 100,
+    pageSize: 10,
     name: '', // 参数名称
     key: '', // 参数键名
     type: '', // 系统内置
@@ -30,11 +30,11 @@ const initQueryForm = function() {
   }
 }
 
-// 获取参数列表
-const getParamList = async function() {
+// 获取参数列表(分页)
+const getParamListPage = async function() {
   const params = JSON.parse(JSON.stringify(queryForm.value))
   showLoading.value = true
-  const { result } = await reqParamList(params)
+  const { result } = await reqParamListPage(params)
   showLoading.value = false
   if (!result) return
   paramList.value = result.data.list || []
@@ -44,25 +44,25 @@ const getParamList = async function() {
 // 搜索
 const handleSearch = function() {
   queryForm.value.pageNum = 1
-  getParamList()
+  getParamListPage()
 }
 
 // 重置
 const handleReset = function() {
   initQueryForm()
-  getParamList()
+  getParamListPage()
 }
 
 // 分页器页码改变时
 const handlePaginationCurrChange = function(page) {
   queryForm.value.pageNum = page
-  getParamList()
+  getParamListPage()
 }
 
 // 分页器页数大小改变时
 const handlePaginationSizeChange = function(size) {
   queryForm.value.pageSize = size
-  getParamList()
+  getParamListPage()
 }
 
 // 处理操作
@@ -83,7 +83,7 @@ const handleDelete = function(row) {
           instance.confirmButtonLoading = false
           ElMessage.success('操作成功')
           done()
-          getParamList()
+          getParamListPage()
         }, 2000)
       } else if (action !== 'confirm') {
         if (!instance.confirmButtonLoading) done()
@@ -94,11 +94,11 @@ const handleDelete = function(row) {
 
 // 添加/修改成功
 const handleAddOrModifySuccess = function() {
-  getParamList()
+  getParamListPage()
 }
 
 initQueryForm()
-getParamList()
+getParamListPage()
 </script>
 
 <template>
