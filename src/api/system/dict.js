@@ -69,7 +69,7 @@ export const reqDictTypeListPage = async (params) => {
 	}
 }
 
-// 获取字典数据列表
+// 获取字典数据列表(分页)
 export const reqDictDataListPage = (params) => {
 	return request({
 		url: API.DICTDATALIST_PAGE_URL,

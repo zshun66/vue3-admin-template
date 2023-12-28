@@ -1,5 +1,5 @@
 <script setup name="system:menu">
-import AddOrModify from './components/AddOrModify/AddOrModify.vue'
+import MenuFormDialog from './components/MenuFormDialog.vue'
 import { reqMenuListPage } from '@/api/system/menu.js'
 
 // 数据加载状态
@@ -13,7 +13,7 @@ const dataTotal = ref(0)
 // 表格实例
 const menuTableRef = ref(null)
 // 是否显示添加/修改弹框
-const showAddOrModifyDialog = ref(false)
+const showMenuFormDialog = ref(false)
 // 添加/修改弹框类型(add添加、edit修改)
 const dialogType = ref('add')
 // 当前操作的行对象
@@ -69,7 +69,7 @@ const handlePaginationSizeChange = function(size) {
 const handleOperate = function(type, row) {
   dialogType.value = type
   currRow.value = row
-  showAddOrModifyDialog.value = true
+  showMenuFormDialog.value = true
 }
 
 // 删除
@@ -113,7 +113,7 @@ const handleTableRowClick = function(row, column, event) {
 }
 
 // 添加/修改成功
-const handleAddOrModifySuccess = function() {
+const handleMenuFormDialogSuccess = function() {
   getMenuListPage()
 }
 
@@ -239,12 +239,12 @@ getMenuListPage()
     />
   </div>
 
-  <AddOrModify
-    v-model="showAddOrModifyDialog"
+  <MenuFormDialog
+    v-model="showMenuFormDialog"
     :type="dialogType"
     :menuTree="menuList"
     :row="currRow"
-    @success="handleAddOrModifySuccess"
+    @success="handleMenuFormDialogSuccess"
   />
 </template>
 

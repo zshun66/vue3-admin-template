@@ -1,4 +1,4 @@
-<script setup name="system:role:AddOrModify">
+<script setup name="RoleFormDialog">
 import { reqMenuListAll } from '@/api/system/menu.js'
 import { extractKeyNamesFromTree } from '@/utils/utils.js'
 
@@ -33,7 +33,7 @@ const showDialog = computed({
 // 菜单数据
 const menuData = ref([])
 // 表单实例
-const addOrModifyFormRef = ref(null)
+const roleFormRef = ref(null)
 // 表单数据
 const formData = ref(null)
 // 表单数据验证规则
@@ -92,7 +92,7 @@ const handleCancel = function() {
 
 // 确定
 const handleConfirm = async function() {
-  const valid = await addOrModifyFormRef.value.validate().catch(err => {})
+  const valid = await roleFormRef.value.validate().catch(err => {})
   if (!valid) return
   console.log(formData.value)
   showDialog.value = false
@@ -119,7 +119,7 @@ const handleDialogOpen = function() {
 // 关闭弹框时
 const handleDialogClosed = function() {
   initFormData()
-  addOrModifyFormRef.value.resetFields()
+  roleFormRef.value.resetFields()
   menuTreeRef.value.setCheckedKeys([])
   isExpand.value = false
   isAllSelect.value = false
@@ -129,9 +129,9 @@ const handleDialogClosed = function() {
 const handleMenuTreeCheckChange = function() {
   formData.value.menuIds = menuTreeRef.value.getCheckedKeys()
   if (formData.value.menuIds.length > 0) {
-    addOrModifyFormRef.value.clearValidate('menuIds')
+    roleFormRef.value.clearValidate('menuIds')
   } else {
-    addOrModifyFormRef.value.validateField('menuIds').catch(err => {})
+    roleFormRef.value.validateField('menuIds').catch(err => {})
   }
 }
 
@@ -149,7 +149,7 @@ initFormData()
 </script>
 
 <template>
-  <div class="comp_container addormodify_comp">
+  <div class="comp_container role_form_dialog_comp">
     <el-dialog
       v-model="showDialog"
       width="650px"
@@ -171,7 +171,7 @@ initFormData()
         </div>
       </template>
 
-      <el-form class="form" ref="addOrModifyFormRef" :model="formData" :rules="formDataRules" label-width="auto">
+      <el-form class="form" ref="roleFormRef" :model="formData" :rules="formDataRules" label-width="auto">
         <el-form-item label="显示排序:" prop="sort">
           <el-input-number
             class="form_width"
@@ -245,7 +245,7 @@ initFormData()
 </template>
 
 <style scoped lang="scss">
-.addormodify_comp {
+.role_form_dialog_comp {
   .form {
     display: flex;
     flex-wrap: wrap;

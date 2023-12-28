@@ -1,4 +1,4 @@
-<script setup name="system:menu:AddOrModify">
+<script setup name="MenuFormDialog">
 const $props = defineProps({
   modelValue: {
     type: Boolean,
@@ -90,7 +90,7 @@ const menuTreeData = computed(() => {
   return result
 })
 // 表单实例
-const addOrModifyFormRef = ref(null)
+const menuFormRef = ref(null)
 // 菜单树选择器实例
 const menuTreeSelectRef = ref(null)
 
@@ -129,7 +129,7 @@ const handleCancel = function() {
 
 // 确定
 const handleConfirm = async function() {
-  const valid = await addOrModifyFormRef.value.validate().catch(err => {})
+  const valid = await menuFormRef.value.validate().catch(err => {})
   if (!valid) return
   console.log(formData.value)
   showDialog.value = false
@@ -151,14 +151,14 @@ const handleDialogOpen = function() {
 // 关闭弹框时
 const handleDialogClosed = function() {
   initFormData()
-  addOrModifyFormRef.value.resetFields()
+  menuFormRef.value.resetFields()
 }
 
 initFormData()
 </script>
 
 <template>
-  <div class="comp_container addormodify_comp">
+  <div class="comp_container menu_form_dialog_comp">
     <el-dialog
       v-model="showDialog"
       width="650px"
@@ -180,7 +180,7 @@ initFormData()
         </div>
       </template>
 
-      <el-form class="form" ref="addOrModifyFormRef" :model="formData" :rules="formDataRules" label-width="auto">
+      <el-form class="form" ref="menuFormRef" :model="formData" :rules="formDataRules" label-width="auto">
         <el-form-item label="父级菜单:" prop="parentId">
           <el-tree-select
             class="form_width"
@@ -312,7 +312,7 @@ initFormData()
 </template>
 
 <style scoped lang="scss">
-.addormodify_comp {
+.menu_form_dialog_comp {
   .form {
     display: flex;
     flex-wrap: wrap;

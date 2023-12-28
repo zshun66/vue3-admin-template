@@ -1,4 +1,4 @@
-<script setup name="system:dept:AddOrModify">
+<script setup name="PostFormDialog">
 const $props = defineProps({
   modelValue: {
     type: Boolean,
@@ -7,10 +7,6 @@ const $props = defineProps({
   type: {
     type: String,
     default: 'add'
-  },
-  deptTree: {
-    type: Array,
-    default: () => ([])
   },
   row: {
     type: Object,
@@ -35,45 +31,33 @@ const showDialog = computed({
 const formData = ref(null)
 // 表单数据验证规则
 const formDataRules = ref({
-  parentId: [
-    { required: true, message: '请选择父级部门', trigger: 'change' }
+  name: [
+    { required: true, message: '请输入岗位名称', trigger: 'blur' }
+  ],
+  code: [
+    { required: true, message: '请输入岗位编码', trigger: 'blur' }
   ],
   sort: [
     { required: true, message: '请输入显示排序', trigger: 'blur' }
   ],
-  name: [
-    { required: true, message: '请输入部门名称', trigger: 'blur' }
-  ],
-  head: [],
-  telephone: [],
-  email: [],
   status: [
-    { required: true, message: '请选择部门状态', trigger: 'change' }
+    { required: true, message: '请选择岗位状态', trigger: 'change' }
   ],
+  remark: [],
 })
 // 表单实例
-const addOrModifyFormRef = ref(null)
-// 部门树选择器实例
-const deptTreeSelectRef = ref(null)
+const postFormRef = ref(null)
 
 
 // 初始化表单数据
 const initFormData = function() {
   formData.value = {
-    parentId: '',
-    sort: null,
     name: '',
-    head: '',
-    telephone: '',
-    email: '',
+    code: '',
+    sort: null,
     status: '1',
+    remark: ''
   }
-}
-
-// 当前选中节点变化时触发的事件
-const handleTreeSelectCurrentChange = function(data, node) {
-  formData.value.parentId = data.id
-  deptTreeSelectRef.value.blur()
 }
 
 // 取消
@@ -83,7 +67,7 @@ const handleCancel = function() {
 
 // 确定
 const handleConfirm = async function() {
-  const valid = await addOrModifyFormRef.value.validate().catch(err => {})
+  const valid = await postFormRef.value.validate().catch(err => {})
   if (!valid) return
   console.log(formData.value)
   showDialog.value = false
@@ -94,7 +78,7 @@ const handleConfirm = async function() {
 // 打开弹框时
 const handleDialogOpen = function() {
   if ($props.type === 'add') {
-    formData.value.parentId = ($props.row && $props.row.id) || ''
+    
   } else if ($props.type === 'edit') {
     for (let key in formData.value) {
       formData.value[key] = $props.row[key]
@@ -105,14 +89,14 @@ const handleDialogOpen = function() {
 // 关闭弹框时
 const handleDialogClosed = function() {
   initFormData()
-  addOrModifyFormRef.value.resetFields()
+  postFormRef.value.resetFields()
 }
 
 initFormData()
 </script>
 
 <template>
-  <div class="comp_container addormodify_comp">
+  <div class="comp_container post_form_dialog_comp">
     <el-dialog
       v-model="showDialog"
       width="650px"
@@ -125,32 +109,31 @@ initFormData()
     >
       <template #header>
         <div v-if="type === 'add'">
-          <span>添加部门</span>
+          <span>添加岗位</span>
           <span style="color: #f00;">(*为必填项)</span>
         </div>
         <div v-if="type === 'edit'">
-          <span>修改部门</span>
+          <span>修改岗位</span>
           <span style="color: #f00;">(*为必填项)</span>
         </div>
       </template>
 
-      <el-form class="form" ref="addOrModifyFormRef" :model="formData" :rules="formDataRules" label-width="auto">
-        <el-form-item style="width: 100%;" label="父级部门:" prop="parentId">
-          <el-tree-select
+      <el-form class="form" ref="postFormRef" :model="formData" :rules="formDataRules" label-width="auto">
+        <el-form-item label="岗位名称:" prop="name">
+          <el-input
             class="form_width"
-            ref="deptTreeSelectRef"
-            v-model="formData.parentId"
-            :data="deptTree"
-            node-key="id"
-            render-after-expand
-            :expand-on-click-node="false"
-            :props="{
-              label: 'name',
-              children: 'children'
-            }"
-            placeholder="请选择上级部门"
-            @current-change="handleTreeSelectCurrentChange"
-          ></el-tree-select>
+            v-model="formData.name"
+            clearable
+            placeholder="请输入岗位名称"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="岗位编码:" prop="code">
+          <el-input
+            class="form_width"
+            v-model="formData.code"
+            clearable
+            placeholder="请输入岗位编码"
+          ></el-input>
         </el-form-item>
         <el-form-item label="显示排序:" prop="sort">
           <el-input-number
@@ -162,43 +145,21 @@ initFormData()
             placeholder="请输入显示排序"
           ></el-input-number>
         </el-form-item>
-        <el-form-item label="部门名称:" prop="name">
-          <el-input
-            class="form_width"
-            v-model="formData.name"
-            clearable
-            placeholder="请输入部门名称"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="负责人:" prop="head">
-          <el-input
-            class="form_width"
-            v-model="formData.head"
-            clearable
-            placeholder="请输入负责人"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="联系电话:" prop="telephone">
-          <el-input
-            class="form_width"
-            v-model="formData.telephone"
-            clearable
-            placeholder="请输入联系电话"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="邮箱:" prop="email">
-          <el-input
-            class="form_width"
-            v-model="formData.email"
-            clearable
-            placeholder="请输入邮箱"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="部门状态:" prop="status">
+        <el-form-item label="岗位状态:" prop="status">
           <el-select class="form_width" v-model="formData.status">
             <el-option label="正常" value="1"></el-option>
             <el-option label="禁用" value="0"></el-option>
           </el-select>
+        </el-form-item>
+        <el-form-item style="width: 100%;" label="备注:" prop="remark">
+          <el-input
+            class="form_width"
+            v-model="formData.remark"
+            type="textarea"
+            :autosize="{ minRows: 2, maxRows: 3 }"
+            clearable
+            placeholder="请输入备注"
+          ></el-input>
         </el-form-item>
       </el-form>
 
@@ -211,7 +172,7 @@ initFormData()
 </template>
 
 <style scoped lang="scss">
-.addormodify_comp {
+.post_form_dialog_comp {
   .form {
     display: flex;
     flex-wrap: wrap;

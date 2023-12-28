@@ -1,4 +1,4 @@
-<script setup name="system:post:AddOrModify">
+<script setup title="NoticeFormDialog">
 const $props = defineProps({
   modelValue: {
     type: Boolean,
@@ -31,31 +31,29 @@ const showDialog = computed({
 const formData = ref(null)
 // 表单数据验证规则
 const formDataRules = ref({
-  name: [
-    { required: true, message: '请输入岗位名称', trigger: 'blur' }
+  title: [
+    { required: true, message: '请输入标题', trigger: 'blur' }
   ],
-  code: [
-    { required: true, message: '请输入岗位编码', trigger: 'blur' }
-  ],
-  sort: [
-    { required: true, message: '请输入显示排序', trigger: 'blur' }
+  type: [
+    { required: true, message: '请选择类型', trigger: 'change' }
   ],
   status: [
-    { required: true, message: '请选择岗位状态', trigger: 'change' }
+    { required: true, message: '请选择状态', trigger: 'change' }
   ],
+  content: [],
   remark: [],
 })
 // 表单实例
-const addOrModifyFormRef = ref(null)
+const noticeFormRef = ref(null)
 
 
 // 初始化表单数据
 const initFormData = function() {
   formData.value = {
-    name: '',
-    code: '',
-    sort: null,
+    title: '',
+    type: '1',
     status: '1',
+    content: '',
     remark: ''
   }
 }
@@ -67,7 +65,7 @@ const handleCancel = function() {
 
 // 确定
 const handleConfirm = async function() {
-  const valid = await addOrModifyFormRef.value.validate().catch(err => {})
+  const valid = await noticeFormRef.value.validate().catch(err => {})
   if (!valid) return
   console.log(formData.value)
   showDialog.value = false
@@ -89,17 +87,17 @@ const handleDialogOpen = function() {
 // 关闭弹框时
 const handleDialogClosed = function() {
   initFormData()
-  addOrModifyFormRef.value.resetFields()
+  noticeFormRef.value.resetFields()
 }
 
 initFormData()
 </script>
 
 <template>
-  <div class="comp_container addormodify_comp">
+  <div class="comp_container notice_form_dialog_comp">
     <el-dialog
       v-model="showDialog"
-      width="650px"
+      width="700px"
       top="15vh"
       :append-to-body="false"
       :close-on-click-modal="false"
@@ -109,54 +107,52 @@ initFormData()
     >
       <template #header>
         <div v-if="type === 'add'">
-          <span>添加岗位</span>
+          <span>添加通知公告</span>
           <span style="color: #f00;">(*为必填项)</span>
         </div>
         <div v-if="type === 'edit'">
-          <span>修改岗位</span>
+          <span>修改通知公告</span>
           <span style="color: #f00;">(*为必填项)</span>
         </div>
       </template>
 
-      <el-form class="form" ref="addOrModifyFormRef" :model="formData" :rules="formDataRules" label-width="auto">
-        <el-form-item label="岗位名称:" prop="name">
+      <el-form class="form" ref="noticeFormRef" :model="formData" :rules="formDataRules" label-width="auto">
+        <el-form-item style="width: 100%;" label="标题:" prop="title">
           <el-input
             class="form_width"
-            v-model="formData.name"
+            v-model="formData.title"
             clearable
-            placeholder="请输入岗位名称"
+            placeholder="请输入标题"
           ></el-input>
         </el-form-item>
-        <el-form-item label="岗位编码:" prop="code">
-          <el-input
-            class="form_width"
-            v-model="formData.code"
-            clearable
-            placeholder="请输入岗位编码"
-          ></el-input>
+        <el-form-item label="类型:" prop="type">
+          <el-select class="form_width" v-model="formData.type">
+            <el-option label="通知" value="1"></el-option>
+            <el-option label="公告" value="2"></el-option>
+          </el-select>
         </el-form-item>
-        <el-form-item label="显示排序:" prop="sort">
-          <el-input-number
-            class="form_width"
-            v-model="formData.sort"
-            :min="0"
-            step-strictly
-            controls-position="right"
-            placeholder="请输入显示排序"
-          ></el-input-number>
-        </el-form-item>
-        <el-form-item label="岗位状态:" prop="status">
+        <el-form-item label="状态:" prop="status">
           <el-select class="form_width" v-model="formData.status">
             <el-option label="正常" value="1"></el-option>
-            <el-option label="禁用" value="0"></el-option>
+            <el-option label="关闭" value="0"></el-option>
           </el-select>
+        </el-form-item>
+        <el-form-item style="width: 100%;" label="内容:" prop="content">
+          <el-input
+            class="form_width"
+            v-model="formData.content"
+            type="textarea"
+            :autosize="{ minRows: 3, maxRows: 5 }"
+            clearable
+            placeholder="请输入备注"
+          ></el-input>
         </el-form-item>
         <el-form-item style="width: 100%;" label="备注:" prop="remark">
           <el-input
             class="form_width"
             v-model="formData.remark"
             type="textarea"
-            :autosize="{ minRows: 2, maxRows: 3 }"
+            :autosize="{ minRows: 3, maxRows: 5 }"
             clearable
             placeholder="请输入备注"
           ></el-input>
@@ -172,7 +168,7 @@ initFormData()
 </template>
 
 <style scoped lang="scss">
-.addormodify_comp {
+.notice_form_dialog_comp {
   .form {
     display: flex;
     flex-wrap: wrap;

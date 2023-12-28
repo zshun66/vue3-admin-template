@@ -28,7 +28,7 @@ const initQueryForm = function() {
   }
 }
 
-// 获取登录日志列表
+// 获取登录日志列表(分页)
 const getLoginLogListPage = async function() {
   const params = JSON.parse(JSON.stringify(queryForm.value))
   params.startLoginTime = (params.loginTime && params.loginTime[0]) || ''

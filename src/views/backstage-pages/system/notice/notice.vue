@@ -1,17 +1,17 @@
-<script setup name="system:post">
-import AddOrModify from './components/AddOrModify/AddOrModify.vue'
-import { reqPostListPage } from '@/api/system/post.js'
+<script setup name="system:notice">
+import NoticeFormDialog from './components/NoticeFormDialog.vue'
+import { reqNoticeListPage } from '@/api/system/notice.js'
 
 // 数据加载状态
 const showLoading = ref(false)
 // 查询参数
 const queryForm = ref({})
-// 岗位列表数据
-const postList = ref([])
-// 岗位数据总数
+// 参数列表数据
+const paramList = ref([])
+// 参数数据总数
 const dataTotal = ref(0)
 // 是否显示添加/修改弹框
-const showAddOrModifyDialog = ref(false)
+const showNoticeFormDialog = ref(false)
 // 添加/修改弹框类型(add添加、edit修改)
 const dialogType = ref('add')
 // 当前操作的行对象
@@ -22,58 +22,58 @@ const currRow = ref({})
 const initQueryForm = function() {
   queryForm.value = {
     pageNum: 1,
-    pageSize: 100,
-    name: '', // 岗位名称
-    code: '', // 岗位编码
-    status: '', // 岗位状态
+    pageSize: 10,
+    title: '', // 标题
+    type: '', // 类型
+    status: '', // 状态
   }
 }
 
-// 获取岗位列表
-const getPostList = async function() {
+// 获取通知公告列表(分页)
+const getNoticeListPage = async function() {
   const params = JSON.parse(JSON.stringify(queryForm.value))
   showLoading.value = true
-  const { result } = await reqPostListPage(params)
+  const { result } = await reqNoticeListPage(params)
   showLoading.value = false
   if (!result) return
-  postList.value = result.data.list || []
+  paramList.value = result.data.list || []
   dataTotal.value = result.data.total || 0
 }
 
 // 搜索
 const handleSearch = function() {
   queryForm.value.pageNum = 1
-  getPostList()
+  getNoticeListPage()
 }
 
 // 重置
 const handleReset = function() {
   initQueryForm()
-  getPostList()
+  getNoticeListPage()
 }
 
 // 分页器页码改变时
 const handlePaginationCurrChange = function(page) {
   queryForm.value.pageNum = page
-  getPostList()
+  getNoticeListPage()
 }
 
 // 分页器页数大小改变时
 const handlePaginationSizeChange = function(size) {
   queryForm.value.pageSize = size
-  getPostList()
+  getNoticeListPage()
 }
 
 // 处理操作
 const handleOperate = function(type, row) {
   dialogType.value = type
   currRow.value = row
-  showAddOrModifyDialog.value = true
+  showNoticeFormDialog.value = true
 }
 
 // 删除
 const handleDelete = function(row) {
-  ElMessageBox.confirm('确认删除该岗位?', '提示', {
+  ElMessageBox.confirm('确认删除该参数?', '提示', {
     type: 'warning',
     beforeClose: (action, instance, done) => {
       if (action === 'confirm') {
@@ -82,7 +82,7 @@ const handleDelete = function(row) {
           instance.confirmButtonLoading = false
           ElMessage.success('操作成功')
           done()
-          getPostList()
+          getNoticeListPage()
         }, 2000)
       } else if (action !== 'confirm') {
         if (!instance.confirmButtonLoading) done()
@@ -92,34 +92,37 @@ const handleDelete = function(row) {
 }
 
 // 添加/修改成功
-const handleAddOrModifySuccess = function() {
-  getPostList()
+const handleNoticeFormDialogSuccess = function() {
+  getNoticeListPage()
 }
 
 initQueryForm()
-getPostList()
+getNoticeListPage()
 </script>
 
 <template>
-  <div class="page_container post_page">
+  <div class="page_container notice_page">
     <el-form :model="queryForm" label-width="auto" inline>
-      <el-form-item label="岗位名称:" prop="name">
+      <el-form-item label="标题:" prop="title">
         <el-input
           style="width: 200px;"
-          v-model="queryForm.name"
+          v-model="queryForm.title"
           clearable
-          placeholder="请输入岗位名称"
+          placeholder="请输入标题"
         ></el-input>
       </el-form-item>
-      <el-form-item label="岗位编码:" prop="code">
-        <el-input
-          style="width: 200px;"
-          v-model="queryForm.code"
+      <el-form-item label="类型:" prop="type">
+        <el-select
+          style="width: 150px;"
+          v-model="queryForm.type"
           clearable
-          placeholder="请输入岗位编码"
-        ></el-input>
+          placeholder="请选择"
+        >
+          <el-option label="通知" value="1"></el-option>
+          <el-option label="公告" value="2"></el-option>
+        </el-select>
       </el-form-item>
-      <el-form-item label="岗位状态:" prop="status">
+      <el-form-item label="状态:" prop="status">
         <el-select
           style="width: 150px;"
           v-model="queryForm.status"
@@ -127,7 +130,7 @@ getPostList()
           placeholder="请选择"
         >
           <el-option label="正常" value="1"></el-option>
-          <el-option label="禁用" value="0"></el-option>
+          <el-option label="关闭" value="0"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -141,9 +144,9 @@ getPostList()
     </div>
 
     <el-table
-      class="post_list_table"
+      class="param_list_table"
       height="100%"
-      :data="postList"
+      :data="paramList"
       :header-cell-style="{
         background: '#F8F8F9',
         color: '#666'
@@ -151,33 +154,34 @@ getPostList()
       row-key="id"
       v-loading="showLoading"
     >
-      <el-table-column label="岗位名称" prop="name" align="center" min-width="200" show-overflow-tooltip>
+      <el-table-column label="ID" prop="id" align="center" width="80">
         <template #default="scope">
-          <span>{{ scope.row.name }}</span>
+          <span>{{ scope.row.id }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="排序" prop="sort" align="center" min-width="80">
+      <el-table-column label="标题" prop="title" align="center" min-width="250">
         <template #default="scope">
-          <span>{{ scope.row.sort }}</span>
+          <span>{{ scope.row.title }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="岗位编码" prop="code" align="center" min-width="120">
+      <el-table-column label="类型" prop="type" align="center" min-width="100">
         <template #default="scope">
-          <span>{{ scope.row.code }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="备注" prop="remark" align="center" min-width="200">
-        <template #default="scope">
-          <span>{{ scope.row.remark }}</span>
+          <el-tag type="success" v-if="scope.row.type == '1'">通知</el-tag>
+          <el-tag type="warning" v-if="scope.row.type == '2'">公告</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="状态" prop="status" align="center" min-width="100">
         <template #default="scope">
           <el-tag type="" v-if="scope.row.status === '1'">正常</el-tag>
-          <el-tag type="danger" v-if="scope.row.status === '0'">禁用</el-tag>
+          <el-tag type="danger" v-if="scope.row.status === '0'">关闭</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="创建者" prop="creator" align="center" min-width="110">
+      <el-table-column label="备注" prop="remark" align="center" min-width="120">
+        <template #default="scope">
+          <span>{{ scope.row.remark }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="创建者" prop="creator" align="center" min-width="100">
         <template #default="scope">
           <span>{{ scope.row.creator }}</span>
         </template>
@@ -187,7 +191,7 @@ getPostList()
           <span>{{ scope.row.createTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" prop="" align="center" width="160">
+      <el-table-column label="操作" prop="" align="center" width="150">
         <template #default="scope">
           <div style="display: flex; align-items: center; justify-content: center;">
             <el-button style="padding: 0 0;" type="primary" text icon="icon-edit" @click.stop="handleOperate('edit', scope.row)">修改</el-button>
@@ -198,7 +202,7 @@ getPostList()
     </el-table>
 
     <el-pagination
-      class="post_list_pagination"
+      class="param_list_pagination"
       background
       layout="total, sizes, prev, pager, next, jumper"
       v-model:current-page="queryForm.pageNum"
@@ -209,16 +213,16 @@ getPostList()
     />
   </div>
 
-  <AddOrModify
-    v-model="showAddOrModifyDialog"
+  <NoticeFormDialog
+    v-model="showNoticeFormDialog"
     :type="dialogType"
     :row="currRow"
-    @success="handleAddOrModifySuccess"
+    @success="handleNoticeFormDialogSuccess"
   />
 </template>
 
 <style scoped lang="scss">
-.post_page {
+.notice_page {
   padding: 20px 20px;
   display: flex;
   flex-direction: column;
@@ -227,11 +231,11 @@ getPostList()
     margin-top: 10px;
   }
 
-  .post_list_table {
+  .param_list_table {
     margin-top: 10px;
   }
 
-  .post_list_pagination {
+  .param_list_pagination {
     margin-top: 10px;
     justify-content: flex-end;
   }

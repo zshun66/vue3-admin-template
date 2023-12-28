@@ -1,5 +1,5 @@
-<script setup name="system:dict:DictTypeDetail">
-import DataAddOrModify from '../DataAddOrModify/DataAddOrModify.vue'
+<script setup name="DictTypeDetailDialog">
+import DictDataFormDialog from './DictDataFormDialog.vue'
 import { reqDictTypeListAll, reqDictDataListPage } from '@/api/system/dict.js'
 
 const $props = defineProps({
@@ -37,8 +37,8 @@ const queryForm = ref({})
 const dictDataList = ref([])
 // 字典数据总数
 const dataTotal = ref(0)
-// 是否显示字典类型添加/修改弹框
-const showTypeAddOrModifyDialog = ref(false)
+// 是否显示字典数据添加/修改弹框
+const showDictDataFormDialog = ref(false)
 // 添加/修改弹框类型(add添加、edit修改)
 const dialogType = ref('add')
 // 当前操作的行对象
@@ -103,7 +103,7 @@ const handlePaginationSizeChange = function(size) {
 const handleOperate = function(type, row) {
   dialogType.value = type
   currRow.value = row
-  showTypeAddOrModifyDialog.value = true
+  showDictDataFormDialog.value = true
 }
 
 // 删除
@@ -147,7 +147,7 @@ initQueryForm()
 </script>
 
 <template>
-  <div class="comp_container dicttypedetail_comp">
+  <div class="comp_container dict_type_detail_dialog_comp">
     <el-dialog
       v-model="showDialog"
       width="1200px"
@@ -273,8 +273,8 @@ initQueryForm()
         @size-change="handlePaginationSizeChange"
       />
 
-      <DataAddOrModify
-        v-model="showTypeAddOrModifyDialog"
+      <DictDataFormDialog
+        v-model="showDictDataFormDialog"
         :type="dialogType"
         :outRow="row"
         :curRow="currRow"
@@ -285,7 +285,7 @@ initQueryForm()
 </template>
 
 <style scoped lang="scss">
-.dicttypedetail_comp {
+.dict_type_detail_dialog_comp {
 
   :deep(.el-dialog) {
     border-radius: 7px;

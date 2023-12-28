@@ -1,4 +1,4 @@
-<script setup name="system:user:AddOrModify">
+<script setup name="UserFormDialog">
 import { reqRoleListPage } from '@/api/system/role.js'
 import { reqDeptListPage } from '@/api/system/dept.js'
 import { reqPostListPage } from '@/api/system/post.js'
@@ -80,7 +80,7 @@ const formDataRules = ref({
   remark: [],
 })
 // 表单实例
-const addOrModifyFormRef = ref(null)
+const userFormRef = ref(null)
 // 部门树形组件实例
 const deptTreeSelectRef = ref(null)
 
@@ -138,7 +138,7 @@ const handleCancel = function() {
 
 // 确定
 const handleConfirm = async function() {
-  const valid = await addOrModifyFormRef.value.validate().catch(err => {})
+  const valid = await userFormRef.value.validate().catch(err => {})
   if (!valid) return
   console.log(formData.value)
   showDialog.value = false
@@ -166,7 +166,7 @@ const handleDialogOpen = function() {
 // 关闭弹框时
 const handleDialogClosed = function() {
   initFormData()
-  addOrModifyFormRef.value.resetFields()
+  userFormRef.value.resetFields()
 }
 
 // 当前所属部门选中节点变化时触发的事件
@@ -179,7 +179,7 @@ initFormData()
 </script>
 
 <template>
-  <div class="comp_container addormodify_comp">
+  <div class="comp_container user_form_dialog_comp">
     <el-dialog
       v-model="showDialog"
       width="650px"
@@ -201,7 +201,7 @@ initFormData()
         </div>
       </template>
 
-      <el-form class="form" ref="addOrModifyFormRef" :model="formData" :rules="formDataRules" label-width="auto">
+      <el-form class="form" ref="userFormRef" :model="formData" :rules="formDataRules" label-width="auto">
         <el-form-item label="用户名称:" prop="username">
           <el-input
             class="form_width"
@@ -351,7 +351,7 @@ initFormData()
 </template>
 
 <style scoped lang="scss">
-.addormodify_comp {
+.user_form_dialog_comp {
   .form {
     display: flex;
     flex-wrap: wrap;

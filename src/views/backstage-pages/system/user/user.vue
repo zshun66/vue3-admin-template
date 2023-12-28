@@ -1,5 +1,5 @@
 <script setup name="system:user">
-import AddOrModify from './components/AddOrModify/AddOrModify.vue'
+import UserFormDialog from './components/UserFormDialog.vue'
 import { reqDeptListPage } from '@/api/system/dept.js'
 import { reqUserListPage } from '@/api/system/user.js'
 
@@ -18,7 +18,7 @@ const userList = ref([])
 // 用户数据总数
 const dataTotal = ref(0)
 // 是否显示添加/修改弹框
-const showAddOrModifyDialog = ref(false)
+const showUserFormDialog = ref(false)
 // 添加/修改弹框类型(add添加、edit修改)
 const dialogType = ref('add')
 // 当前操作的行对象
@@ -106,7 +106,7 @@ const handlePaginationSizeChange = function(size) {
 const handleOperate = function(type, row) {
   dialogType.value = type
   currRow.value = row
-  showAddOrModifyDialog.value = true
+  showUserFormDialog.value = true
 }
 
 // 删除
@@ -130,7 +130,7 @@ const handleDelete = function(row) {
 }
 
 // 添加/修改成功
-const handleAddOrModifySuccess = function() {
+const handleUserFormDialogSuccess = function() {
   getUserListPage()
 }
 
@@ -360,11 +360,11 @@ getUserListPage()
     </div>
   </div>
 
-  <AddOrModify
-    v-model="showAddOrModifyDialog"
+  <UserFormDialog
+    v-model="showUserFormDialog"
     :type="dialogType"
     :row="currRow"
-    @success="handleAddOrModifySuccess"
+    @success="handleUserFormDialogSuccess"
   />
 </template>
 

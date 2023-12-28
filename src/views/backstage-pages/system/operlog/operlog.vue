@@ -42,7 +42,7 @@ const initQueryForm = function() {
   }
 }
 
-// 获取操作日志列表
+// 获取操作日志列表(分页)
 const getOperLogListPage = async function() {
   const params = JSON.parse(JSON.stringify(queryForm.value))
   params.startOperTime = (params.operTime && params.operTime[0]) || ''

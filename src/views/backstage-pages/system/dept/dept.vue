@@ -1,5 +1,5 @@
 <script setup name="system:dept">
-import AddOrModify from './components/AddOrModify/AddOrModify.vue'
+import DeptFormDialog from './components/DeptFormDialog.vue'
 import { reqDeptListPage } from '@/api/system/dept.js'
 
 // 数据加载状态
@@ -13,7 +13,7 @@ const dataTotal = ref(0)
 // 表格实例
 const deptTableRef = ref(null)
 // 是否显示添加/修改弹框
-const showAddOrModifyDialog = ref(false)
+const showDeptFormDialog = ref(false)
 // 添加/修改弹框类型(add添加、edit修改)
 const dialogType = ref('add')
 // 当前操作的行对象
@@ -69,7 +69,7 @@ const handlePaginationSizeChange = function(size) {
 const handleOperate = function(type, row) {
   dialogType.value = type
   currRow.value = row
-  showAddOrModifyDialog.value = true
+  showDeptFormDialog.value = true
 }
 
 // 删除
@@ -113,7 +113,7 @@ const handleTableRowClick = function(row, column, event) {
 }
 
 // 添加/修改成功
-const handleAddOrModifySuccess = function() {
+const handleDeptFormDialogSuccess = function() {
   getDeptListPage()
 }
 
@@ -232,12 +232,12 @@ getDeptListPage()
     />
   </div>
 
-  <AddOrModify
-    v-model="showAddOrModifyDialog"
+  <DeptFormDialog
+    v-model="showDeptFormDialog"
     :type="dialogType"
     :deptTree="deptList"
     :row="currRow"
-    @success="handleAddOrModifySuccess"
+    @success="handleDeptFormDialogSuccess"
   />
 </template>
 

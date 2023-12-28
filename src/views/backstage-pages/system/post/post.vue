@@ -1,5 +1,5 @@
 <script setup name="system:post">
-import AddOrModify from './components/AddOrModify/AddOrModify.vue'
+import PostFormDialog from './components/PostFormDialog.vue'
 import { reqPostListPage } from '@/api/system/post.js'
 
 // 数据加载状态
@@ -11,7 +11,7 @@ const postList = ref([])
 // 岗位数据总数
 const dataTotal = ref(0)
 // 是否显示添加/修改弹框
-const showAddOrModifyDialog = ref(false)
+const showPostFormDialog = ref(false)
 // 添加/修改弹框类型(add添加、edit修改)
 const dialogType = ref('add')
 // 当前操作的行对象
@@ -68,7 +68,7 @@ const handlePaginationSizeChange = function(size) {
 const handleOperate = function(type, row) {
   dialogType.value = type
   currRow.value = row
-  showAddOrModifyDialog.value = true
+  showPostFormDialog.value = true
 }
 
 // 删除
@@ -92,7 +92,7 @@ const handleDelete = function(row) {
 }
 
 // 添加/修改成功
-const handleAddOrModifySuccess = function() {
+const handlePostFormDialogSuccess = function() {
   getPostListPage()
 }
 
@@ -209,11 +209,11 @@ getPostListPage()
     />
   </div>
 
-  <AddOrModify
-    v-model="showAddOrModifyDialog"
+  <PostFormDialog
+    v-model="showPostFormDialog"
     :type="dialogType"
     :row="currRow"
-    @success="handleAddOrModifySuccess"
+    @success="handlePostFormDialogSuccess"
   />
 </template>
 

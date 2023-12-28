@@ -1,5 +1,5 @@
 <script setup name="system:param">
-import AddOrModify from './components/AddOrModify/AddOrModify.vue'
+import ParamFormDialog from './components/ParamFormDialog.vue'
 import { reqParamListPage } from '@/api/system/param.js'
 
 // 数据加载状态
@@ -11,7 +11,7 @@ const paramList = ref([])
 // 参数数据总数
 const dataTotal = ref(0)
 // 是否显示添加/修改弹框
-const showAddOrModifyDialog = ref(false)
+const showParamFormDialog = ref(false)
 // 添加/修改弹框类型(add添加、edit修改)
 const dialogType = ref('add')
 // 当前操作的行对象
@@ -69,7 +69,7 @@ const handlePaginationSizeChange = function(size) {
 const handleOperate = function(type, row) {
   dialogType.value = type
   currRow.value = row
-  showAddOrModifyDialog.value = true
+  showParamFormDialog.value = true
 }
 
 // 删除
@@ -93,7 +93,7 @@ const handleDelete = function(row) {
 }
 
 // 添加/修改成功
-const handleAddOrModifySuccess = function() {
+const handleParamFormDialogSuccess = function() {
   getParamListPage()
 }
 
@@ -227,11 +227,11 @@ getParamListPage()
     />
   </div>
 
-  <AddOrModify
-    v-model="showAddOrModifyDialog"
+  <ParamFormDialog
+    v-model="showParamFormDialog"
     :type="dialogType"
     :row="currRow"
-    @success="handleAddOrModifySuccess"
+    @success="handleParamFormDialogSuccess"
   />
 </template>
 

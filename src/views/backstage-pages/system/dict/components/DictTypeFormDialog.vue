@@ -1,4 +1,4 @@
-<script setup name="system:param:AddOrModify">
+<script setup name="DictTypeFormDialog">
 const $props = defineProps({
   modelValue: {
     type: Boolean,
@@ -32,33 +32,25 @@ const formData = ref(null)
 // 表单数据验证规则
 const formDataRules = ref({
   name: [
-    { required: true, message: '请输入参数名称', trigger: 'blur' }
+    { required: true, message: '请输入字典名称', trigger: 'blur' }
   ],
-  key: [
-    { required: true, message: '请输入参数键名', trigger: 'blur' }
-  ],
-  value: [
-    { required: true, message: '请输入参数键值', trigger: 'blur' }
-  ],
-  tpye: [
-    { required: true, message: '请选择系统内置', trigger: 'blur' }
+  type: [
+    { required: true, message: '请输入字典类型', trigger: 'blur' }
   ],
   status: [
-    { required: true, message: '请选择参数状态', trigger: 'change' }
+    { required: true, message: '请选择字典状态', trigger: 'change' }
   ],
   remark: [],
 })
 // 表单实例
-const addOrModifyFormRef = ref(null)
+const dictTypeFormRef = ref(null)
 
 
 // 初始化表单数据
 const initFormData = function() {
   formData.value = {
     name: '',
-    key: '',
-    value: '',
-    type: '1',
+    type: '',
     status: '1',
     remark: ''
   }
@@ -71,7 +63,7 @@ const handleCancel = function() {
 
 // 确定
 const handleConfirm = async function() {
-  const valid = await addOrModifyFormRef.value.validate().catch(err => {})
+  const valid = await dictTypeFormRef.value.validate().catch(err => {})
   if (!valid) return
   console.log(formData.value)
   showDialog.value = false
@@ -93,14 +85,14 @@ const handleDialogOpen = function() {
 // 关闭弹框时
 const handleDialogClosed = function() {
   initFormData()
-  addOrModifyFormRef.value.resetFields()
+  dictTypeFormRef.value.resetFields()
 }
 
 initFormData()
 </script>
 
 <template>
-  <div class="comp_container addormodify_comp">
+  <div class="comp_container dict_type_form_dialog_comp">
     <el-dialog
       v-model="showDialog"
       width="450px"
@@ -113,47 +105,33 @@ initFormData()
     >
       <template #header>
         <div v-if="type === 'add'">
-          <span>添加参数</span>
+          <span>添加字典</span>
           <span style="color: #f00;">(*为必填项)</span>
         </div>
         <div v-if="type === 'edit'">
-          <span>修改参数</span>
+          <span>修改字典</span>
           <span style="color: #f00;">(*为必填项)</span>
         </div>
       </template>
 
-      <el-form class="form" ref="addOrModifyFormRef" :model="formData" :rules="formDataRules" label-width="auto">
-        <el-form-item label="参数名称:" prop="name">
+      <el-form class="form" ref="dictTypeFormRef" :model="formData" :rules="formDataRules" label-width="auto">
+        <el-form-item label="字典名称:" prop="name">
           <el-input
             class="form_width"
             v-model="formData.name"
             clearable
-            placeholder="请输入参数名称"
+            placeholder="请输入字典名称"
           ></el-input>
         </el-form-item>
-        <el-form-item label="参数键名:" prop="key">
+        <el-form-item label="字典类型:" prop="type">
           <el-input
             class="form_width"
-            v-model="formData.key"
+            v-model="formData.type"
             clearable
-            placeholder="请输入参数键名"
+            placeholder="请输入字典类型"
           ></el-input>
         </el-form-item>
-        <el-form-item label="参数键值:" prop="value">
-          <el-input
-            class="form_width"
-            v-model="formData.value"
-            clearable
-            placeholder="请输入参数键值"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="系统内置:" prop="type">
-          <el-select class="form_width" v-model="formData.type">
-            <el-option label="是" value="1"></el-option>
-            <el-option label="否" value="0"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="参数状态:" prop="status">
+        <el-form-item label="字典状态:" prop="status">
           <el-select class="form_width" v-model="formData.status">
             <el-option label="正常" value="1"></el-option>
             <el-option label="禁用" value="0"></el-option>
@@ -180,7 +158,7 @@ initFormData()
 </template>
 
 <style scoped lang="scss">
-.addormodify_comp {
+.dict_type_form_dialog_comp {
   .form {
     display: flex;
     flex-wrap: wrap;

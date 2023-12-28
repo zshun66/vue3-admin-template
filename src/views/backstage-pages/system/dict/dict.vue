@@ -1,6 +1,6 @@
 <script setup name="system:dict">
-import TypeAddOrModify from './components/TypeAddOrModify/TypeAddOrModify.vue'
-import DictTypeDetail from './components/DictTypeDetail/DictTypeDetail.vue'
+import DictTypeFormDialog from './components/DictTypeFormDialog.vue'
+import DictTypeDetailDialog from './components/DictTypeDetailDialog.vue'
 import { reqDictTypeListPage } from '@/api/system/dict.js'
 
 // 数据加载状态
@@ -12,7 +12,7 @@ const dictList = ref([])
 // 字典类型数据总数
 const dataTotal = ref(0)
 // 是否显示字典类型添加/修改弹框
-const showTypeAddOrModifyDialog = ref(false)
+const showDictTypeFormDialog = ref(false)
 // 是否显示字典类型详情弹框
 const showDictTypeDetailDialog = ref(false)
 // 添加/修改弹框类型(add添加、edit修改)
@@ -71,7 +71,7 @@ const handlePaginationSizeChange = function(size) {
 const handleOperate = function(type, row) {
   dialogType.value = type
   currRow.value = row
-  showTypeAddOrModifyDialog.value = true
+  showDictTypeFormDialog.value = true
 }
 
 // 删除
@@ -95,7 +95,7 @@ const handleDelete = function(row) {
 }
 
 // 添加/修改成功
-const handleAddOrModifySuccess = function() {
+const handleDictTypeFormDialogSuccess = function() {
   getDictTypeListPage()
 }
 
@@ -218,13 +218,13 @@ getDictTypeListPage()
     />
   </div>
 
-  <TypeAddOrModify
-    v-model="showTypeAddOrModifyDialog"
+  <DictTypeFormDialog
+    v-model="showDictTypeFormDialog"
     :type="dialogType"
     :row="currRow"
-    @success="handleAddOrModifySuccess"
+    @success="handleDictTypeFormDialogSuccess"
   />
-  <DictTypeDetail
+  <DictTypeDetailDialog
     v-model="showDictTypeDetailDialog"
     :row="currRow"
   />
