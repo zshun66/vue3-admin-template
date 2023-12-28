@@ -7,7 +7,6 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import VueSetupExtend from 'vite-plugin-vue-setup-extend'
 import compressPlugin from 'vite-plugin-compression'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
-import { viteMockServe } from 'vite-plugin-mock'
 
 export default defineConfig(({ command, mode, ssrBuild }) => {
   const env = loadEnv(mode, process.cwd() + '/env')
@@ -53,10 +52,6 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
       createSvgIconsPlugin({
         iconDirs: [resolve(__dirname, 'src/assets/icons')],
         symbolId: 'icon-[dir]-[name]'
-      }),
-      viteMockServe({
-        mockPath: 'mock',
-        localEnabled: command === 'serve',
       }),
     ],
     resolve: {

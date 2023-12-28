@@ -1,6 +1,6 @@
 <script setup name="system:post">
 import AddOrModify from './components/AddOrModify/AddOrModify.vue'
-import { reqPostList } from '@/api/system/post.js'
+import { reqPostListPage } from '@/api/system/post.js'
 
 // 数据加载状态
 const showLoading = ref(false)
@@ -33,7 +33,7 @@ const initQueryForm = function() {
 const getPostList = async function() {
   const params = JSON.parse(JSON.stringify(queryForm.value))
   showLoading.value = true
-  const { result } = await reqPostList(params)
+  const { result } = await reqPostListPage(params)
   showLoading.value = false
   if (!result) return
   postList.value = result.data.list || []

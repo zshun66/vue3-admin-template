@@ -1,7 +1,7 @@
 <script setup name="system:user:AddOrModify">
-import { reqRoleList } from '@/api/system/role.js'
-import { reqDeptList } from '@/api/system/dept.js'
-import { reqPostList } from '@/api/system/post.js'
+import { reqRoleListPage } from '@/api/system/role.js'
+import { reqDeptListPage } from '@/api/system/dept.js'
+import { reqPostListPage } from '@/api/system/post.js'
 
 const $props = defineProps({
   modelValue: {
@@ -108,7 +108,7 @@ const initFormData = function() {
 const getRoleList = async function() {
   if (roleList.value.length > 0) return
   const params = {}
-  const { result } = await reqRoleList(params)
+  const { result } = await reqRoleListPage(params)
   if (!result) return
   roleList.value = result.data.list || []
 }
@@ -117,7 +117,7 @@ const getRoleList = async function() {
 const getDeptList = async function() {
   if (deptList.value.length > 0) return
   const params = {}
-  const { result } = await reqDeptList(params)
+  const { result } = await reqDeptListPage(params)
   if (!result) return
   deptList.value = result.data.list || []
 }
@@ -126,7 +126,7 @@ const getDeptList = async function() {
 const getPostList = async function() {
   if (postList.value.length > 0) return
   const params = {}
-  const { result } = await reqPostList(params)
+  const { result } = await reqPostListPage(params)
   if (!result) return
   postList.value = result.data.list || []
 }

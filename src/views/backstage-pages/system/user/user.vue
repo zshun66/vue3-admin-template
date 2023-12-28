@@ -1,7 +1,7 @@
 <script setup name="system:user">
 import AddOrModify from './components/AddOrModify/AddOrModify.vue'
-import { reqDeptList } from '@/api/system/dept.js'
-import { reqUserList } from '@/api/system/user.js'
+import { reqDeptListPage } from '@/api/system/dept.js'
+import { reqUserListPage } from '@/api/system/user.js'
 
 // 数据加载状态
 const showLoading = ref(false)
@@ -28,7 +28,7 @@ const currRow = ref({})
 // 获取部门列表
 const getDeptList = async function() {
   const params = {}
-  const { result } = await reqDeptList(params)
+  const { result } = await reqDeptListPage(params)
   if (!result) return
   deptTree.value = result.data.list || []
 }
@@ -52,7 +52,7 @@ const handleTreeCurrentChange = function(data, node) {
 const initQueryForm = function() {
   queryForm.value = {
     pageNum: 1,
-    pageSize: 100,
+    pageSize: 10,
     username: '', // 用户名称
     nickname: '', // 用户昵称
     phone: '', // 手机号码
@@ -62,14 +62,14 @@ const initQueryForm = function() {
   }
 }
 
-// 获取用户列表
-const getUserList = async function() {
+// 获取用户列表(分页)
+const getUserListPage = async function() {
   const params = JSON.parse(JSON.stringify(queryForm.value))
   params['startDate'] = (params.createTime && params.createTime[0]) || ''
   params['endDate'] = (params.createTime && params.createTime[1]) || ''
   delete params['createTime']
   showLoading.value = true
-  const { result } = await reqUserList(params)
+  const { result } = await reqUserListPage(params)
   showLoading.value = false
   if (!result) return
   userList.value = result.data.list || []
@@ -79,25 +79,25 @@ const getUserList = async function() {
 // 搜索
 const handleSearch = function() {
   queryForm.value.pageNum = 1
-  getUserList()
+  getUserListPage()
 }
 
 // 重置
 const handleReset = function() {
   initQueryForm()
-  getUserList()
+  getUserListPage()
 }
 
 // 分页器页码改变时
 const handlePaginationCurrChange = function(page) {
   queryForm.value.pageNum = page
-  getUserList()
+  getUserListPage()
 }
 
 // 分页器页数大小改变时
 const handlePaginationSizeChange = function(size) {
   queryForm.value.pageSize = size
-  getUserList()
+  getUserListPage()
 }
 
 // 处理操作
@@ -118,7 +118,7 @@ const handleDelete = function(row) {
           instance.confirmButtonLoading = false
           ElMessage.success('操作成功')
           done()
-          getUserList()
+          getUserListPage()
         }, 2000)
       } else if (action !== 'confirm') {
         if (!instance.confirmButtonLoading) done()
@@ -129,7 +129,7 @@ const handleDelete = function(row) {
 
 // 添加/修改成功
 const handleAddOrModifySuccess = function() {
-  getUserList()
+  getUserListPage()
 }
 
 // 用户状态切换
@@ -147,7 +147,7 @@ const handleStatusBeforeChange = function(row) {
 
 getDeptList()
 initQueryForm()
-getUserList()
+getUserListPage()
 </script>
 
 <template>

@@ -65,12 +65,12 @@ const isAllSelect = ref(false)
 const isLinkage = ref(true)
 
 
-// 获取菜单列表
-const getMenuList = async function() {
+// 获取菜单列表(全部)
+const getMenuListAll = async function() {
   if (menuData.value.length > 0) return
   const { result } = await reqMenuListAll()
   if (!result) return
-  menuData.value = result.data.list || []
+  menuData.value = result.data || []
 }
 
 // 初始化表单数据
@@ -102,6 +102,7 @@ const handleConfirm = async function() {
 
 // 打开弹框时
 const handleDialogOpen = function() {
+  getMenuListAll()
   if ($props.type === 'add') {
     
   } else if ($props.type === 'edit') {
@@ -145,7 +146,6 @@ watch(isAllSelect, (newv, oldv) => {
 })
 
 initFormData()
-getMenuList()
 </script>
 
 <template>
