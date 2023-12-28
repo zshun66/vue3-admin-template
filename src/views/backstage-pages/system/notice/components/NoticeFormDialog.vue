@@ -1,4 +1,4 @@
-<script setup title="NoticeFormDialog">
+<script setup name="NoticeFormDialog">
 const $props = defineProps({
   modelValue: {
     type: Boolean,
@@ -53,7 +53,7 @@ const initFormData = function() {
     title: '',
     type: '1',
     status: '1',
-    content: '',
+    content: '<div>hello, wangeditor</div>',
     remark: ''
   }
 }
@@ -97,7 +97,7 @@ initFormData()
   <div class="comp_container notice_form_dialog_comp">
     <el-dialog
       v-model="showDialog"
-      width="700px"
+      width="1000px"
       top="15vh"
       :append-to-body="false"
       :close-on-click-modal="false"
@@ -138,14 +138,18 @@ initFormData()
           </el-select>
         </el-form-item>
         <el-form-item style="width: 100%;" label="内容:" prop="content">
-          <el-input
+          <!-- <el-input
             class="form_width"
             v-model="formData.content"
             type="textarea"
             :autosize="{ minRows: 3, maxRows: 5 }"
             clearable
             placeholder="请输入备注"
-          ></el-input>
+          ></el-input> -->
+          <wang-editor
+            v-model="formData.content"
+            placeholder="请输入内容..."
+          />
         </el-form-item>
         <el-form-item style="width: 100%;" label="备注:" prop="remark">
           <el-input

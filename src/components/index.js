@@ -1,7 +1,9 @@
 import SvgIcon from './SvgIcon/SvgIcon.vue'
+import WangEditor from './WangEditor/WangEditor.vue'
 
 const components = {
-	SvgIcon
+	SvgIcon,
+	WangEditor
 }
 export default {
 	install(app) {
