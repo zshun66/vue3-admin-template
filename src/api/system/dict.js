@@ -21,11 +21,6 @@ export const reqDictTypeListAll = () => {
 export const reqDictTypeListPage = async (params) => {
 	const { result } = await reqDictTypeListAll()
 	const allDictTypeList = result.data || []
-	await request({
-		url: API.DICTTYPELIST_PAGE_URL,
-		method: 'get',
-		params: params
-	})
 
 	let pageNum = params.pageNum || 1
 	let pageSize = params.pageSize || 10

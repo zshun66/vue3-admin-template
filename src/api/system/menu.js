@@ -19,11 +19,6 @@ export const reqMenuListAll = () => {
 export const reqMenuListPage = async (params) => {
 	const { result } = await reqMenuListAll()
 	const allMenuList = result.data || []
-	await request({
-		url: API.MENULIST_PAGE_URL,
-		method: 'get',
-		params: params,
-	})
 
 	let pageNum = params.pageNum || 1
 	let pageSize = params.pageSize || 10

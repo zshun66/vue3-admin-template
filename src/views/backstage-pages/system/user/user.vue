@@ -45,7 +45,8 @@ watch(filterDeptText, (newv, oldv) => {
 
 // 当前选中节点变化时触发的事件
 const handleTreeCurrentChange = function(data, node) {
-  console.log(data, node)
+  queryForm.value.deptId = data.id
+  getUserListPage()
 }
 
 // 初始化查询参数
@@ -53,6 +54,7 @@ const initQueryForm = function() {
   queryForm.value = {
     pageNum: 1,
     pageSize: 10,
+    deptId: '', // 部门ID
     username: '', // 用户名称
     nickname: '', // 用户昵称
     phone: '', // 手机号码
