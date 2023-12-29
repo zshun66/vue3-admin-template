@@ -53,7 +53,7 @@ const initFormData = function() {
     title: '',
     type: '1',
     status: '1',
-    content: '<div>hello, wangeditor</div>',
+    content: '<p>撒旦法</p>',
     remark: ''
   }
 }
@@ -68,7 +68,7 @@ const handleConfirm = async function() {
   const valid = await noticeFormRef.value.validate().catch(err => {})
   if (!valid) return
   console.log(formData.value)
-  showDialog.value = false
+  // showDialog.value = false
   ElMessage.success('操作成功')
   $emits('success')
 }
@@ -98,7 +98,7 @@ initFormData()
     <el-dialog
       v-model="showDialog"
       width="1000px"
-      top="15vh"
+      top="5vh"
       :append-to-body="false"
       :close-on-click-modal="false"
       :draggable="true"
@@ -138,17 +138,12 @@ initFormData()
           </el-select>
         </el-form-item>
         <el-form-item style="width: 100%;" label="内容:" prop="content">
-          <!-- <el-input
+          <wang-editor
             class="form_width"
             v-model="formData.content"
-            type="textarea"
-            :autosize="{ minRows: 3, maxRows: 5 }"
-            clearable
-            placeholder="请输入备注"
-          ></el-input> -->
-          <wang-editor
-            v-model="formData.content"
-            placeholder="请输入内容..."
+            :editorConfig="{
+              placeholder: '请输入内容...'
+            }"
           />
         </el-form-item>
         <el-form-item style="width: 100%;" label="备注:" prop="remark">

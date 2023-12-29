@@ -1,6 +1,6 @@
 <script setup name="WangEditor">
 import '@wangeditor/editor/dist/css/style.css'
-import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
+import { createEditor, createToolbar } from '@wangeditor/editor'
 
 const $props = defineProps({
   // 编辑器内容HTML
@@ -8,37 +8,56 @@ const $props = defineProps({
     type: String,
     default: ''
   },
+  // 编辑器高度
+  height: {
+    type: String,
+    default: '500px'
+  },
   // 编辑器模式 或 'simple'
   mode: {
     type: String,
     default: 'default'
   },
-  // 输入框占位内容
-  placeholder: {
-    type: String,
-    default: ''
-  }
+  // 编辑器配置
+  editorConfig: {
+    type: Object,
+    default: () => ({})
+  },
+  // 工具栏配置
+  toolbarConfig: {
+    type: Object,
+    default: () => ({})
+  },
 })
 const $emits = defineEmits([
   'update:modelValue',
 ])
 
+
 // 编辑器实例，必须用 shallowRef
 const editorRef = shallowRef()
-// 工具栏配置
-const toolbarConfig = {}
-// 编辑器配置
-const editorConfig = {
-  placeholder: $props.placeholder
-}
-// 编辑器内容HTML
-const valueHtml = ref($props.modelValue)
+// 工具栏实例
+const toolbarRef = shallowRef()
 
+onMounted(() => {
+  // 创建编辑器实例
+  editorRef.value = createEditor({
+    selector: '.wang_editor_editor_container',
+    html: $props.modelValue,
+    config: $props.editorConfig,
+    mode: $props.mode,
+  })
+  // 创建工具栏实例
+  toolbarRef.value = createToolbar({
+    editor: editorRef.value,
+    selector: '.wang_editor_toolbar_container',
+    config: $props.toolbarConfig,
+    mode: $props.mode,
+  })
 
-// 编辑器创建时
-const handleCreated = (editor) => {
-  editorRef.value = editor
-}
+  console.log(editorRef.value)
+  console.log(editorRef.value.getConfig())
+})
 
 // 组件销毁时，也及时销毁编辑器
 onBeforeUnmount(() => {
@@ -50,19 +69,8 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="comp_container wang_editor_comp">
-    <Toolbar
-      class="toolbar"
-      :editor="editorRef"
-      :defaultConfig="toolbarConfig"
-      :mode="mode"
-    />
-    <Editor
-      class="editor"
-      v-model="valueHtml"
-      :defaultConfig="editorConfig"
-      :mode="mode"
-      @onCreated="handleCreated"
-    />
+    <div class="wang_editor_toolbar_container"></div>
+    <div class="wang_editor_editor_container" :style="{ height: height }"></div>
   </div>
 </template>
 
@@ -70,14 +78,15 @@ onBeforeUnmount(() => {
 .wang_editor_comp {
   width: 100%;
   height: auto;
-  border: 1px solid #ccc;
+  border: 1px solid #dcdfe6;
+  border-radius: 4px;
+  overflow: hidden;
 
-  .toolbar {
-    border-bottom: 1px solid #ccc;
+  .wang_editor_toolbar_container {
+    border-bottom: 1px solid #dcdfe6;
   }
 
-  .editor {
-    height: 500px;
+  .wang_editor_editor_container {
     overflow-y: hidden;
   }
 }

@@ -6,7 +6,6 @@ specifiers:
   '@icon-park/vue-next': ^1.4.2
   '@vitejs/plugin-vue': ^4.2.3
   '@wangeditor/editor': ^5.1.23
-  '@wangeditor/editor-for-vue': ^5.1.12
   axios: ^1.4.0
   element-plus: ^2.3.9
   husky: ^8.0.0
@@ -28,7 +27,6 @@ specifiers:
 dependencies:
   '@icon-park/vue-next': 1.4.2_vue@3.3.13
   '@wangeditor/editor': 5.1.23
-  '@wangeditor/editor-for-vue': 5.1.12_m5apn4k3pi2i35flivs7ttdojm
   axios: 1.6.3
   element-plus: 2.4.4_vue@3.3.13
   js-cookie: 3.0.5
@@ -889,16 +887,6 @@ packages:
       slate: 0.72.8
       slate-history: 0.66.0_slate@0.72.8
       snabbdom: 3.5.1
-    dev: false
-
-  /@wangeditor/editor-for-vue/5.1.12_m5apn4k3pi2i35flivs7ttdojm:
-    resolution: {integrity: sha512-0Ds3D8I+xnpNWezAeO7HmPRgTfUxHLMd9JKcIw+QzvSmhC5xUHbpCcLU+KLmeBKTR/zffnS5GQo6qi3GhTMJWQ==}
-    peerDependencies:
-      '@wangeditor/editor': '>=5.1.0'
-      vue: ^3.0.5
-    dependencies:
-      '@wangeditor/editor': 5.1.23
-      vue: 3.3.13
     dev: false
 
   /@wangeditor/editor/5.1.23:
