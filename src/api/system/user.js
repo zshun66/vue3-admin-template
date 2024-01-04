@@ -1,4 +1,5 @@
 import request from '@/utils/request.js'
+import { reqMenuListAll } from './menu.js'
 
 const API = {
 	// 用户列表(全部)
@@ -6,7 +7,7 @@ const API = {
 	// 用户列表(分页)
 	USERLIST_PAGE_URL: 'https://mock.apifox.com/m1/3799957-0-default/system/user/list/page',
 	// 用户登录
-	LOGIN_URL: 'https://mock.apifox.com/m1/3799957-0-default/system/user/login',
+	USERLOGIN_URL: 'https://mock.apifox.com/m1/3799957-0-default/system/user/login',
 }
 
 // 获取用户列表(全部)
@@ -19,6 +20,12 @@ export const reqUserListAll = () => {
 
 // 获取用户列表(分页)
 export const reqUserListPage = async (params) => {
+	// return request({
+	// 	url: API.USERLIST_PAGE_URL,
+	// 	method: 'get',
+	// 	params: params
+	// })
+
 	const { result } = await reqUserListAll()
 	const allUserList = result.data || []
 
@@ -92,13 +99,42 @@ export const reqUserListPage = async (params) => {
 }
 
 // 登录
-export const reqLogin = (data) => {
-	return request({
-		url: API.LOGIN_URL,
-		method: 'post',
-		data: data,
-		headers: {
-			isAuth: false
+export const reqUserLogin = async (data) => {
+	// return request({
+	// 	url: API.USERLOGIN_URL,
+	// 	method: 'post',
+	// 	data: data,
+	// 	headers: {
+	// 		isAuth: false
+	// 	}
+	// })
+
+	const { result: result1 } = await reqUserListAll()
+	const allUserList = result1.data || []
+
+	let username = data.username || ''
+	let password = data.password || ''
+
+	const findRes = allUserList.find(item => item.username === username && item.password === password)
+	if (findRes) {
+		const { result: result2 } = await reqMenuListAll()
+		const allMenuList = result2.data || []
+		if (username === 'admin') {
+			findRes.menus = allMenuList
+		} else if (username === 'developer') {
+			findRes.menus = allMenuList.filter(item => item.id === '99' || item.id === '1')
 		}
-	})
+		return {
+			result: {
+				data: findRes,
+				message: '操作成功',
+				code: 200
+			},
+			error: null
+		}
+	}
+	return {
+		result: null,
+		error: '用户名或密码错误'
+	}
 }

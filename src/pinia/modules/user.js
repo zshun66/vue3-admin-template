@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { reqLogin } from '@/api/system/user.js'
+import { reqUserLogin } from '@/api/system/user.js'
 import { getStorage, setStorage } from '@/utils/storage.js'
 import resolveRoutes from '@/utils/resolveRoutes.js'
 
@@ -12,10 +12,10 @@ const useUserStore = defineStore('User', {
   actions: {
     // 处理用户登录
     async handleUserLogin(data) {
-      const { result } = await reqLogin(data)
+      const { result } = await reqUserLogin(data)
       if (!result) return Promise.reject()
-      this.userInfo = result.data.userInfo || {}
-      resolveRoutes(this.userInfo.routes || [])
+      this.userInfo = result.data || {}
+      resolveRoutes(this.userInfo.menus || [])
       setStorage('ZS_ADMIN_USERINFO', this.userInfo)
       return Promise.resolve()
     },

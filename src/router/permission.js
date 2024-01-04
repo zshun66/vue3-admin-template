@@ -20,7 +20,7 @@ router.beforeEach(async (to, from) => {
   // 存在用户信息
   if (userStore.token) {
     if (!isResolveRoutes) {
-      resolveRoutes(userStore.userInfo.routes)
+      resolveRoutes(userStore.userInfo.menus)
       isResolveRoutes = true
     }
 

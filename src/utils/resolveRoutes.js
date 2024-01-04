@@ -14,30 +14,30 @@ const resolveComponent = (componentPath) => {
 
 /**
  * 解析路由
- * @param {Array} routes 路由数组
+ * @param {Array} menus 菜单数组
  */
-const resolveRoutes = (routes) => {
-  routes.forEach(route => {
-    if (route.type === 'button') return
-    const isChildren = route.children && route.children.length > 0
-    const redirect = (route.type === 'directory' && isChildren) ? `/backstage/${route.children[0].path}` : undefined
+const resolveRoutes = (menus) => {
+  menus.forEach(menu => {
+    if (menu.type === 'button') return
+    const isChildren = menu.children && menu.children.length > 0
+    const redirect = (menu.type === 'directory' && isChildren) ? `/backstage/${menu.children[0].path}` : undefined
     const routeObj = {
-      path: route.path,
-      name: route.name,
-      component: resolveComponent(route.component),
+      path: menu.path,
+      name: menu.name,
+      component: resolveComponent(menu.component),
       redirect: redirect,
       meta: {
-        title: route.title,
-        icon: route.icon,
-        iconSize: route.iconSize,
-        isLink: route.isLink,
-        isCache: route.isCache,
-        isVisible: route.isVisible,
-        isClearable: route.isClearable
+        title: menu.title,
+        icon: menu.icon,
+        iconSize: menu.iconSize,
+        isLink: menu.isLink,
+        isCache: menu.isCache,
+        isVisible: menu.isVisible,
+        isClearable: menu.isClearable
       }
     }
     router.addRoute('backstage', routeObj)
-    if (isChildren) resolveRoutes(route.children)
+    if (isChildren) resolveRoutes(menu.children)
   })
 }
 

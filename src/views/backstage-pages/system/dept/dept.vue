@@ -39,6 +39,7 @@ const getDeptListPage = async function() {
   if (!result) return
   deptList.value = result.data.list || []
   dataTotal.value = result.data.total || 0
+  nextTick(() => handleCollapse())
 }
 
 // 搜索

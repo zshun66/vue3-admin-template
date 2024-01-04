@@ -75,7 +75,7 @@ const handleDelete = function(row) {
         instance.confirmButtonLoading = true
         setTimeout(() => {
           instance.confirmButtonLoading = false
-          ElMessage.success('登录成功')
+          ElMessage.success('操作成功')
           done()
           getLoginLogListPage()
         }, 2000)
@@ -95,7 +95,7 @@ const handleClearAll = function() {
         instance.confirmButtonLoading = true
         setTimeout(() => {
           instance.confirmButtonLoading = false
-          ElMessage.success('登录成功')
+          ElMessage.success('操作成功')
           done()
           getLoginLogListPage()
         }, 2000)
