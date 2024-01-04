@@ -53,7 +53,7 @@ const initFormData = function() {
     title: '',
     type: '1',
     status: '1',
-    content: '<p>撒旦法</p>',
+    content: '',
     remark: ''
   }
 }
@@ -141,9 +141,6 @@ initFormData()
           <wang-editor
             class="form_width"
             v-model="formData.content"
-            :editorConfig="{
-              placeholder: '请输入内容...'
-            }"
           />
         </el-form-item>
         <el-form-item style="width: 100%;" label="备注:" prop="remark">

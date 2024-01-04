@@ -21,7 +21,10 @@ const $props = defineProps({
   // 编辑器配置
   editorConfig: {
     type: Object,
-    default: () => ({})
+    default: () => ({
+      placeholder: '请输入内容...',
+      readOnly: false
+    })
   },
   // 工具栏配置
   toolbarConfig: {
@@ -33,6 +36,13 @@ const $emits = defineEmits([
   'update:modelValue',
 ])
 
+const onChange = $props.editorConfig.onChange
+$props.editorConfig.onChange = (editor) => {
+  $emits('update:modelValue', editor.getHtml())
+  if (onChange && typeof onChange === 'function') {
+    onChange(editor)
+  }
+}
 
 // 编辑器实例，必须用 shallowRef
 const editorRef = shallowRef()
@@ -54,9 +64,6 @@ onMounted(() => {
     config: $props.toolbarConfig,
     mode: $props.mode,
   })
-
-  console.log(editorRef.value)
-  console.log(editorRef.value.getConfig())
 })
 
 // 组件销毁时，也及时销毁编辑器
@@ -68,7 +75,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="comp_container wang_editor_comp">
+  <div class="comp_container wang_editor_comp" :class="{ disabled: editorConfig.readOnly }">
     <div class="wang_editor_toolbar_container"></div>
     <div class="wang_editor_editor_container" :style="{ height: height }"></div>
   </div>
@@ -89,5 +96,13 @@ onBeforeUnmount(() => {
   .wang_editor_editor_container {
     overflow-y: hidden;
   }
+}
+
+.wang_editor_comp.disabled :deep(.w-e-bar) {
+  background-color: #f5f7fa;
+}
+
+.wang_editor_comp.disabled :deep(.w-e-text-container) {
+  background-color: #f5f7fa;
 }
 </style>
