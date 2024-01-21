@@ -1,0 +1,3 @@
+cd ../
+pnpm install
+pause

@@ -19,8 +19,11 @@ const resolveComponent = (componentPath) => {
 const resolveRoutes = (menus) => {
   menus.forEach(menu => {
     if (menu.type === 'button') return
-    const isChildren = menu.children && menu.children.length > 0
-    const redirect = (menu.type === 'directory' && isChildren) ? `/backstage/${menu.children[0].path}` : undefined
+    const hasChildren = menu.children && menu.children.length > 0
+    let redirect = undefined
+    if (hasChildren && menu.type === 'directory') {
+      redirect = `/backstage/${menu.children[0].path}`
+    }
     const routeObj = {
       path: menu.path,
       name: menu.name,
@@ -28,16 +31,10 @@ const resolveRoutes = (menus) => {
       redirect: redirect,
       meta: {
         title: menu.title,
-        icon: menu.icon,
-        iconSize: menu.iconSize,
-        isLink: menu.isLink,
-        isCache: menu.isCache,
-        isVisible: menu.isVisible,
-        isClearable: menu.isClearable
       }
     }
     router.addRoute('backstage', routeObj)
-    if (isChildren) resolveRoutes(menu.children)
+    if (hasChildren) resolveRoutes(menu.children)
   })
 }
 
