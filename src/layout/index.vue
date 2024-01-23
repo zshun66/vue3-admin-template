@@ -63,10 +63,6 @@ const appStore = useAppStore()
       transition: background-color 0.3s;
       color: var(--theme-main-font-color);
       border-radius: 10px;
-
-      :deep(.page_container) {
-        background-color: var(--theme-page-bg-color_layout-style2);
-      }
     }
   }
 }

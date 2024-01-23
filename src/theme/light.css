@@ -1,10 +1,36 @@
 :root {
+  /* 布局背景颜色 */
   --theme-layout-bg-color: #eeeeee;
 
+  /* 侧边栏背景颜色 */
   --theme-aside-bg-color: #ffffff;
+
+  /* 侧边栏LOGO字体颜色 */
   --theme-aside-logo-font-color: #505050;
 
+  /* 导航栏背景颜色 */
+  --theme-navbar-bg-color: #ffffff;
+
+  /* 导航栏字体颜色 */
+  --theme-navbar-font-color: #505050;
+
+  /* 导航栏图标颜色 */
+  --theme-navbar-icon-color: #505050;
+  
+  /* 内容栏背景颜色 */
+  --theme-main-bg-color: #ffffff;
+
+  /* 内容栏字体颜色 */
+  --theme-main-font-color: #505050;
+
   --theme-menu-bg-color: transparent;
+
+  --theme-menuitem-bg-color: transparent;
+  --theme-menuitem-font-color: #505050;
+  --theme-menuitem-hover-bg-color: #ECF5FF;
+  --theme-menuitem-hover-font-color: #505050;
+  --theme-menuitem-active-bg-color: #4F97FF;
+  --theme-menuitem-active-font-color: #ffffff;
 
   --theme-submenu-bg-color: transparent;
   --theme-submenu-hover-bg-color: transparent;
@@ -19,20 +45,4 @@
   --theme-submenu-title-opened-font-color: #505050;
   --theme-submenu-title-active-bg-color: #DBE7FF;
   --theme-submenu-title-active-font-color: #4F97FF;
-
-  --theme-menuitem-bg-color: transparent;
-  --theme-menuitem-font-color: #505050;
-  --theme-menuitem-hover-bg-color: #ECF5FF;
-  --theme-menuitem-hover-font-color: #505050;
-  --theme-menuitem-active-bg-color: #4F97FF;
-  --theme-menuitem-active-font-color: #ffffff;
-
-  --theme-navbar-bg-color: #ffffff;
-  --theme-navbar-font-color: #505050;
-  --theme-navbar-icon-color: #505050;
-  
-  --theme-main-bg-color: #ffffff;
-  --theme-main-font-color: #505050;
-
-  --theme-page-bg-color_layout: #f9f9f9;
 }
