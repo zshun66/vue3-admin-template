@@ -1,7 +1,6 @@
 <script setup name="Navbar">
 import Toggle from '@/layout/components/Toggle/Toggle.vue'
 import Fullscreen from '@/layout/components/Fullscreen/Fullscreen.vue'
-import Style from '@/layout/components/Style/Style.vue'
 import Theme from '@/layout/components/Theme/Theme.vue'
 import Language from '@/layout/components/Language/Language.vue'
 import Size from '@/layout/components/Size/Size.vue'
@@ -16,7 +15,6 @@ import UserInfo from '@/layout/components/UserInfo/UserInfo.vue'
     </div>
     <div class="right_wrapper">
       <Fullscreen />
-      <Style />
       <Theme />
       <Language />
       <Size />
