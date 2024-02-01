@@ -19,6 +19,7 @@
     "axios": "^1.4.0",
     "element-plus": "^2.3.9",
     "js-cookie": "^3.0.5",
+    "mockjs": "^1.1.0",
     "nprogress": "^0.2.0",
     "pinia": "^2.1.6",
     "vue": "^3.3.4",
@@ -36,6 +37,7 @@
     "unplugin-vue-components": "^0.25.1",
     "vite": "^4.4.5",
     "vite-plugin-compression": "^0.5.1",
+    "vite-plugin-mock": "^3.0.1",
     "vite-plugin-svg-icons": "^2.0.1",
     "vite-plugin-vue-setup-extend": "^0.4.0"
   }
