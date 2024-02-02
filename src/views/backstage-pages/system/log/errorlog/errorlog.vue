@@ -1,16 +1,16 @@
-<script setup name="system:loginlog">
-import { reqLoginLogListPage } from '@/api/system/loginlog.js'
+<script setup name="system:log:errorlog">
+import { reqErrorLogListPage } from '@/api/system/log.js'
 
 // 数据加载状态
 const showLoading = ref(false)
 // 查询参数
 const queryForm = ref({})
-// 登录日志列表数据
-const loginlogList = ref([])
-// 登录日志数据总数
+// 错误日志列表数据
+const errorlogList = ref([])
+// 错误日志数据总数
 const dataTotal = ref(0)
 // 表格组件实例
-const loginlogTableRef = ref(null)
+const errorlogTableRef = ref(null)
 // 选择的数据
 const selectRows = ref([])
 
@@ -19,65 +19,61 @@ const initQueryForm = function() {
   queryForm.value = {
     pageNum: 1,
     pageSize: 10,
-    nickname: '', // 用户昵称
-    username: '', // 用户名称
-    ipAddr: '', // 登录地址
-    loginLoc: '', // 登录地点
-    status: '', // 登录状态
-    loginTime: [], // 登录时间
+    userName: '', // 用户名称
+    ipAddr: '', // 错误地址
+    errorLoc: '', // 错误地点
+    status: '', // 错误状态
+    errorTime: [], // 错误时间
   }
 }
 
-// 获取登录日志列表(分页)
-const getLoginLogListPage = async function() {
+// 获取错误日志列表(分页)
+const getErrorLogListPage = async function() {
   const params = JSON.parse(JSON.stringify(queryForm.value))
-  params.startLoginTime = (params.loginTime && params.loginTime[0]) || ''
-  params.endLoginTime = (params.loginTime && params.loginTime[1]) || ''
-  delete params.loginTime
   showLoading.value = true
-  const { result } = await reqLoginLogListPage(params)
+  const { result } = await reqErrorLogListPage(params)
   showLoading.value = false
   if (!result) return
-  loginlogList.value = result.data.list || []
+  errorlogList.value = result.data.list || []
   dataTotal.value = result.data.total || 0
 }
 
 // 搜索
 const handleSearch = function() {
   queryForm.value.pageNum = 1
-  getLoginLogListPage()
+  getErrorLogListPage()
 }
 
 // 重置
 const handleReset = function() {
   initQueryForm()
-  getLoginLogListPage()
+  getErrorLogListPage()
 }
 
 // 分页器页码改变时
 const handlePaginationCurrChange = function(page) {
   queryForm.value.pageNum = page
-  getLoginLogListPage()
+  getErrorLogListPage()
 }
 
 // 分页器页数大小改变时
 const handlePaginationSizeChange = function(size) {
   queryForm.value.pageSize = size
-  getLoginLogListPage()
+  getErrorLogListPage()
 }
 
 // 删除
 const handleDelete = function(row) {
-  ElMessageBox.confirm('确认删除所选登录日志?', '提示', {
+  ElMessageBox.confirm('确认删除所选错误日志?', '提示', {
     type: 'warning',
     beforeClose: (action, instance, done) => {
       if (action === 'confirm') {
         instance.confirmButtonLoading = true
         setTimeout(() => {
           instance.confirmButtonLoading = false
-          ElMessage.success('操作成功')
+          ElMessage.success('错误成功')
           done()
-          getLoginLogListPage()
+          getErrorLogListPage()
         }, 2000)
       } else if (action !== 'confirm') {
         if (!instance.confirmButtonLoading) done()
@@ -88,16 +84,16 @@ const handleDelete = function(row) {
 
 // 清空
 const handleClearAll = function() {
-  ElMessageBox.confirm('确认清空登录日志?', '提示', {
+  ElMessageBox.confirm('确认清空错误日志?', '提示', {
     type: 'warning',
     beforeClose: (action, instance, done) => {
       if (action === 'confirm') {
         instance.confirmButtonLoading = true
         setTimeout(() => {
           instance.confirmButtonLoading = false
-          ElMessage.success('操作成功')
+          ElMessage.success('错误成功')
           done()
-          getLoginLogListPage()
+          getErrorLogListPage()
         }, 2000)
       } else if (action !== 'confirm') {
         if (!instance.confirmButtonLoading) done()
@@ -108,7 +104,7 @@ const handleClearAll = function() {
 
 // 点击表格行
 const handleTableRowClick = function(row, column, event) {
-  loginlogTableRef.value.toggleRowSelection(row)
+  errorlogTableRef.value.toggleRowSelection(row)
 }
 
 // 当表格选择项发生变化时
@@ -117,45 +113,37 @@ const handleTableSelectionChange = function(selection) {
 }
 
 initQueryForm()
-getLoginLogListPage()
+getErrorLogListPage()
 </script>
 
 <template>
-  <div class="page_container loginlog_page">
+  <div class="page_container errorlog_page">
     <el-form :model="queryForm" label-width="auto" inline>
-      <el-form-item label="用户昵称:" prop="nickname">
+      <el-form-item label="用户名称:" prop="userName">
         <el-input
           style="width: 200px;"
-          v-model="queryForm.nickname"
-          clearable
-          placeholder="请输入用户昵称"
-        ></el-input>
-      </el-form-item>
-      <el-form-item label="用户名称:" prop="username">
-        <el-input
-          style="width: 200px;"
-          v-model="queryForm.username"
+          v-model="queryForm.userName"
           clearable
           placeholder="请输入用户名称"
         ></el-input>
       </el-form-item>
-      <el-form-item label="登录地址:" prop="ipAddr">
+      <el-form-item label="错误地址:" prop="ipAddr">
         <el-input
           style="width: 200px;"
           v-model="queryForm.ipAddr"
           clearable
-          placeholder="请输入登录地址"
+          placeholder="请输入错误地址"
         ></el-input>
       </el-form-item>
-      <el-form-item label="登录地点:" prop="loginLoc">
+      <el-form-item label="错误地点:" prop="errorLoc">
         <el-input
           style="width: 200px;"
-          v-model="queryForm.loginLoc"
+          v-model="queryForm.errorLoc"
           clearable
-          placeholder="请输入登录地点"
+          placeholder="请输入错误地点"
         ></el-input>
       </el-form-item>
-      <el-form-item label="登录状态:" prop="status">
+      <el-form-item label="错误状态:" prop="status">
         <el-select
           style="width: 150px;"
           v-model="queryForm.status"
@@ -166,10 +154,10 @@ getLoginLogListPage()
           <el-option label="失败" value="0"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="登录时间:" prop="loginTime">
+      <el-form-item label="错误时间:" prop="errorTime">
         <el-date-picker
           style="width: 250px;"
-          v-model="queryForm.loginTime"
+          v-model="queryForm.errorTime"
           type="daterange"
           start-placeholder="开始时间"
           end-placeholder="开始时间"
@@ -191,10 +179,10 @@ getLoginLogListPage()
     </div>
 
     <el-table
-      class="loginlog_list_table"
-      ref="loginlogTableRef"
+      class="errorlog_list_table"
+      ref="errorlogTableRef"
       height="100%"
-      :data="loginlogList"
+      :data="errorlogList"
       :header-cell-style="{
         background: '#F8F8F9',
         color: '#666'
@@ -206,29 +194,24 @@ getLoginLogListPage()
     >
       <el-table-column type="selection" align="center" width="60">
       </el-table-column>
-      <el-table-column label="登录编号" prop="id" align="center" min-width="80">
+      <el-table-column label="错误编号" prop="id" align="center" min-width="80">
         <template #default="scope">
           <span>{{ scope.row.id }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="用户昵称" prop="nickname" align="center" min-width="80">
+      <el-table-column label="用户名称" prop="userName" align="center" min-width="120">
         <template #default="scope">
-          <span>{{ scope.row.nickname }}</span>
+          <span>{{ scope.row.userName }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="用户名称" prop="username" align="center" min-width="120">
-        <template #default="scope">
-          <span>{{ scope.row.username }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="登录地址" prop="ipAddr" align="center" min-width="150">
+      <el-table-column label="错误地址" prop="ipAddr" align="center" min-width="150">
         <template #default="scope">
           <span>{{ scope.row.ipAddr }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="登录地点" prop="loginLoc" align="center" min-width="120">
+      <el-table-column label="错误地点" prop="errorLoc" align="center" min-width="120">
         <template #default="scope">
-          <span>{{ scope.row.loginLoc }}</span>
+          <span>{{ scope.row.errorLoc }}</span>
         </template>
       </el-table-column>
       <el-table-column label="浏览器" prop="browser" align="center" min-width="120">
@@ -241,7 +224,7 @@ getLoginLogListPage()
           <span>{{ scope.row.os }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="登录状态" prop="status" align="center" min-width="100">
+      <el-table-column label="错误状态" prop="status" align="center" min-width="100">
         <template #default="scope">
           <el-tag type="" v-if="scope.row.status === '1'">成功</el-tag>
           <el-tag type="danger" v-if="scope.row.status === '0'">失败</el-tag>
@@ -252,15 +235,15 @@ getLoginLogListPage()
           <span>{{ scope.row.msg }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="登录时间" prop="loginTime" align="center" min-width="170">
+      <el-table-column label="错误时间" prop="errorTime" align="center" min-width="170">
         <template #default="scope">
-          <span>{{ scope.row.loginTime }}</span>
+          <span>{{ scope.row.errorTime }}</span>
         </template>
       </el-table-column>
     </el-table>
 
     <el-pagination
-      class="loginlog_list_pagination"
+      class="errorlog_list_pagination"
       background
       layout="total, sizes, prev, pager, next, jumper"
       v-model:current-page="queryForm.pageNum"
@@ -273,7 +256,7 @@ getLoginLogListPage()
 </template>
 
 <style scoped lang="scss">
-.loginlog_page {
+.errorlog_page {
   padding: 20px 20px;
   display: flex;
   flex-direction: column;
@@ -282,11 +265,11 @@ getLoginLogListPage()
     margin-top: 10px;
   }
 
-  .loginlog_list_table {
+  .errorlog_list_table {
     margin-top: 10px;
   }
 
-  .loginlog_list_pagination {
+  .errorlog_list_pagination {
     margin-top: 10px;
     justify-content: flex-end;
   }

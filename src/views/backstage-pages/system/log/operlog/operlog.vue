@@ -1,5 +1,5 @@
-<script setup name="system:operlog">
-import { reqOperLogListPage } from '@/api/system/operlog.js'
+<script setup name="system:log:operlog">
+import { reqOperLogListPage } from '@/api/system/log.js'
 
 // 操作类型选项
 const operTypeOptions = ref([
