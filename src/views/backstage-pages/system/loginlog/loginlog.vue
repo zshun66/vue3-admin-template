@@ -128,7 +128,7 @@ getLoginLogListPage()
           style="width: 200px;"
           v-model="queryForm.nickname"
           clearable
-          placeholder="请输入用户名称"
+          placeholder="请输入用户昵称"
         ></el-input>
       </el-form-item>
       <el-form-item label="用户名称:" prop="username">

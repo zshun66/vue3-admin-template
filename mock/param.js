@@ -1,33 +1,32 @@
-import menuData from '../mock_data/menu.js'
+import paramData from '../mock_data/param.js'
 
 export default [
   {
-    url: '/api/system/menu/list/all',
-    method: 'get',
-    response: ({ query }) => {
-      return {
-        code: 200,
-        data: menuData,
-        message: '操作成功',
-      }
-    }
-  },
-  {
-    url: '/api/system/menu/list/page',
+    url: '/api/system/param/list/page',
     method: 'get',
     response: ({ query }) => {
       var pageNum = query.pageNum || 1
       var pageSize = query.pageSize || 10
-      // 菜单标题
-      var title = query.title || ''
-      // 菜单状态
+      // 参数名称
+      var name = query.name || ''
+      // 参数键名
+      var key = query.key || ''
+      // 系统内置
+      var type = query.type || ''
+      // 参数状态
       var status = query.status || ''
 
       // 过滤后的列表
-      var filterList = menuData
+      var filterList = paramData
 
-      if (title || title === 0) {
-        filterList = filterList.filter(item => item.title.indexOf(title) > -1)
+      if (name || name === 0) {
+        filterList = filterList.filter(item => item.name.indexOf(name) > -1)
+      }
+      if (key || key === 0) {
+        filterList = filterList.filter(item => item.key.indexOf(key) > -1)
+      }
+      if (type || type === 0) {
+        filterList = filterList.filter(item => item.type === type)
       }
       if (status || status === 0) {
         filterList = filterList.filter(item => item.status === status)

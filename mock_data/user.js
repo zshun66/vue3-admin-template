@@ -1,3 +1,8 @@
+import menuData from './menu.js'
+import roleData from './role.js'
+import deptData from './dept.js'
+import postData from './post.js'
+
 // 用户列表
 const userListAll = [
   {
@@ -10,26 +15,10 @@ const userListAll = [
     phone: '13755609011',
     email: '2436509528@qq.com',
     sex: '1',
-    menus: [],
-    roles: [
-      {
-        id: '1',
-        name: '超级管理员',
-        perms: 'administrator',
-      },
-    ],
-    dept: {
-      id: '1',
-      name: '江西天顺软件有限公司',
-      head: '周总',
-      telephone: '13755609011',
-      email: 'jxtsrjyxgs@163.com',
-    },
-    post: {
-      id: '1',
-      name: '董事长',
-      code: 'DSZ',
-    },
+    menus: menuData,
+    roles: [roleData.find(item => item.id === '1')],
+    dept: deptData.find(item => item.id === '1'),
+    post: postData.find(item => item.id === '1'),
     status: '1',
     remark: '我是周大帅',
     token: 'Admin Token',
@@ -46,26 +35,10 @@ const userListAll = [
     phone: '13755609022',
     email: '2436509529@qq.com',
     sex: '0',
-    menus: [],
-    roles: [
-      {
-        id: '2',
-        name: '开发者',
-        perms: 'developer',
-      },
-    ],
-    dept: {
-      id: '11',
-      name: '技术部',
-      head: '邹总',
-      telephone: '13755609022',
-      email: 'jxtsrjyxgsjsb@163.com',
-    },
-    post: {
-      id: '5',
-      name: '前端开发工程师',
-      code: 'QDKFGCS',
-    },
+    menus: menuData.filter(item => item.id === '99' || item.id === '1'),
+    roles: [roleData.find(item => item.id === '2')],
+    dept: deptData.find(item => item.id === '1').children.find(item => item.id === '11'),
+    post: postData.find(item => item.id === '5'),
     status: '1',
     remark: '我是法外狂徒',
     token: 'Developer Token',

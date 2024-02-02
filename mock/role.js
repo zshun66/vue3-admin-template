@@ -1,33 +1,33 @@
-import menuData from '../mock_data/menu.js'
+import roleData from '../mock_data/role.js'
 
 export default [
   {
-    url: '/api/system/menu/list/all',
+    url: '/api/system/role/list/all',
     method: 'get',
     response: ({ query }) => {
       return {
         code: 200,
-        data: menuData,
+        data: roleData,
         message: '操作成功',
       }
     }
   },
   {
-    url: '/api/system/menu/list/page',
+    url: '/api/system/role/list/page',
     method: 'get',
     response: ({ query }) => {
       var pageNum = query.pageNum || 1
       var pageSize = query.pageSize || 10
-      // 菜单标题
-      var title = query.title || ''
-      // 菜单状态
+      // 角色名称
+      var name = query.name || ''
+      // 角色状态
       var status = query.status || ''
 
       // 过滤后的列表
-      var filterList = menuData
+      var filterList = roleData
 
-      if (title || title === 0) {
-        filterList = filterList.filter(item => item.title.indexOf(title) > -1)
+      if (name || name === 0) {
+        filterList = filterList.filter(item => item.name.indexOf(name) > -1)
       }
       if (status || status === 0) {
         filterList = filterList.filter(item => item.status === status)

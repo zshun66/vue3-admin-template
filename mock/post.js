@@ -1,33 +1,38 @@
-import menuData from '../mock_data/menu.js'
+import postData from '../mock_data/post.js'
 
 export default [
   {
-    url: '/api/system/menu/list/all',
+    url: '/api/system/post/list/all',
     method: 'get',
     response: ({ query }) => {
       return {
         code: 200,
-        data: menuData,
+        data: postData,
         message: '操作成功',
       }
     }
   },
   {
-    url: '/api/system/menu/list/page',
+    url: '/api/system/post/list/page',
     method: 'get',
     response: ({ query }) => {
       var pageNum = query.pageNum || 1
       var pageSize = query.pageSize || 10
-      // 菜单标题
-      var title = query.title || ''
-      // 菜单状态
+      // 岗位名称
+      var name = query.name || ''
+      // 岗位编码
+      var code = query.code || ''
+      // 岗位状态
       var status = query.status || ''
 
       // 过滤后的列表
-      var filterList = menuData
+      var filterList = postData
 
-      if (title || title === 0) {
-        filterList = filterList.filter(item => item.title.indexOf(title) > -1)
+      if (name || name === 0) {
+        filterList = filterList.filter(item => item.name.indexOf(name) > -1)
+      }
+      if (code || code === 0) {
+        filterList = filterList.filter(item => item.code.indexOf(code) > -1)
       }
       if (status || status === 0) {
         filterList = filterList.filter(item => item.status === status)

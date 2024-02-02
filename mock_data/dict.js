@@ -7,7 +7,34 @@ const dictTypeListAll = [
     remark: '用户性别列表',
     status: '1',
     creator: '超级管理员',
-    createTime: '2023-11-13 17:08:36',
+    createTime: '2023-11-13 17:08:36'
+  },
+  {
+    id: '2',
+    name: '系统是否',
+    type: 'sys_yes_no',
+    remark: '系统是否列表',
+    status: '1',
+    creator: '超级管理员',
+    createTime: '2023-11-13 17:08:36'
+  },
+  {
+    id: '3',
+    name: '菜单状态',
+    type: 'sys_menu_status',
+    remark: '菜单状态列表',
+    status: '0',
+    creator: '超级管理员',
+    createTime: '2023-11-13 17:08:36'
+  },
+]
+
+// 字典数据列表Map
+const dictDataListAll = [
+  {
+    type: 'sys_user_sex',
+    typeId: '1',
+    typeName: '用户性别',
     options: [
       {
         type: 'sys_user_sex',
@@ -45,13 +72,9 @@ const dictTypeListAll = [
     ]
   },
   {
-    id: '2',
-    name: '系统是否',
     type: 'sys_yes_no',
-    remark: '系统是否列表',
-    status: '1',
-    creator: '超级管理员',
-    createTime: '2023-11-13 17:08:36',
+    typeId: '2',
+    typeName: '系统是否',
     options: [
       {
         type: 'sys_yes_no',
@@ -78,13 +101,9 @@ const dictTypeListAll = [
     ]
   },
   {
-    id: '3',
-    name: '菜单状态',
     type: 'sys_menu_status',
-    remark: '菜单状态列表',
-    status: '0',
-    creator: '超级管理员',
-    createTime: '2023-11-13 17:08:36',
+    typeId: '3',
+    typeName: '菜单状态',
     options: [
       {
         type: 'sys_menu_status',
@@ -112,4 +131,7 @@ const dictTypeListAll = [
   },
 ]
 
-export default dictTypeListAll
+export {
+  dictTypeListAll,
+  dictDataListAll
+}

@@ -1,20 +1,9 @@
 import request from '@/utils/request.js'
 
-const API = {
-	// 字典类型列表(全部)
-	DICTTYPELIST_ALL_URL: 'https://mock.apifox.com/m1/3799957-0-default/system/dict/type/list/all',
-	// 字典类型列表(分页)
-	DICTTYPELIST_PAGE_URL: 'https://mock.apifox.com/m1/3799957-0-default/system/dict/type/list/page',
-	// 字典数据列表-根据字典类型Type(全部)
-	DICTDATALIST_ALL_URL: (type) => `https://mock.apifox.com/m1/3799957-0-default/system/dict/data/list/all/${type}`,
-	// 字典数据列表-根据字典类型ID(分页)
-	DICTDATALIST_PAGE_URL: 'https://mock.apifox.com/m1/3799957-0-default/system/dict/data/list/page',
-}
-
 // 获取字典类型列表(全部)
 export const reqDictTypeListAll = () => {
 	return request({
-		url: API.DICTTYPELIST_ALL_URL,
+		url: '/system/dict/type/list/all',
 		method: 'get',
 	})
 }
@@ -22,7 +11,7 @@ export const reqDictTypeListAll = () => {
 // 获取字典类型列表(分页)
 export const reqDictTypeListPage = (params) => {
 	return request({
-		url: API.DICTTYPELIST_PAGE_URL,
+		url: '/system/dict/type/list/page',
 		method: 'get',
 		params: params
 	})
@@ -31,7 +20,7 @@ export const reqDictTypeListPage = (params) => {
 // 获取字典数据列表-根据字典类型Type(全部)
 export const reqDictDataListAll = (type) => {
 	return request({
-		url: API.DICTDATALIST_ALL_URL(type),
+		url: `/system/dict/data/list/all/${type}`,
 		method: 'get'
 	})
 }
@@ -39,7 +28,7 @@ export const reqDictDataListAll = (type) => {
 // 获取字典数据列表-根据字典类型ID(分页)
 export const reqDictDataListPage = (params) => {
 	return request({
-		url: API.DICTDATALIST_PAGE_URL,
+		url: '/system/dict/data/list/page',
 		method: 'get',
 		params: params
 	})
