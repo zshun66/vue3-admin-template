@@ -5,6 +5,8 @@ const $router = useRouter()
 const $route = useRoute()
 const userStore = useUserStore()
 
+// 表单实例
+const loginFormRef = ref(null)
 // 登陆表单
 const loginForm = reactive({
   username: 'admin',
@@ -13,7 +15,7 @@ const loginForm = reactive({
 // 登陆表单验证规则
 const loginFormRules = reactive({
   username: [
-    { required: true, min: 5, message: '账号长度至少5位', trigger: 'change' }
+    { required: true, min: 2, message: '账号长度至少2位', trigger: 'change' }
   ],
   password: [
     { required: true, min: 6, message: '密码长度至少6位', trigger: 'change' }
@@ -25,14 +27,16 @@ const loginBtnLoading = ref(false)
 const redirect = $route.query?.redirect
 
 // 处理登录
-const handleLogin = () => {
+const handleLogin = async () => {
+  let valid = await loginFormRef.value.validate().catch(err => {})
+  if (!valid) return
   loginBtnLoading.value = true
-  userStore.handleUserLogin(loginForm).then(() => {
+  userStore.handleUserLogin(loginForm).then((userInfo) => {
     ElMessage({
       type: 'success',
       message: '登录成功',
     })
-    $router.push({ path: redirect || '/backstage/home' })
+    $router.push({ path: redirect || userInfo.jump })
     loginBtnLoading.value = false
   }).catch(() => {
     loginBtnLoading.value = false

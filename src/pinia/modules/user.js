@@ -17,7 +17,7 @@ const useUserStore = defineStore('User', {
       this.userInfo = result.data || {}
       resolveRoutes(this.userInfo.menus || [])
       setStorage('ZS_ADMIN_USERINFO', this.userInfo)
-      return Promise.resolve()
+      return Promise.resolve(this.userInfo)
     },
   },
   getters: {

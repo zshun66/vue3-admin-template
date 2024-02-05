@@ -77,6 +77,9 @@ const formDataRules = ref({
   status: [
     { required: true, message: '请选择用户状态', trigger: 'change' }
   ],
+  jump: [
+    { required: true, message: '请输入跳转页面', trigger: 'blur' }
+  ],
   remark: [],
 })
 // 表单实例
@@ -100,6 +103,7 @@ const initFormData = function() {
     deptId: '',
     postId: '',
     status: '1',
+    jump: '/backstage/home',
     remark: '',
   }
 }
@@ -329,6 +333,14 @@ initFormData()
             <el-option label="正常" value="1"></el-option>
             <el-option label="禁用" value="0"></el-option>
           </el-select>
+        </el-form-item>
+        <el-form-item style="width: 100%;" label="跳转页面:" prop="jump">
+          <el-input
+            class="form_width"
+            v-model="formData.jump"
+            clearable
+            placeholder="请输入跳转页面"
+          ></el-input>
         </el-form-item>
         <el-form-item style="width: 100%;" label="备注:" prop="remark">
           <el-input

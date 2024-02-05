@@ -92,19 +92,17 @@ export default [
   },
   {
     url: '/api/system/user/login',
-    method: 'get',
-    response: ({ data }) => {
-      var username = data.username || ''
-      var password = data.password || ''
+    method: 'post',
+    response: ({ body }) => {
+      var username = body.username || ''
+      var password = body.password || ''
 
       var message = ''
       var code = 200
-      if (username === 'admin' && password === '111111') {
-        userInfo = userData.find(item => item.id === '1')
-        message = '操作成功'
-        code = 200
-      } else if (username === 'developer' && password === '111111') {
-        userInfo = userData.find(item => item.id === '2')
+      var userInfo = null
+      const findRes = userData.find(item => item.username === username && item.password === password)
+      if (findRes) {
+        userInfo = findRes
         message = '操作成功'
         code = 200
       } else {
@@ -115,7 +113,7 @@ export default [
 
       return {
         code: code,
-        data: userData,
+        data: userInfo,
         message: message,
       }
     }
