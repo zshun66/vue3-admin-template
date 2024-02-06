@@ -59,101 +59,119 @@ const defaultActive = computed(() => $route.name)
     }
   }
 
-  // el-menu 样式 ------------------------------------------------------------------------------------------
+  // el-menu 样式 --------------------------------------------------------------------------------------------------------------------------------------------------------
   :deep(.el-menu) {
     margin-top: 8px;
     border-right: none;
     background-color: var(--theme-menu-bg-color);
   }
 
-  // el-sub-menu 样式 --------------------------------------------------------------------------------------
-  :deep(.el-sub-menu) {
-    background-color: var(--theme-submenu-bg-color);
-    .el-sub-menu__title {
-      height: 50px;
-      line-height: 1;
-      font-size: 16px;
-      color: var(--theme-submenu-title-font-color);
-      background-color: var(--theme-submenu-title-bg-color);
-      transition: none;
-      border-radius: 7px;
-    }
-    .el-sub-menu__title span {
-      margin-left: 5px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .el-sub-menu__title .svg-icon {
-      fill: var(--theme-submenu-title-font-color);
-    }
-    .el-sub-menu__title .el-icon {
-      font-size: 16px;
-    }
-    .el-sub-menu__title:hover {
-      color: var(--theme-submenu-title-hover-font-color);
-      background-color: var(--theme-submenu-title-hover-bg-color);
-    }
-    .el-sub-menu__title:hover .svg-icon {
-      fill: var(--theme-submenu-title-hover-font-color);
-    }
-  }
-  :deep(.el-sub-menu:hover) {
-    background-color: var(--theme-submenu-hover-bg-color);
-  }
-  :deep(.el-sub-menu.is-opened) {
-    background-color: var(--theme-submenu-opened-bg-color);
-    .el-sub-menu__title {
-      color: var(--theme-submenu-title-opened-font-color);
-      background-color: var(--theme-submenu-title-opened-bg-color);
-    }
-    .el-sub-menu__title .svg-icon {
-      fill: var(--theme-submenu-title-opened-font-color);
-    }
-  }
-  :deep(.el-sub-menu.is-active) {
-    background-color: var(--theme-submenu-active-bg-color);
-    .el-sub-menu__title {
-      color: var(--theme-submenu-title-active-font-color);
-      background-color: var(--theme-submenu-title-active-bg-color);
-    }
-    .el-sub-menu__title .svg-icon {
-      fill: var(--theme-submenu-title-active-font-color);
-    }
-  }
-
-  // el-menu-item 样式 ----------------------------------------------------------------------------------------
+  // el-menu-item 样式 ----------------------------------------------------------------------------------------------------------------------------------------------------
   :deep(.el-menu-item) {
     height: 50px;
     line-height: 1;
     font-size: 16px;
-    color: var(--theme-menuitem-font-color);
     background-color: var(--theme-menuitem-bg-color);
     transition: none;
     border-radius: 7px;
+  }
+  :deep(.el-menu-item .svg-icon) {
+    fill: var(--theme-menuitem-font-color);
   }
   :deep(.el-menu-item span) {
     margin-left: 5px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
-  :deep(.el-menu-item .svg-icon) {
-    fill: var(--theme-menuitem-font-color);
+    color: var(--theme-menuitem-font-color);
   }
   :deep(.el-menu-item:hover) {
-    color: var(--theme-menuitem-hover-font-color);
     background-color: var(--theme-menuitem-hover-bg-color);
   }
   :deep(.el-menu-item:hover .svg-icon) {
     fill: var(--theme-menuitem-hover-font-color);
   }
+  :deep(.el-menu-item:hover span) {
+    color: var(--theme-menuitem-hover-font-color);
+  }
   :deep(.el-menu-item.is-active) {
-    color: var(--theme-menuitem-active-font-color);
     background-color: var(--theme-menuitem-active-bg-color);
   }
   :deep(.el-menu-item.is-active .svg-icon) {
     fill: var(--theme-menuitem-active-font-color);
+  }
+  :deep(.el-menu-item.is-active span) {
+    color: var(--theme-menuitem-active-font-color);
+  }
+
+  // el-sub-menu 样式 -------------------------------------------------------------------------------------------------------------------------------------------------
+  :deep(.el-sub-menu) {
+    background-color: var(--theme-submenu-bg-color);
+    border-radius: 7px;
+    .el-sub-menu__title {
+      height: 50px;
+      line-height: 1;
+      font-size: 16px;
+      background-color: var(--theme-submenu-title-bg-color);
+      transition: none;
+      border-radius: 7px;
+    }
+    .el-sub-menu__title .svg-icon {
+      fill: var(--theme-submenu-title-font-color);
+    }
+    .el-sub-menu__title span {
+      margin-left: 5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: var(--theme-submenu-title-font-color);
+    }
+    .el-sub-menu__title .el-icon {
+      font-size: 16px;
+      color: var(--theme-submenu-title-font-color);
+    }
+    .el-sub-menu__title:hover {
+      background-color: var(--theme-submenu-title-hover-bg-color);
+    }
+    .el-sub-menu__title:hover .svg-icon {
+      fill: var(--theme-submenu-title-hover-font-color);
+    }
+    .el-sub-menu__title:hover span {
+      color: var(--theme-submenu-title-hover-font-color);
+    }
+    .el-sub-menu__title:hover .el-icon {
+      color: var(--theme-submenu-title-hover-font-color);
+    }
+  }
+  :deep(.el-sub-menu.is-opened) {
+    background-color: var(--theme-submenu-opened-bg-color);
+    > .el-sub-menu__title {
+      background-color: var(--theme-submenu-title-opened-bg-color);
+    }
+    > .el-sub-menu__title .svg-icon {
+      fill: var(--theme-submenu-title-opened-font-color);
+    }
+    > .el-sub-menu__title span {
+      color: var(--theme-submenu-title-opened-font-color);
+    }
+    > .el-sub-menu__title .el-icon {
+      color: var(--theme-submenu-title-opened-font-color);
+    }
+  }
+  :deep(.el-sub-menu.is-active) {
+    background-color: var(--theme-submenu-active-bg-color);
+    > .el-sub-menu__title {
+      background-color: var(--theme-submenu-title-active-bg-color);
+    }
+    > .el-sub-menu__title .svg-icon {
+      fill: var(--theme-submenu-title-active-font-color);
+    }
+    > .el-sub-menu__title span {
+      color: var(--theme-submenu-title-active-font-color);
+    }
+    > .el-sub-menu__title .el-icon {
+      color: var(--theme-submenu-title-active-font-color);
+    }
   }
 }
 </style>

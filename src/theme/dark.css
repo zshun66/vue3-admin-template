@@ -23,7 +23,6 @@
   /* 内容栏字体颜色 */
   --theme-main-font-color: #ffffff;
 
-  
 
   --theme-menu-bg-color: transparent;
 
@@ -31,8 +30,8 @@
   --theme-menuitem-font-color: #888888;
   --theme-menuitem-hover-bg-color: transparent;
   --theme-menuitem-hover-font-color: #ffffff;
-  --theme-menuitem-active-bg-color: #4F97FF;
-  --theme-menuitem-active-font-color: #ffffff;
+  --theme-menuitem-active-bg-color: #eeeeee;
+  --theme-menuitem-active-font-color: #000000;
 
   --theme-submenu-bg-color: transparent;
   --theme-submenu-hover-bg-color: transparent;
