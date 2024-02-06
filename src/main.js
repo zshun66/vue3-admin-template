@@ -9,6 +9,8 @@ import { install as installIconPark } from '@icon-park/vue-next/es/all'
 import '@icon-park/vue-next/styles/index.css'
 // SVG图标
 import 'virtual:svg-icons-register'
+// Element Plus 暗黑模式 样式
+import 'element-plus/theme-chalk/dark/css-vars.css'
 // 全局样式
 import '@/styles/index.scss'
 // 全局自定义组件

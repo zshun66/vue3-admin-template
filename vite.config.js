@@ -74,7 +74,7 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
         scss: {
           javascriptEnabled: true,
           additionalData: [
-            '@import "./src/styles/variable.scss";'
+            '@import "./src/styles/modules/variable.scss";'
           ],
         }
       },
@@ -84,7 +84,7 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
     // 开发服务器选项
     server: {
       host: '0.0.0.0',
-      port: '8888',
+      port: '2003',
       strictPort: true,
       open: false,
       proxy: {

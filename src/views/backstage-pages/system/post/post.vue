@@ -144,10 +144,6 @@ getPostListPage()
       class="post_list_table"
       height="100%"
       :data="postList"
-      :header-cell-style="{
-        background: '#F8F8F9',
-        color: '#666'
-      }"
       row-key="id"
       v-loading="showLoading"
     >

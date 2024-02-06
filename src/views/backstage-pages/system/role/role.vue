@@ -135,10 +135,6 @@ getRoleListPage()
       class="role_list_table"
       height="100%"
       :data="roleList"
-      :header-cell-style="{
-        background: '#F8F8F9',
-        color: '#666'
-      }"
       row-key="id"
       v-loading="showLoading"
     >

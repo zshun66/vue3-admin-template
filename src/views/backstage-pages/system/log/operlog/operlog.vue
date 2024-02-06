@@ -224,10 +224,6 @@ getOperLogListPage()
       ref="operlogTableRef"
       height="100%"
       :data="operlogList"
-      :header-cell-style="{
-        background: '#F8F8F9',
-        color: '#666'
-      }"
       row-key="id"
       v-loading="showLoading"
       @row-click="handleTableRowClick"

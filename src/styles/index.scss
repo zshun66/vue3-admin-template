@@ -1,4 +1,7 @@
-@import './reset.scss';
-@import './variable.scss';
-@import './style.scss';
-@import './element.scss';
+@import './modules/reset.scss';
+@import './modules/variable.scss';
+@import './modules/style.scss';
+@import './modules/element.scss';
+
+@import './theme/light.scss';
+@import './theme/dark.scss';

@@ -159,10 +159,6 @@ getMenuListPage()
       ref="menuTableRef"
       height="100%"
       :data="menuList"
-      :header-cell-style="{
-        background: '#F8F8F9',
-        color: '#666'
-      }"
       row-key="id"
       :indent="0"
       v-loading="showLoading"

@@ -195,10 +195,6 @@ getLoginLogListPage()
       ref="loginlogTableRef"
       height="100%"
       :data="loginlogList"
-      :header-cell-style="{
-        background: '#F8F8F9',
-        color: '#666'
-      }"
       row-key="id"
       v-loading="showLoading"
       @row-click="handleTableRowClick"

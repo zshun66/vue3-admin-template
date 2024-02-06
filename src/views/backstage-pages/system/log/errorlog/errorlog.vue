@@ -183,10 +183,6 @@ getErrorLogListPage()
       ref="errorlogTableRef"
       height="100%"
       :data="errorlogList"
-      :header-cell-style="{
-        background: '#F8F8F9',
-        color: '#666'
-      }"
       row-key="id"
       v-loading="showLoading"
       @row-click="handleTableRowClick"

@@ -21,14 +21,10 @@ const currTheme = ref(appStore.configData.theme)
 
 // 设置主题
 const setTheme = function (themeName) {
-  const themeLinkDom = document.querySelector('#theme-link')
-  if (themeLinkDom) document.head.removeChild(themeLinkDom)
-  const link = document.createElement('link')
-  link.id = 'theme-link'
-  link.rel = 'stylesheet'
-  link.type = 'text/css'
-  link.href = `/src/theme/${themeName}.css`
-  document.head.appendChild(link)
+  const htmlDom = document.querySelector('html')
+  htmlDom.classList.remove('light')
+  htmlDom.classList.remove('dark')
+  htmlDom.classList.add(themeName)
 }
 
 // 切换主题

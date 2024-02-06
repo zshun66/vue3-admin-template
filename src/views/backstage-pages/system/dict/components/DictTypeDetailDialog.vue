@@ -210,10 +210,6 @@ initQueryForm()
         class="dict_list_table"
         height="100%"
         :data="dictDataList"
-        :header-cell-style="{
-          background: '#F8F8F9',
-          color: '#666'
-        }"
         v-loading="showLoading"
       >
         <el-table-column label="字典排序" prop="sort" align="center" width="120">
