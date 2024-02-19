@@ -57,7 +57,6 @@ const handleCommand = function (command) {
   cursor: pointer;
   font-size: 16px;
   color: var(--theme-navbar-font-color);
-  transition: color 0.3s;
 
   .user_avatar {
   }

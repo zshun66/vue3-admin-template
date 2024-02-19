@@ -38,5 +38,8 @@ html.light {
 
 
   /* 以下是Element Plus变量 */
-  --el-bg-color: #ffffff;
+  .el-table {
+    --el-table-header-bg-color: #f8f8f9;
+    --el-table-tr-bg-color: #ffffff;
+  }
 }

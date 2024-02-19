@@ -44,7 +44,6 @@ const defaultActive = computed(() => $route.name)
     align-items: center;
     padding: 0 0 0 15px;
     color: var(--theme-aside-logo-font-color);
-    transition: all 0.3s;
     
     .logo {
       width: 30px;

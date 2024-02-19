@@ -31,7 +31,6 @@ const appStore = useAppStore()
   height: 100%;
   padding: 10px 10px;
   background-color: var(--theme-layout-bg-color);
-  transition: all 0.3s;
 
   .layout_aside {
     padding: 0 10px;
@@ -39,7 +38,6 @@ const appStore = useAppStore()
     overflow-x: hidden;
     overflow-y: auto;
     background-color: var(--theme-aside-bg-color);
-    transition: all 0.3s;
     border-radius: 10px;
     &.shrink {
       width: $layout-aside-shrink-width;
@@ -52,7 +50,6 @@ const appStore = useAppStore()
       padding: 0 20px 0 3px;
       height: $layout-header-height;
       background-color: var(--theme-navbar-bg-color);
-      transition: background-color 0.3s;
       border-radius: 10px;
     }
 
@@ -60,7 +57,6 @@ const appStore = useAppStore()
       margin-top: 10px;
       padding: 0px 0px;
       background-color: var(--theme-main-bg-color);
-      transition: background-color 0.3s;
       color: var(--theme-main-font-color);
       border-radius: 10px;
     }
