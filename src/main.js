@@ -4,9 +4,6 @@ import router from './router/index.js'
 import './router/permission.js'
 import pinia from './pinia/index.js'
 import i18n from './lang/index.js'
-// IconPark图标库
-import { install as installIconPark } from '@icon-park/vue-next/es/all'
-import '@icon-park/vue-next/styles/index.css'
 // SVG图标
 import 'virtual:svg-icons-register'
 // Element Plus 暗黑模式 样式

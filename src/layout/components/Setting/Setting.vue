@@ -10,7 +10,7 @@ const showDrawer = ref(false)
 
 <template>
   <div class="comp_container setting_comp" title="设置" @click="showDrawer = true">
-    <icon-setting-config theme="outline" size="22" :strokeWidth="3"/>
+    <svg-icon name="setting1" size="23px"></svg-icon>
   </div>
 
   <el-drawer
@@ -30,12 +30,11 @@ const showDrawer = ref(false)
 .setting_comp {
   display: flex;
   align-items: center;
-  padding: 10px 10px;
+  padding: 10px 15px;
   cursor: pointer;
 
-  :deep(.i-icon svg path),
-  :deep(.i-icon svg rect) {
-    stroke: var(--theme-navbar-icon-color);
+  :deep(.svg-icon) {
+    fill: var(--theme-navbar-icon-color);
   }
 }
 

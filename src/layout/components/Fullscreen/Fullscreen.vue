@@ -72,8 +72,8 @@ onBeforeUnmount(() => {
     :title="isFullscreen ? '退出全屏' : '进入全屏'"
     @click="toggleFullscreen"
   >
-    <icon-full-screen theme="filled" size="22" :strokeWidth="3" v-if="!isFullscreen" />
-    <icon-off-screen theme="filled" size="22" :strokeWidth="3" v-if="isFullscreen" />
+    <svg-icon name="fullscreen1" size="20px" v-if="!isFullscreen"></svg-icon>
+    <svg-icon name="exit-fullscreen1" size="20px" v-if="isFullscreen"></svg-icon>
   </div>
 </template>
 
@@ -81,11 +81,10 @@ onBeforeUnmount(() => {
 .fullscreen_comp {
   display: flex;
   align-items: center;
-  padding: 10px 10px;
+  padding: 10px 15px;
   cursor: pointer;
 
-  :deep(.i-icon svg path),
-  :deep(.i-icon svg rect) {
+  :deep(.svg-icon) {
     stroke: var(--theme-navbar-icon-color);
   }
 }

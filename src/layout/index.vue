@@ -38,6 +38,7 @@ const appStore = useAppStore()
     overflow-x: hidden;
     overflow-y: auto;
     background-color: var(--theme-aside-bg-color);
+    transition: width 0.3s;
     border-radius: 10px;
     &.shrink {
       width: $layout-aside-shrink-width;

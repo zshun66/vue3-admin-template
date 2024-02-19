@@ -115,7 +115,7 @@ const onClickMenuItem = function(e, menu) {
       font-size: 16px;
       background-color: var(--theme-submenu-title-bg-color);
       transition: none;
-      border-radius: 7px;
+      border-radius: 0px;
     }
     .el-sub-menu__title .svg-icon {
       fill: var(--theme-submenu-title-font-color);

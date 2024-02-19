@@ -23,8 +23,8 @@ const toggleCollapse = function () {
     :title="collapse === 1 ? '展开菜单' : '收缩菜单'"
     @click="toggleCollapse"
   >
-    <icon-menu-unfold-one theme="filled" size="28" :strokeWidth="3" v-if="collapse === 0"/>
-    <icon-menu-fold-one theme="filled" size="28" :strokeWidth="3" v-if="collapse === 1"/>
+    <svg-icon name="menu-unfold1" size="24px" v-if="collapse === 0"></svg-icon>
+    <svg-icon name="menu-fold1" size="24px" v-if="collapse === 1"></svg-icon>
   </div>
 </template>
 
@@ -35,9 +35,8 @@ const toggleCollapse = function () {
   padding: 10px 10px 10px 10px;
   cursor: pointer;
 
-  :deep(.i-icon svg path),
-  :deep(.i-icon svg rect) {
-    stroke: var(--theme-navbar-icon-color);
+  :deep(.svg-icon) {
+    fill: var(--theme-navbar-icon-color);
   }
 }
 </style>

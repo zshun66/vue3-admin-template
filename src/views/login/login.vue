@@ -62,14 +62,14 @@ const handleLogin = async () => {
         <el-form-item prop="username">
           <el-input v-model="loginForm.username">
             <template #prefix>
-              <icon-user theme="outline" size="18" fill="#666" :strokeWidth="4" />
+              <svg-icon name="user2" size="18px" color="#666666"></svg-icon>
             </template>
           </el-input>
         </el-form-item>
         <el-form-item prop="password">
           <el-input type="password" v-model="loginForm.password" show-password>
             <template #prefix>
-              <icon-lock theme="outline" size="18" fill="#666" :strokeWidth="4" />
+              <svg-icon name="password1" size="20px" color="#333333"></svg-icon>
             </template>
           </el-input>
         </el-form-item>

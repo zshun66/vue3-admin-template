@@ -52,7 +52,7 @@ setLanguage(currLang.value)
     @command="toggleLanguage"
   >
     <div class="comp_container language_comp" title="语言切换">
-      <icon-translate theme="outline" size="22" :strokeWidth="3" />
+      <svg-icon name="translate1" size="20px"></svg-icon>
     </div>
     <template #dropdown>
       <el-dropdown-menu class="language_list">
@@ -74,12 +74,11 @@ setLanguage(currLang.value)
 .language_comp {
   display: flex;
   align-items: center;
-  padding: 10px 10px;
+  padding: 10px 15px;
   cursor: pointer;
 
-  :deep(.i-icon svg path),
-  :deep(.i-icon svg rect) {
-    stroke: var(--theme-navbar-icon-color);
+  :deep(.svg-icon){
+    fill: var(--theme-navbar-icon-color);
   }
 }
 

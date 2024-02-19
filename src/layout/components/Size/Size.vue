@@ -41,7 +41,7 @@ const toggleSize = function (size) {
     @command="toggleSize"
   >
     <div class="comp_container size_comp" title="组件大小">
-      <icon-add-text theme="outline" size="22" :strokeWidth="3" />
+      <svg-icon name="size1" size="23px"></svg-icon>
     </div>
     <template #dropdown>
       <el-dropdown-menu class="size_list">
@@ -63,12 +63,11 @@ const toggleSize = function (size) {
 .size_comp {
   display: flex;
   align-items: center;
-  padding: 10px 10px;
+  padding: 10px 15px;
   cursor: pointer;
 
-  :deep(.i-icon svg path),
-  :deep(.i-icon svg rect) {
-    stroke: var(--theme-navbar-icon-color);
+  :deep(.svg-icon) {
+    fill: var(--theme-navbar-icon-color);
   }
 }
 

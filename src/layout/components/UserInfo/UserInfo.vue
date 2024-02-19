@@ -37,11 +37,15 @@ const handleCommand = function (command) {
     <template #dropdown>
       <el-dropdown-menu class="option_list">
         <el-dropdown-item class="option_item" command="personal-center">
-          <icon-user class="option_icon" theme="outline" size="16" fill="#777777" :strokeWidth="3" />
+          <div class="option_icon">
+            <svg-icon name="user2" size="16px" color="#777777"></svg-icon>
+          </div>
           <span class="option_name">个人中心</span>
         </el-dropdown-item>
         <el-dropdown-item class="option_item" command="logout">
-          <icon-power class="option_icon" theme="outline" size="16" fill="#777777" :strokeWidth="3" />
+          <div class="option_icon">
+            <svg-icon name="logout1" size="15px" color="#777777"></svg-icon>
+          </div>
           <span class="option_name">退出登录</span>
         </el-dropdown-item>
       </el-dropdown-menu>
@@ -74,6 +78,11 @@ const handleCommand = function (command) {
     line-height: 36px;
     padding: 0px 20px;
     color: #777777;
+
+    .option_icon {
+      width: 16px;
+      text-align: center;
+    }
 
     .option_name {
       margin-top: 0px;
