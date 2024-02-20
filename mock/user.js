@@ -117,5 +117,16 @@ export default [
         message: message,
       }
     }
+  },
+  {
+    url: '/api/system/user/logout',
+    method: 'post',
+    response: ({ body }) => {
+      return {
+        code: 200,
+        data: null,
+        message: '操作成功',
+      }
+    }
   }
 ]

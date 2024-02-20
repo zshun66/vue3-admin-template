@@ -32,10 +32,7 @@ const handleLogin = async () => {
   if (!valid) return
   loginBtnLoading.value = true
   userStore.handleUserLogin(loginForm).then((userInfo) => {
-    ElMessage({
-      type: 'success',
-      message: '登录成功',
-    })
+    ElMessage.success('登录成功')
     $router.push({ path: redirect || userInfo.jump })
     loginBtnLoading.value = false
   }).catch(() => {

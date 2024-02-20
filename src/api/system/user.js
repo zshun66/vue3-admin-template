@@ -28,3 +28,11 @@ export const reqUserLogin = (data) => {
 		}
 	})
 }
+
+// 用户退出登录
+export const reqUserLogout = () => {
+	return request({
+		url: '/system/user/logout',
+		method: 'post',
+	})
+}

@@ -1,14 +1,38 @@
 <script setup name="UserInfo">
 import useUserStore from '@/pinia/modules/user.js'
 
+const $router = useRouter()
 const userStore = useUserStore()
 
 const { avatar, nickname, username } = userStore.userInfo
 
 const handleCommand = function (command) {
-  console.log(command)
-}
+  // 个人中心
+  if (command === 'personal-center') {
 
+  }
+  // 退出登录
+  else if (command === 'logout') {
+    ElMessageBox.confirm('确认退出登录?', '提示', {
+      type: 'warning',
+      beforeClose: (action, instance, done) => {
+        if (action === 'confirm') {
+          instance.confirmButtonLoading = true
+          userStore.handleUserLogout().then(res => {
+            $router.replace(`/login?redirect=${$router.currentRoute.value.path}`)
+            ElMessage.success('退出成功')
+            instance.confirmButtonLoading = false
+            done()
+          }).catch(err => {
+            instance.confirmButtonLoading = false
+          })
+        } else if (action !== 'confirm') {
+          if (!instance.confirmButtonLoading) done()
+        }
+      }
+    }).catch(err => {})
+  }
+}
 </script>
 
 <template>
