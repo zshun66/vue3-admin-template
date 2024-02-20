@@ -11,7 +11,7 @@ const $props = defineProps({
 const onClickMenuItem = function(e, menu) {
   // 非外链菜单
   if (menu.isLink === '0') {
-    $router.push(`/backstage/${menu.path}`)
+    $router.push(`${menu.path}`)
   }
   // 外链菜单
   else if (menu.isLink === '1') {

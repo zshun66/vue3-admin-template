@@ -22,7 +22,7 @@ const resolveRoutes = (menus) => {
     const hasChildren = menu.children && menu.children.length > 0
     let redirect = undefined
     if (hasChildren && menu.type === 'directory') {
-      redirect = `/backstage/${menu.children[0].path}`
+      redirect = `${menu.children[0].path}`
     }
     const routeObj = {
       path: menu.path,

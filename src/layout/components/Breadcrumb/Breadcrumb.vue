@@ -1,31 +1,15 @@
 <script setup name="Breadcrumb">
 import useUserStore from '@/pinia/modules/user.js'
+import { extractBreadcrumbsFromTree } from '@/utils/utils.js'
 
 const $route = useRoute()
 const userStore = useUserStore()
 
-const menus = userStore.userInfo.menus || []
 let breadcrumbs = ref([])
 
-const findBreadcrumb = (data, target, arrs = []) => {
-  const dataCopy = JSON.parse(JSON.stringify(data))
-  for (let item of dataCopy) {
-    item.path = '/backstage/' + item.path
-    const obj = { title: item.title, path: item.path }
-    if (item.path === target) {
-      arrs.push(obj)
-      return arrs
-    }
-    if (item.children) {
-      const result = findBreadcrumb(item.children, target, [...arrs, obj])
-      if (result) return result
-    }
-  }
-  return null
-}
-
 watch(() => $route.path, (newv, oldv) => {
-  breadcrumbs.value = findBreadcrumb(menus, newv)
+  const menus = userStore.userInfo.menus || []
+  breadcrumbs.value = extractBreadcrumbsFromTree(menus, newv, ['title', 'path'])
 }, { immediate: true })
 </script>
 
