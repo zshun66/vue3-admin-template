@@ -85,7 +85,7 @@ onBeforeUnmount(() => {
   cursor: pointer;
 
   :deep(.svg-icon) {
-    stroke: var(--theme-navbar-icon-color);
+    fill: var(--theme-navbar-icon-color);
   }
 }
 </style>
