@@ -122,13 +122,13 @@ getRoleListPage()
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="icon-search" @click="handleSearch">搜索</el-button>
-        <el-button type="info" icon="icon-refresh" @click="handleReset">重置</el-button>
+        <el-button type="primary" icon="Search" @click="handleSearch">搜索</el-button>
+        <el-button type="info" icon="Refresh" @click="handleReset">重置</el-button>
       </el-form-item>
     </el-form>
 
     <div class="operate_btn_group">
-      <el-button type="primary" plain icon="icon-plus" @click="handleOperate('add')">新增</el-button>
+      <el-button type="primary" plain icon="Plus" @click="handleOperate('add')">新增</el-button>
     </div>
 
     <el-table
@@ -181,8 +181,8 @@ getRoleListPage()
       </el-table-column>
       <el-table-column label="操作" prop="" align="center" width="150">
         <template #default="scope">
-          <el-button style="padding: 0 0;" type="primary" text icon="icon-edit" @click="handleOperate('edit', scope.row)">修改</el-button>
-          <el-button style="padding: 0 0;" type="primary" text icon="icon-delete" @click="handleDelete(scope.row)">删除</el-button>
+          <el-button style="padding: 0 0;" type="primary" text icon="Edit" @click="handleOperate('edit', scope.row)">修改</el-button>
+          <el-button style="padding: 0 0;" type="primary" text icon="Delete" @click="handleDelete(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>

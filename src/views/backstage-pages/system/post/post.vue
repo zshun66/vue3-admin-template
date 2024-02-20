@@ -131,13 +131,13 @@ getPostListPage()
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="icon-search" @click="handleSearch">搜索</el-button>
-        <el-button type="info" icon="icon-refresh" @click="handleReset">重置</el-button>
+        <el-button type="primary" icon="Search" @click="handleSearch">搜索</el-button>
+        <el-button type="info" icon="Refresh" @click="handleReset">重置</el-button>
       </el-form-item>
     </el-form>
 
     <div class="operate_btn_group">
-      <el-button type="primary" icon="icon-plus" plain @click="handleOperate('add')">新增</el-button>
+      <el-button type="primary" icon="Plus" plain @click="handleOperate('add')">新增</el-button>
     </div>
 
     <el-table
@@ -186,8 +186,8 @@ getPostListPage()
       <el-table-column label="操作" prop="" align="center" width="160">
         <template #default="scope">
           <div style="display: flex; align-items: center; justify-content: center;">
-            <el-button style="padding: 0 0;" type="primary" text icon="icon-edit" @click.stop="handleOperate('edit', scope.row)">修改</el-button>
-            <el-button style="padding: 0 0;" type="primary" text icon="icon-delete" @click.stop="handleDelete(scope.row)">删除</el-button>
+            <el-button style="padding: 0 0;" type="primary" text icon="Edit" @click.stop="handleOperate('edit', scope.row)">修改</el-button>
+            <el-button style="padding: 0 0;" type="primary" text icon="Delete" @click.stop="handleDelete(scope.row)">删除</el-button>
           </div>
         </template>
       </el-table-column>

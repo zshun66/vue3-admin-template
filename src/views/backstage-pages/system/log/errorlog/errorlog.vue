@@ -168,14 +168,14 @@ getErrorLogListPage()
         ></el-date-picker>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="icon-search" @click="handleSearch">搜索</el-button>
-        <el-button type="info" icon="icon-refresh" @click="handleReset">重置</el-button>
+        <el-button type="primary" icon="Search" @click="handleSearch">搜索</el-button>
+        <el-button type="info" icon="Refresh" @click="handleReset">重置</el-button>
       </el-form-item>
     </el-form>
 
     <div class="operate_btn_group">
-      <el-button type="danger" icon="icon-delete" plain :disabled="selectRows.length <= 0" @click="handleDelete">删除</el-button>
-      <el-button type="danger" icon="icon-delete" plain @click="handleClearAll">清空</el-button>
+      <el-button type="danger" icon="Delete" plain :disabled="selectRows.length <= 0" @click="handleDelete">删除</el-button>
+      <el-button type="danger" icon="Delete" plain @click="handleClearAll">清空</el-button>
     </div>
 
     <el-table
