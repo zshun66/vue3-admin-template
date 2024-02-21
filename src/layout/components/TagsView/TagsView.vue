@@ -7,6 +7,7 @@ const tagPages = computed(() => appStore.tagPages)
 
 let containerWidth = 0
 let tagsWrapWidth = 0
+let minLeft = 0
 let left = ref(0)
 
 onMounted(() => {
@@ -23,6 +24,8 @@ const handleResize = () => {
   const tagsWrapDom = document.querySelector('.tags_view_comp .tags_wrap')
   containerWidth = containerDom.offsetWidth
   tagsWrapWidth = tagsWrapDom.offsetWidth
+  minLeft = containerWidth - tagsWrapWidth
+  if (left.value < minLeft) left.value = minLeft
 }
 
 // 处理点击关闭图标
@@ -35,7 +38,6 @@ const handleMouseWheel = (e) => {
   if (containerWidth >= tagsWrapWidth) return
   left.value += e.wheelDelta / 5
   if (left.value > 0) left.value = 0
-  let minLeft = containerWidth - tagsWrapWidth
   if (left.value < minLeft) left.value = minLeft
 }
 </script>
