@@ -78,7 +78,7 @@ setLanguage(currLang.value)
   cursor: pointer;
 
   :deep(.svg-icon){
-    fill: var(--theme-navbar-icon-color);
+    fill: var(--theme-header-icon-color);
   }
 }
 

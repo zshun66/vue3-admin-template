@@ -25,8 +25,9 @@ const useUserStore = defineStore('User', {
       if (!result) return Promise.reject()
       this.userInfo = {}
       removeStorage('QS_ADMIN_USERINFO')
+      removeStorage('QS_ADMIN_TAGPAGES')
       return Promise.resolve(result.data)
-    }
+    },
   },
   getters: {
     token: (state) => {

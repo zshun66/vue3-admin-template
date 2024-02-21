@@ -84,7 +84,7 @@ const handleCommand = function (command) {
   padding: 10px 10px;
   cursor: pointer;
   font-size: 16px;
-  color: var(--theme-navbar-font-color);
+  color: var(--theme-header-font-color);
 
   .user_avatar {
   }

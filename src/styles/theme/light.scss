@@ -6,11 +6,21 @@ html.light {
   /* 侧边栏LOGO字体颜色 */
   --theme-aside-logo-font-color: #505050;
   /* 导航栏背景颜色 */
-  --theme-navbar-bg-color: #ffffff;
+  --theme-header-bg-color: #ffffff;
   /* 导航栏字体颜色 */
-  --theme-navbar-font-color: #505050;
+  --theme-header-font-color: #505050;
   /* 导航栏图标颜色 */
-  --theme-navbar-icon-color: #505050;
+  --theme-header-icon-color: #505050;
+  /* 导航栏边框颜色 */
+  --theme-header-border-color: #eeeeee;
+  /* 导航栏标签页字体颜色 */
+  --theme-header-tag-font-color: #909399;
+  /* 导航栏标签页边框颜色 */
+  --theme-header-tag-border-color: #cccccc;
+  /* 导航栏标签页图标鼠标移入字体颜色 */
+  --theme-header-tag-icon-hover-font-color: #ffffff;
+  /* 导航栏标签页图标鼠标移入背景颜色 */
+  --theme-header-tag-icon-hover-bg-color: #909399;
   /* 内容栏背景颜色 */
   --theme-main-bg-color: #ffffff;
   /* 内容栏字体颜色 */

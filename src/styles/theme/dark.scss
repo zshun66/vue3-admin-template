@@ -4,13 +4,23 @@ html.dark {
   /* 侧边栏背景颜色 */
   --theme-aside-bg-color: #191A1F;
   /* 侧边栏LOGO字体颜色 */
-  --theme-aside-logo-font-color: #ffffff;
+  --theme-aside-logo-font-color: #CFD3DC;
   /* 导航栏背景颜色 */
-  --theme-navbar-bg-color: #191A1F;
+  --theme-header-bg-color: #191A1F;
   /* 导航栏字体颜色 */
-  --theme-navbar-font-color: #ffffff;
+  --theme-header-font-color: #CFD3DC;
   /* 导航栏图标颜色 */
-  --theme-navbar-icon-color: #ffffff;
+  --theme-header-icon-color: #CFD3DC;
+  /* 导航栏边框颜色 */
+  --theme-header-border-color: #505050;
+  /* 导航栏标签页字体颜色 */
+  --theme-header-tag-font-color: #CFD3DC;
+  /* 导航栏标签页边框颜色 */
+  --theme-header-tag-border-color: #CFD3DC;
+  /* 导航栏标签页图标鼠标移入字体颜色 */
+  --theme-header-tag-icon-hover-font-color: #333333;
+  /* 导航栏标签页图标鼠标移入背景颜色 */
+  --theme-header-tag-icon-hover-bg-color: #CFD3DC;
   /* 内容栏背景颜色 */
   --theme-main-bg-color: #191A1F;
   /* 内容栏字体颜色 */

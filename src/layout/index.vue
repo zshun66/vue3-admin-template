@@ -1,6 +1,7 @@
 <script setup name="layout">
 import Sidebar from './components/Sidebar/Sidebar.vue'
 import Navbar from './components/Navbar/Navbar.vue'
+import TagsView from './components/TagsView/TagsView.vue'
 import useAppStore from '@/pinia/modules/app.js'
 
 const appStore = useAppStore()
@@ -15,8 +16,11 @@ const appStore = useAppStore()
       <Sidebar />
     </el-aside>
     <el-container class="layout_inner_container">
-      <el-header class="layout_header">
+      <el-header class="layout_header navbar">
         <Navbar />
+      </el-header>
+      <el-header class="layout_header tagsview">
+        <TagsView />
       </el-header>
       <el-main class="layout_main custom_scrollbar">
         <router-view></router-view>
@@ -50,8 +54,17 @@ const appStore = useAppStore()
     .layout_header {
       padding: 0 20px 0 3px;
       height: $layout-header-height;
-      background-color: var(--theme-navbar-bg-color);
-      border-radius: 10px;
+      background-color: var(--theme-header-bg-color);
+      border-radius: 10px 10px 0px 0px;
+    }
+
+    .layout_header.tagsview {
+      height: 35px;
+      padding: 0 10px 0 13px;
+      display: flex;
+      align-items: center;
+      border-top: 1px solid var(--theme-header-border-color);
+      border-radius: 0px 0px 10px 10px;
     }
 
     .layout_main {
