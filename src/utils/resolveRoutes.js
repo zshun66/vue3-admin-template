@@ -31,6 +31,8 @@ const resolveRoutes = (menus) => {
       redirect: redirect,
       meta: {
         title: menu.title,
+        isCache: menu.isCache,
+        isClearable: menu.isClearable,
       }
     }
     router.addRoute('backstage', routeObj)

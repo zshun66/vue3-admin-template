@@ -40,6 +40,7 @@ const menuListAll = [
     name: 'backstage:home',
     component: 'backstage-pages/home/home',
     perms: 'backstage:home:manage',
+    isClearable: '0'
   }),
   // 控制台菜单 --------------------------------------------------------------------------------------------------------------------------------------------
   Object.assign(deepCopy(menuItemObj), {

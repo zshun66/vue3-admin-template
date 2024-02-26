@@ -34,7 +34,7 @@ const showDrawer = ref(false)
   cursor: pointer;
 
   :deep(.svg-icon) {
-    fill: var(--theme-header-icon-color);
+    fill: var(--theme-navbar-icon-color);
   }
 }
 

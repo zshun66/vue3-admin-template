@@ -39,7 +39,7 @@ const defaultActive = computed(() => $route.name)
     position: sticky;
     top: 0;
     z-index: 99;
-    height: $layout-header-height;
+    height: $layout-navbar-height;
     display: flex;
     align-items: center;
     padding: 0 0 0 15px;

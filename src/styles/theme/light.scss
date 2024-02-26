@@ -5,22 +5,46 @@ html.light {
   --theme-aside-bg-color: #ffffff;
   /* 侧边栏LOGO字体颜色 */
   --theme-aside-logo-font-color: #505050;
+
   /* 导航栏背景颜色 */
-  --theme-header-bg-color: #ffffff;
+  --theme-navbar-bg-color: #ffffff;
   /* 导航栏字体颜色 */
-  --theme-header-font-color: #505050;
+  --theme-navbar-font-color: #505050;
   /* 导航栏图标颜色 */
-  --theme-header-icon-color: #505050;
+  --theme-navbar-icon-color: #505050;
   /* 导航栏边框颜色 */
-  --theme-header-border-color: #eeeeee;
-  /* 导航栏标签页字体颜色 */
-  --theme-header-tag-font-color: #909399;
-  /* 导航栏标签页边框颜色 */
-  --theme-header-tag-border-color: #cccccc;
-  /* 导航栏标签页图标鼠标移入字体颜色 */
-  --theme-header-tag-icon-hover-font-color: #ffffff;
-  /* 导航栏标签页图标鼠标移入背景颜色 */
-  --theme-header-tag-icon-hover-bg-color: #909399;
+  --theme-navbar-border-color: #eeeeee;
+
+  /* 标签栏背景颜色 */
+  --theme-tagbar-bg-color: #ffffff;
+  /* 标签栏标签页背景颜色 */
+  --theme-tagbar-tagpage-bg-color: #ffffff;
+  /* 标签栏标签页边框颜色 */
+  --theme-tagbar-tagpage-border-color: #cccccc;
+  /* 标签栏标签页字体和关闭图标颜色 */
+  --theme-tagbar-tagpage-font-color: #909399;
+  /* 标签栏标签页关闭图标鼠标移入字体颜色 */
+  --theme-tagbar-tagpage-close-icon-hover-font-color: #ffffff;
+  /* 标签栏标签页关闭图标鼠标移入背景颜色 */
+  --theme-tagbar-tagpage-close-icon-hover-bg-color: #909399;
+  /* 标签栏标签页激活时背景颜色 */
+  --theme-tagbar-tagpage-active-bg-color: #4F97FF;
+  /* 标签栏标签页激活时边框颜色 */
+  --theme-tagbar-tagpage-active-border-color: #4F97FF;
+  /* 标签栏标签页激活时字体和关闭图标颜色 */
+  --theme-tagbar-tagpage-active-font-color: #ffffff;
+  
+  /* 标签栏右键菜单背景颜色 */
+  --theme-tagbar-menu-bg-color: #ffffff;
+  /* 标签栏右键菜单阴影颜色 */
+  --theme-tagbar-menu-shadow-color: #888;
+  /* 标签栏右键菜单项字体颜色 */
+  --theme-tagbar-menuitem-font-color: #909399;
+  /* 标签栏右键菜单项鼠标移入字体颜色 */
+  --theme-tagbar-menuitem-hover-font-color: #ffffff;
+  /* 标签栏右键菜单项鼠标移入背景颜色 */
+  --theme-tagbar-menuitem-hover-bg-color: #909399;
+
   /* 内容栏背景颜色 */
   --theme-main-bg-color: #ffffff;
   /* 内容栏字体颜色 */

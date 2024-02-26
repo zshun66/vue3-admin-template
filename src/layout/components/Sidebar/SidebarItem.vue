@@ -1,15 +1,12 @@
 <script setup name="SidebarItem">
-import useAppStore from '@/pinia/modules/app.js'
-
-const $router = useRouter()
-const appStore = useAppStore()
-
 const $props = defineProps({
   menus: {
     type: Array,
     default: () => ([])
   }
 })
+
+const $router = useRouter()
 
 // 点击MenuItem
 const onClickMenuItem = function(e, menu) {
@@ -21,7 +18,6 @@ const onClickMenuItem = function(e, menu) {
   else if (menu.isLink === '1') {
     // TODO
   }
-  appStore.addTagPage(menu)
 }
 </script>
 

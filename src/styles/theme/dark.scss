@@ -5,22 +5,46 @@ html.dark {
   --theme-aside-bg-color: #191A1F;
   /* 侧边栏LOGO字体颜色 */
   --theme-aside-logo-font-color: #CFD3DC;
+
   /* 导航栏背景颜色 */
-  --theme-header-bg-color: #191A1F;
+  --theme-navbar-bg-color: #191A1F;
   /* 导航栏字体颜色 */
-  --theme-header-font-color: #CFD3DC;
+  --theme-navbar-font-color: #CFD3DC;
   /* 导航栏图标颜色 */
-  --theme-header-icon-color: #CFD3DC;
+  --theme-navbar-icon-color: #CFD3DC;
   /* 导航栏边框颜色 */
-  --theme-header-border-color: #505050;
-  /* 导航栏标签页字体颜色 */
-  --theme-header-tag-font-color: #CFD3DC;
-  /* 导航栏标签页边框颜色 */
-  --theme-header-tag-border-color: #CFD3DC;
-  /* 导航栏标签页图标鼠标移入字体颜色 */
-  --theme-header-tag-icon-hover-font-color: #333333;
-  /* 导航栏标签页图标鼠标移入背景颜色 */
-  --theme-header-tag-icon-hover-bg-color: #CFD3DC;
+  --theme-navbar-border-color: #505050;
+
+  /* 标签栏背景颜色 */
+  --theme-tagbar-bg-color: #191A1F;
+  /* 标签栏标签页背景颜色 */
+  --theme-tagbar-tagpage-bg-color: #191A1F;
+  /* 标签栏标签页边框颜色 */
+  --theme-tagbar-tagpage-border-color: #CFD3DC;
+  /* 标签栏标签页字体和关闭图标颜色 */
+  --theme-tagbar-tagpage-font-color: #CFD3DC;
+  /* 标签栏标签页关闭图标鼠标移入字体颜色 */
+  --theme-tagbar-tagpage-close-icon-hover-font-color: #333333;
+  /* 标签栏标签页关闭图标鼠标移入背景颜色 */
+  --theme-tagbar-tagpage-close-icon-hover-bg-color: #CFD3DC;
+  /* 标签栏标签页激活时背景颜色 */
+  --theme-tagbar-tagpage-active-bg-color: #ffffff;
+  /* 标签栏标签页激活时边框颜色 */
+  --theme-tagbar-tagpage-active-border-color: #ffffff;
+  /* 标签栏标签页激活时字体和关闭图标颜色 */
+  --theme-tagbar-tagpage-active-font-color: #000000;
+  
+  /* 标签栏右键菜单背景颜色 */
+  --theme-tagbar-menu-bg-color: #191A1F;
+  /* 标签栏右键菜单阴影颜色 */
+  --theme-tagbar-menu-shadow-color: #888;
+  /* 标签栏右键菜单项字体颜色 */
+  --theme-tagbar-menuitem-font-color: #CFD3DC;
+  /* 标签栏右键菜单项鼠标移入字体颜色 */
+  --theme-tagbar-menuitem-hover-font-color: #191A1F;
+  /* 标签栏右键菜单项鼠标移入背景颜色 */
+  --theme-tagbar-menuitem-hover-bg-color: #CFD3DC;
+
   /* 内容栏背景颜色 */
   --theme-main-bg-color: #191A1F;
   /* 内容栏字体颜色 */

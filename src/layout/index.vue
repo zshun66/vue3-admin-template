@@ -51,20 +51,21 @@ const appStore = useAppStore()
 
   .layout_inner_container {
     margin-left: 10px;
-    .layout_header {
+    .layout_header.navbar {
       padding: 0 20px 0 3px;
-      height: $layout-header-height;
-      background-color: var(--theme-header-bg-color);
+      height: $layout-navbar-height;
+      background-color: var(--theme-navbar-bg-color);
       border-radius: 10px 10px 0px 0px;
+      border-bottom: 1px solid var(--theme-navbar-border-color);
     }
 
     .layout_header.tagsview {
-      height: 35px;
       padding: 0 10px 0 13px;
+      height: $layout-tagbar-height;
+      background-color: var(--theme-tagbar-bg-color);
+      border-radius: 0px 0px 10px 10px;
       display: flex;
       align-items: center;
-      border-top: 1px solid var(--theme-header-border-color);
-      border-radius: 0px 0px 10px 10px;
     }
 
     .layout_main {
