@@ -237,6 +237,7 @@ const menuListAll = [
             name: 'backstage:system:log:loginlog',
             component: 'backstage-pages/system/log/loginlog/loginlog',
             perms: 'backstage:system:loginlog:page',
+            isCache: '0'
           }),
           Object.assign(deepCopy(menuItemObj), {
             parentId: '30',
@@ -251,6 +252,7 @@ const menuListAll = [
             name: 'backstage:system:log:operlog',
             component: 'backstage-pages/system/log/operlog/operlog',
             perms: 'backstage:system:operlog:page',
+            isCache: '0'
           }),
           Object.assign(deepCopy(menuItemObj), {
             parentId: '30',
@@ -265,6 +267,7 @@ const menuListAll = [
             name: 'backstage:system:log:errorlog',
             component: 'backstage-pages/system/log/errorlog/errorlog',
             perms: 'backstage:system:errorlog:page',
+            isCache: '0'
           }),
         ]
       })
