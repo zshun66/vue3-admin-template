@@ -1,6 +1,7 @@
 <script setup name="Navbar">
 import Toggle from '@/layout/components/Toggle/Toggle.vue'
 import Breadcrumb from '@/layout/components/Breadcrumb/Breadcrumb.vue'
+import Search from '@/layout/components/Search/Search.vue'
 import Fullscreen from '@/layout/components/Fullscreen/Fullscreen.vue'
 import Theme from '@/layout/components/Theme/Theme.vue'
 import Language from '@/layout/components/Language/Language.vue'
@@ -16,6 +17,7 @@ import UserInfo from '@/layout/components/UserInfo/UserInfo.vue'
       <Breadcrumb />
     </div>
     <div class="right_wrapper">
+      <Search />
       <Fullscreen />
       <Theme />
       <Language />

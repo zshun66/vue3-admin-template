@@ -4,7 +4,7 @@ import useUserStore from '@/pinia/modules/user.js'
 const $router = useRouter()
 const userStore = useUserStore()
 
-const { avatar, nickname, username } = userStore.userInfo
+const { avatar, nickname, username } = userStore
 
 const handleCommand = function (command) {
   // 个人中心

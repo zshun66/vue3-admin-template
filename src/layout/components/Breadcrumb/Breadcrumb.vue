@@ -8,8 +8,12 @@ const userStore = useUserStore()
 let breadcrumbs = ref([])
 
 watch(() => $route.path, (newv, oldv) => {
-  const menus = userStore.userInfo.menus || []
-  breadcrumbs.value = extractBreadcrumbsFromTree(menus, newv, ['title', 'path'])
+  const menus = userStore.menus || []
+  breadcrumbs.value = extractBreadcrumbsFromTree({
+    data: menus,
+    target: newv,
+    extractKeys: ['title', 'path']
+  })
 }, { immediate: true })
 </script>
 
