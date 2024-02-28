@@ -23,11 +23,19 @@ const appStore = useAppStore()
         <TagsView />
       </el-header>
       <el-main class="layout_main custom_scrollbar">
-        <router-view v-slot="{ Component }">
-          <keep-alive>
-            <component :is="Component" :key="$route.name" v-if="$route.meta.isCache == '1'" />
-          </keep-alive>
-          <component :is="Component" :key="$route.name" v-if="$route.meta.isCache !== '1'" />
+        <router-view v-slot="{ Component, route }">
+          <transition name="fade-transform" mode="out-in" appear v-if="route.meta.isCache == '1'">
+            <keep-alive>
+              <div :key="$route.name">
+                <component :is="Component"></component>
+              </div>
+            </keep-alive>
+          </transition>
+          <transition name="fade-transform" mode="out-in" appear v-if="route.meta.isCache !== '1'">
+            <div :key="$route.name">
+              <component :is="Component"></component>
+            </div>
+          </transition>
         </router-view>
       </el-main>
     </el-container>
