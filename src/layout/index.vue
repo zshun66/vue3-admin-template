@@ -3,8 +3,10 @@ import Sidebar from './components/Sidebar/Sidebar.vue'
 import Navbar from './components/Navbar/Navbar.vue'
 import TagsView from './components/TagsView/TagsView.vue'
 import useAppStore from '@/pinia/modules/app.js'
+import useTagStore from '@/pinia/modules/tag.js'
 
 const appStore = useAppStore()
+const tagStore = useTagStore()
 </script>
 
 <template>
@@ -23,18 +25,11 @@ const appStore = useAppStore()
         <TagsView />
       </el-header>
       <el-main class="layout_main custom_scrollbar">
-        <router-view v-slot="{ Component, route }">
-          <transition name="fade-transform" mode="out-in" appear v-if="route.meta.isCache == '1'">
-            <keep-alive>
-              <div :key="$route.name">
-                <component :is="Component"></component>
-              </div>
+        <router-view v-slot="{ Component }">
+          <transition name="fade-transform" mode="out-in" appear>
+            <keep-alive :include="tagStore.cacheNames">
+              <component :is="Component" :key="$route.name"></component>
             </keep-alive>
-          </transition>
-          <transition name="fade-transform" mode="out-in" appear v-if="route.meta.isCache !== '1'">
-            <div :key="$route.name">
-              <component :is="Component"></component>
-            </div>
           </transition>
         </router-view>
       </el-main>

@@ -1,4 +1,4 @@
-<script setup name="system:notice">
+<script setup name="backstage:system:notice">
 import NoticeFormDialog from './components/NoticeFormDialog.vue'
 import { reqNoticeListPage } from '@/api/system/notice.js'
 
@@ -207,14 +207,14 @@ getNoticeListPage()
       @current-change="handlePaginationCurrChange"
       @size-change="handlePaginationSizeChange"
     />
-  </div>
 
-  <NoticeFormDialog
-    v-model="showNoticeFormDialog"
-    :type="dialogType"
-    :row="currRow"
-    @success="handleNoticeFormDialogSuccess"
-  />
+    <NoticeFormDialog
+      v-model="showNoticeFormDialog"
+      :type="dialogType"
+      :row="currRow"
+      @success="handleNoticeFormDialogSuccess"
+    />
+  </div>
 </template>
 
 <style scoped lang="scss">

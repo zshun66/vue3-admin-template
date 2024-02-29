@@ -1,4 +1,4 @@
-<script setup name="system:post">
+<script setup name="backstage:system:post">
 import PostFormDialog from './components/PostFormDialog.vue'
 import { reqPostListPage } from '@/api/system/post.js'
 
@@ -203,14 +203,14 @@ getPostListPage()
       @current-change="handlePaginationCurrChange"
       @size-change="handlePaginationSizeChange"
     />
-  </div>
 
-  <PostFormDialog
-    v-model="showPostFormDialog"
-    :type="dialogType"
-    :row="currRow"
-    @success="handlePostFormDialogSuccess"
-  />
+    <PostFormDialog
+      v-model="showPostFormDialog"
+      :type="dialogType"
+      :row="currRow"
+      @success="handlePostFormDialogSuccess"
+    />
+  </div>
 </template>
 
 <style scoped lang="scss">

@@ -1,4 +1,4 @@
-<script setup name="system:dept">
+<script setup name="backstage:system:dept">
 import DeptFormDialog from './components/DeptFormDialog.vue'
 import { reqDeptListPage } from '@/api/system/dept.js'
 
@@ -227,15 +227,15 @@ getDeptListPage()
       @current-change="handlePaginationCurrChange"
       @size-change="handlePaginationSizeChange"
     />
-  </div>
 
-  <DeptFormDialog
-    v-model="showDeptFormDialog"
-    :type="dialogType"
-    :deptTree="deptList"
-    :row="currRow"
-    @success="handleDeptFormDialogSuccess"
-  />
+    <DeptFormDialog
+      v-model="showDeptFormDialog"
+      :type="dialogType"
+      :deptTree="deptList"
+      :row="currRow"
+      @success="handleDeptFormDialogSuccess"
+    />
+  </div>
 </template>
 
 <style scoped lang="scss">

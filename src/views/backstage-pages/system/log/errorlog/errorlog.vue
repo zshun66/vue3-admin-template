@@ -1,4 +1,4 @@
-<script setup name="system:log:errorlog">
+<script setup name="backstage:system:log:errorlog">
 import { reqErrorLogListPage } from '@/api/system/log.js'
 
 // 数据加载状态

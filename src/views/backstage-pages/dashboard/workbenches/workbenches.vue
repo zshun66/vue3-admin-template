@@ -1,4 +1,4 @@
-<script setup name="dashboard:workbenches">
+<script setup name="backstage:dashboard:workbenches">
 
 </script>
 

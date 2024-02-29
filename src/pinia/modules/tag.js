@@ -50,7 +50,16 @@ const useTagStore = defineStore('Tag', {
     }
   },
   getters: {
-
+    // 加入缓存的名称列表
+    cacheNames: (state) => {
+      const result = []
+      state.tagPages.forEach(item => {
+        if (item.isCache === '1') {
+          result.push(item.name)
+        }
+      })
+      return result
+    }
   }
 })
 

@@ -34,7 +34,8 @@ watch(() => $route.path, (newv, oldv) => {
     title: $route.meta.title,
     name: $route.name,
     path: $route.path,
-    isClearable: $route.meta.isClearable
+    isClearable: $route.meta.isClearable,
+    isCache: $route.meta.isCache,
   })
   nextTick(() => getDomInfo())
 }, { immediate: true })

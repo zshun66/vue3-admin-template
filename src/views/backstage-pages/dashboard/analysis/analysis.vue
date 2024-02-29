@@ -1,4 +1,4 @@
-<script setup name="dashboard:analysis">
+<script setup name="backstage:dashboard:analysis">
 
 </script>
 

@@ -1,4 +1,4 @@
-<script setup name="system:user">
+<script setup name="backstage:system:user">
 import UserFormDialog from './components/UserFormDialog.vue'
 import { reqDeptListPage } from '@/api/system/dept.js'
 import { reqUserListPage } from '@/api/system/user.js'
@@ -354,14 +354,14 @@ getUserListPage()
         @size-change="handlePaginationSizeChange"
       />
     </div>
-  </div>
 
-  <UserFormDialog
-    v-model="showUserFormDialog"
-    :type="dialogType"
-    :row="currRow"
-    @success="handleUserFormDialogSuccess"
-  />
+    <UserFormDialog
+      v-model="showUserFormDialog"
+      :type="dialogType"
+      :row="currRow"
+      @success="handleUserFormDialogSuccess"
+    />
+  </div>
 </template>
 
 <style scoped lang="scss">

@@ -1,4 +1,4 @@
-<script setup name="system:menu">
+<script setup name="backstage:system:menu">
 import MenuFormDialog from './components/MenuFormDialog.vue'
 import { reqMenuListPage } from '@/api/system/menu.js'
 
@@ -233,15 +233,15 @@ getMenuListPage()
       @current-change="handlePaginationCurrChange"
       @size-change="handlePaginationSizeChange"
     />
-  </div>
 
-  <MenuFormDialog
-    v-model="showMenuFormDialog"
-    :type="dialogType"
-    :menuTree="menuList"
-    :row="currRow"
-    @success="handleMenuFormDialogSuccess"
-  />
+    <MenuFormDialog
+      v-model="showMenuFormDialog"
+      :type="dialogType"
+      :menuTree="menuList"
+      :row="currRow"
+      @success="handleMenuFormDialogSuccess"
+    />
+  </div>
 </template>
 
 <style scoped lang="scss">

@@ -1,4 +1,4 @@
-<script setup name="system:dict">
+<script setup name="backstage:system:dict">
 import DictTypeFormDialog from './components/DictTypeFormDialog.vue'
 import DictTypeDetailDialog from './components/DictTypeDetailDialog.vue'
 import { reqDictTypeListPage } from '@/api/system/dict.js'
@@ -212,18 +212,18 @@ getDictTypeListPage()
       @current-change="handlePaginationCurrChange"
       @size-change="handlePaginationSizeChange"
     />
-  </div>
 
-  <DictTypeFormDialog
-    v-model="showDictTypeFormDialog"
-    :type="dialogType"
-    :row="currRow"
-    @success="handleDictTypeFormDialogSuccess"
-  />
-  <DictTypeDetailDialog
-    v-model="showDictTypeDetailDialog"
-    :row="currRow"
-  />
+    <DictTypeFormDialog
+      v-model="showDictTypeFormDialog"
+      :type="dialogType"
+      :row="currRow"
+      @success="handleDictTypeFormDialogSuccess"
+    />
+    <DictTypeDetailDialog
+      v-model="showDictTypeDetailDialog"
+      :row="currRow"
+    />
+  </div>
 </template>
 
 <style scoped lang="scss">

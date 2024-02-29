@@ -1,4 +1,4 @@
-<script setup name="system:log:loginlog">
+<script setup name="backstage:system:log:loginlog">
 import { reqLoginLogListPage } from '@/api/system/log.js'
 
 // 数据加载状态

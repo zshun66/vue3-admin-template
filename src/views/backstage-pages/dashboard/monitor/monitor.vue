@@ -1,4 +1,4 @@
-<script setup name="dashboard:monitor">
+<script setup name="backstage:dashboard:monitor">
 
 </script>
 

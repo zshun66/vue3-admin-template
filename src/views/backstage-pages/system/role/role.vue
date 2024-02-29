@@ -1,4 +1,4 @@
-<script setup name="system:role">
+<script setup name="backstage:system:role">
 import RoleFormDialog from './components/RoleFormDialog.vue'
 import { reqRoleListPage } from '@/api/system/role.js'
 
@@ -197,14 +197,14 @@ getRoleListPage()
       @current-change="handlePaginationCurrChange"
       @size-change="handlePaginationSizeChange"
     />
-  </div>
 
-  <RoleFormDialog
-    v-model="showRoleFormDialog"
-    :type="dialogType"
-    :row="currRow"
-    @success="handleRoleFormDialogSuccess"
-  />
+    <RoleFormDialog
+      v-model="showRoleFormDialog"
+      :type="dialogType"
+      :row="currRow"
+      @success="handleRoleFormDialogSuccess"
+    />
+  </div>
 </template>
 
 <style scoped lang="scss">

@@ -1,4 +1,4 @@
-<script setup name="system:param">
+<script setup name="backstage:system:param">
 import ParamFormDialog from './components/ParamFormDialog.vue'
 import { reqParamListPage } from '@/api/system/param.js'
 
@@ -221,14 +221,14 @@ getParamListPage()
       @current-change="handlePaginationCurrChange"
       @size-change="handlePaginationSizeChange"
     />
-  </div>
 
-  <ParamFormDialog
-    v-model="showParamFormDialog"
-    :type="dialogType"
-    :row="currRow"
-    @success="handleParamFormDialogSuccess"
-  />
+    <ParamFormDialog
+      v-model="showParamFormDialog"
+      :type="dialogType"
+      :row="currRow"
+      @success="handleParamFormDialogSuccess"
+    />
+  </div>
 </template>
 
 <style scoped lang="scss">

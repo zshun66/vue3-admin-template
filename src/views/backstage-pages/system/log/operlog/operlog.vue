@@ -1,4 +1,4 @@
-<script setup name="system:log:operlog">
+<script setup name="backstage:system:log:operlog">
 import { reqOperLogListPage } from '@/api/system/log.js'
 
 // 操作类型选项
