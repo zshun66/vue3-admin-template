@@ -13,7 +13,7 @@ const tagStore = useTagStore()
   <el-container class="comp_container layout_comp">
     <el-aside
       class="layout_aside custom_scrollbar"
-      :class="{ shrink: appStore.configData.collapse === 1 }"
+      :class="{ shrink: appStore.collapse }"
     >
       <Sidebar />
     </el-aside>
@@ -26,7 +26,10 @@ const tagStore = useTagStore()
       </el-header>
       <el-main class="layout_main custom_scrollbar">
         <router-view v-slot="{ Component }">
-          <transition name="fade-transform" mode="out-in" appear>
+          <transition
+            :name="appStore.pageTranstion ? 'fade-transform' : 'none'"
+            mode="out-in" appear
+          >
             <keep-alive :include="tagStore.cacheNames">
               <component :is="Component" :key="$route.name"></component>
             </keep-alive>

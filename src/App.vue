@@ -7,7 +7,7 @@ import enUS from 'element-plus/dist/locale/en.mjs'
 const appStore = useAppStore()
 
 const locale = computed(() => {
-  const lang = appStore.configData.lang
+  const lang = appStore.lang
   const langMap = {
     'zh-CN': zhCN,
     'zh-TW': zhTW,
@@ -20,7 +20,7 @@ const locale = computed(() => {
 <template>
   <el-config-provider
     :locale="locale"
-    :size="appStore.configData.size"
+    :size="appStore.size"
     :z-index="3000"
   >
     <router-view></router-view>

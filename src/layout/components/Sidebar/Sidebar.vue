@@ -10,7 +10,7 @@ const appStore = useAppStore()
 // 菜单列表
 const menus = computed(() => userStore.menus || [])
 // 是否折叠菜单栏
-const collapse = computed(() => appStore.configData.collapse === 1 ? true : false)
+const collapse = computed(() => appStore.collapse)
 // 页面加载时默认激活的菜单
 const defaultActive = computed(() => $route.name)
 </script>

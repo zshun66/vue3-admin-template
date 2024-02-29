@@ -10,7 +10,7 @@ const sizeList = [
   { name: 'small', title: 'small' },
 ]
 // 当前size
-const currSize = ref(appStore.configData.size)
+const currSize = ref(appStore.size)
 
 // 切换组件大小
 const toggleSize = function (size) {

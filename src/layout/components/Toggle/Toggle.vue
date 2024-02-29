@@ -4,15 +4,11 @@ import useAppStore from '@/pinia/modules/app.js'
 const appStore = useAppStore()
 
 // 菜单状态
-const collapse = ref(appStore.configData.collapse)
+const collapse = ref(appStore.collapse)
 
 // 切换菜单状态
 const toggleCollapse = function () {
-  if (collapse.value === 1) {
-    collapse.value = 0
-  } else if (collapse.value === 0) {
-    collapse.value = 1
-  }
+  collapse.value = !collapse.value
   appStore.setConfigData('collapse', collapse.value)
 }
 </script>
@@ -20,11 +16,11 @@ const toggleCollapse = function () {
 <template>
   <div
     class="comp_container toggle_comp"
-    :title="collapse === 1 ? '展开菜单' : '收缩菜单'"
+    :title="collapse ? '展开菜单' : '收缩菜单'"
     @click="toggleCollapse"
   >
-    <svg-icon name="menu-unfold1" size="24px" v-if="collapse === 0"></svg-icon>
-    <svg-icon name="menu-fold1" size="24px" v-if="collapse === 1"></svg-icon>
+    <svg-icon name="menu-unfold1" size="24px" v-if="!collapse"></svg-icon>
+    <svg-icon name="menu-fold1" size="24px" v-if="collapse"></svg-icon>
   </div>
 </template>
 

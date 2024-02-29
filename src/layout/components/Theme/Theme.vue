@@ -17,7 +17,7 @@ const themeList = [
   },
 ]
 // 当前主题
-const currTheme = ref(appStore.configData.theme)
+const currTheme = ref(appStore.theme)
 
 // 设置主题
 const setTheme = function (themeName) {

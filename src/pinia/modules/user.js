@@ -37,15 +37,15 @@ const useUserStore = defineStore('User', {
     }
   },
   getters: {
-    token: (state) => state.userInfo.token || '',
-    avatar: (state) => state.userInfo.avatar || '',
-    username: (state) => state.userInfo.username || '',
-    nickname: (state) => state.userInfo.nickname || '',
-    sex: (state) => state.userInfo.sex || '',
-    phone: (state) => state.userInfo.phone || '',
-    email: (state) => state.userInfo.email || '',
-    menus: (state) => state.userInfo.menus || [],
-    jump: (state) => state.userInfo.jump || '',
+    token: (state) => state.userInfo.token,
+    avatar: (state) => state.userInfo.avatar,
+    username: (state) => state.userInfo.username,
+    nickname: (state) => state.userInfo.nickname,
+    sex: (state) => state.userInfo.sex,
+    phone: (state) => state.userInfo.phone,
+    email: (state) => state.userInfo.email,
+    menus: (state) => state.userInfo.menus,
+    jump: (state) => state.userInfo.jump,
   }
 })
 

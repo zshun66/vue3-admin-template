@@ -12,7 +12,7 @@ const langList = [
   { name: 'en-US', title: 'English' },
 ]
 // 当前语言
-const currLang = ref(appStore.configData.lang)
+const currLang = ref(appStore.lang)
 
 // 设置语言
 const setLanguage = function (langName) {
