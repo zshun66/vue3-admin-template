@@ -52,15 +52,17 @@ const getDomInfo = () => {
   containerWidth = containerDom.offsetWidth
   tagsWrapWidth = tagsWrapDom.offsetWidth
   tagsWrapDom.classList.add('transition')
+  setTimeout(() => tagsWrapDom.classList.remove('transition'), 300)
   minLeft = containerWidth - tagsWrapWidth
   if (minLeft > 0) minLeft = 0
-  let centerPos = containerWidth / 2
-  let activeTagItemOffsetW = activeTagItemDom.offsetWidth
-  let activeTagItemOffsetL = activeTagItemDom.offsetLeft
-  left.value = centerPos - (activeTagItemOffsetL + activeTagItemOffsetW / 2)
-  if (left.value > 0) left.value = 0
-  if (left.value < minLeft) left.value = minLeft
-  setTimeout(() => tagsWrapDom.classList.remove('transition'), 300)
+  if (activeTagItemDom) {
+    let centerPos = containerWidth / 2
+    let activeTagItemOffsetW = activeTagItemDom.offsetWidth
+    let activeTagItemOffsetL = activeTagItemDom.offsetLeft
+    left.value = centerPos - (activeTagItemOffsetL + activeTagItemOffsetW / 2)
+    if (left.value > 0) left.value = 0
+    if (left.value < minLeft) left.value = minLeft
+  }
 }
 
 // 处理点击关闭图标

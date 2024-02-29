@@ -1,3 +1,18 @@
+html.light,
+html.dark {
+  --el-color-primary: #009688;
+  --el-color-primary-dark-2: #066f65;
+  --el-color-primary-light-1: #1aa194;
+  --el-color-primary-light-2: #33aba0;
+  --el-color-primary-light-3: #4db6ac;
+  --el-color-primary-light-4: #66c0b8;
+  --el-color-primary-light-5: #80cbc4;
+  --el-color-primary-light-6: #99d5cf;
+  --el-color-primary-light-7: #b3e0db;
+  --el-color-primary-light-8: #cceae7;
+  --el-color-primary-light-9: #e6f5f3;
+}
+
 // 按钮 ----------------------------------------------------------------------------------------------------------------
 button.el-button {
   transition: none;

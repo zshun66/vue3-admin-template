@@ -32,7 +32,7 @@ export default {
    * 页面切换时过渡(true过渡、false不过渡)
    */
   pageTranstion: {
-    storage: false,
+    storage: true,
     value: true
   }
 }
