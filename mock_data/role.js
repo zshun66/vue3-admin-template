@@ -2,16 +2,16 @@ import menuData from '../mock_data/menu.js'
 
 function extractKeyNamesFromTree(
   treeData,
-  targetKeyName,
+  targetKey,
   childrenKeyName = 'children'
 ) {
   if (!Array.isArray(treeData)) return []
-  if (!targetKeyName) return []
+  if (!targetKey) return []
   const keyNames = []
   function traverse(list) {
     for (const node of list) {
-      if (node[targetKeyName]) {
-        keyNames.push(node[targetKeyName])
+      if (node[targetKey]) {
+        keyNames.push(node[targetKey])
       }
       if (
         Array.isArray(node[childrenKeyName]) &&

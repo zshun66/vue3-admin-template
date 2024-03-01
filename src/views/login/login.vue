@@ -1,5 +1,6 @@
 <script setup name="login">
 import useUserStore from '@/pinia/modules/user.js'
+import { findFieldValueInTree } from '@/utils/tree.js'
 
 const $router = useRouter()
 const $route = useRoute()
@@ -33,7 +34,13 @@ const handleLogin = async () => {
   loginBtnLoading.value = true
   userStore.handleUserLogin(loginForm).then((userInfo) => {
     ElMessage.success('登录成功')
-    $router.push({ path: redirect || userInfo.jump })
+    const isRedirect = findFieldValueInTree({
+      data: userInfo.menus,
+      targetKey: 'path',
+      targetValue: redirect
+    })
+    const toPath = (isRedirect && redirect) ? redirect : userInfo.jump
+    $router.push({ path: toPath })
     loginBtnLoading.value = false
   }).catch(() => {
     loginBtnLoading.value = false
@@ -57,14 +64,14 @@ const handleLogin = async () => {
         :rules="loginFormRules"
       >
         <el-form-item prop="username">
-          <el-input v-model="loginForm.username">
+          <el-input v-model="loginForm.username" placeholder="用户名：admin / zhangsan / lisi / wangwu">
             <template #prefix>
               <svg-icon name="user2" size="18px" color="#666666"></svg-icon>
             </template>
           </el-input>
         </el-form-item>
         <el-form-item prop="password">
-          <el-input type="password" v-model="loginForm.password" show-password>
+          <el-input type="password" v-model="loginForm.password" placeholder="密码：111111" show-password>
             <template #prefix>
               <svg-icon name="password1" size="20px" color="#333333"></svg-icon>
             </template>

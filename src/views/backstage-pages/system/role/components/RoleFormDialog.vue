@@ -1,6 +1,6 @@
 <script setup name="RoleFormDialog">
 import { reqMenuListAll } from '@/api/system/menu.js'
-import { extractKeyNamesFromTree } from '@/utils/utils.js'
+import { extractKeyNamesFromTree } from '@/utils/tree.js'
 
 const $props = defineProps({
   modelValue: {
