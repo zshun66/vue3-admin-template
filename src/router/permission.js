@@ -3,8 +3,10 @@ import useUserStore from '@/pinia/modules/user.js'
 import resolveRoutes from '@/utils/resolveRoutes.js'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+import { ElLoading } from 'element-plus'
 
 NProgress.configure({ showSpinner: false })
+let loadingInstance = null
 
 // 是否处理过路由
 let isResolveRoutes = false
@@ -14,6 +16,9 @@ const whitePageList = ['/login']
 // 全局前置守卫
 router.beforeEach(async (to, from) => {
   NProgress.start()
+  loadingInstance = ElLoading.service({
+    target: document.querySelector('main.layout_main'),
+  })
   const userStore = useUserStore()
   // console.log('from:', from.path)
   // console.log('to:', to.path)
@@ -48,4 +53,5 @@ router.beforeEach(async (to, from) => {
 // 全局后置守卫
 router.afterEach((to, from) => {
   NProgress.done()
+  loadingInstance.close()
 })

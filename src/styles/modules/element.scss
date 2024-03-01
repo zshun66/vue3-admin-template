@@ -14,9 +14,6 @@ html.dark {
 }
 
 // 按钮 ----------------------------------------------------------------------------------------------------------------
-button.el-button {
-  transition: none;
-}
 button.el-button [class*=el-icon] + span {
   margin-left: 3px;
 }
