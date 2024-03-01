@@ -64,14 +64,13 @@ import packageJson from '/package.json'
 <style scoped lang="scss">
 .about_page {
   .card {
-    background: #ffffff;
     box-shadow: 0 0 10px -6px #999;
     border-radius: 7px;
     padding: 15px 15px 12px;
     .title {
       font-size: 17px;
       font-weight: 700;
-      color: #303133;
+      color: var(--theme-main-font-color);
     }
     .content {
       margin-top: 10px;
@@ -85,7 +84,7 @@ import packageJson from '/package.json'
       }
       .text {
         margin-left: 10px;
-        color: #606266;
+        color: var(--theme-main-font-color);
       }
     }
     .descriptions {
