@@ -1,9 +1,11 @@
 <script setup>
+import { useI18n } from 'vue-i18n'
 import useAppStore from '@/pinia/modules/app.js'
 import zhCN from 'element-plus/dist/locale/zh-cn.mjs'
 import zhTW from 'element-plus/dist/locale/zh-tw.mjs'
 import enUS from 'element-plus/dist/locale/en.mjs'
 
+const i18n = useI18n()
 const appStore = useAppStore()
 
 const locale = computed(() => {
@@ -15,6 +17,19 @@ const locale = computed(() => {
   }
   return langMap[lang]
 })
+
+// 设置语言
+const setLanguage = (function () {
+  i18n.locale.value = appStore.lang
+})()
+
+// 设置主题
+const setTheme = (function () {
+  const htmlDom = document.querySelector('html')
+  htmlDom.classList.remove('light')
+  htmlDom.classList.remove('dark')
+  htmlDom.classList.add(appStore.theme)
+})()
 </script>
 
 <template>
