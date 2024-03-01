@@ -1,8 +1,21 @@
 {
-  "name": "vue3-admin-template",
+  "name": "qs-admin",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "description": "qs-admin open source management system",
+  "docsUrl": "文档地址",
+  "previewUrl": "预览地址",
+  "author": {
+    "name": "月挽星河",
+    "email": "2436509528@qq.com",
+    "url": "https://zhsun666.cloud"
+  },
+  "license": "MIT",
+  "repository": {
+    "gitee": "Gitee地址",
+    "github": "Github地址"
+  },
   "scripts": {
     "dev": "vite --mode development",
     "build:dev": "vite build --mode development",
@@ -40,5 +53,25 @@
     "vite-plugin-mock": "^3.0.1",
     "vite-plugin-svg-icons": "^2.0.1",
     "vite-plugin-vue-setup-extend": "^0.4.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "browserslist": {
+    "production": [
+      "> 1%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-git"
+    }
   }
 }

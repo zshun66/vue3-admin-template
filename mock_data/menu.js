@@ -39,7 +39,7 @@ const menuListAll = [
     path: '/backstage/home',
     name: 'backstage:home',
     component: 'backstage-pages/home/home',
-    perms: 'backstage:home:manage',
+    perms: 'backstage:home:page',
     isClearable: '0'
   }),
   // 控制台菜单 --------------------------------------------------------------------------------------------------------------------------------------------
@@ -272,6 +272,20 @@ const menuListAll = [
         ]
       })
     ]
+  }),
+  // 系统管理菜单 -------------------------------------------------------------------------------------------------------------------------------------------------
+  Object.assign(deepCopy(menuItemObj), {
+    id: '100',
+    sort: 1000,
+    type: 'menu',
+    title: '关于项目',
+    icon: 'about1',
+    iconSize: '18px',
+    path: '/backstage/about',
+    name: 'backstage:about',
+    component: 'backstage-pages/about/about',
+    perms: 'backstage:about:page',
+    children: []
   })
 ]
 
