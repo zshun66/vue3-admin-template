@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div>分析台</div>
+  <div class="page_container analysis_page">分析台</div>
 </template>
 
 <style scoped lang="scss"></style>

@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div>监控台</div>
+  <div class="page_container monitor_page">监控台</div>
 </template>
 
 <style scoped lang="scss"></style>

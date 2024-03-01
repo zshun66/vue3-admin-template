@@ -14,7 +14,6 @@ const showDrawer = ref(false)
   </div>
 
   <el-drawer
-    class="setting_drawer"
     v-model="showDrawer"
     :append-to-body="false"
     :show-close="false"
@@ -35,12 +34,6 @@ const showDrawer = ref(false)
 
   :deep(.svg-icon) {
     fill: var(--theme-navbar-icon-color);
-  }
-}
-
-.setting_drawer {
-  .drawer_content {
-   
   }
 }
 </style>

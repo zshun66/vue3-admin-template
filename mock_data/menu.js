@@ -273,14 +273,71 @@ const menuListAll = [
       })
     ]
   }),
-  // 系统管理菜单 -------------------------------------------------------------------------------------------------------------------------------------------------
+  // 系统工具 --------------------------------------------------------------------------------------------------------------------------------------------
+  Object.assign(deepCopy(menuItemObj), {
+    id: '90',
+    sort: 900,
+    type: 'directory',
+    title: '系统工具',
+    icon: 'tool1',
+    iconSize: '18px',
+    path: '/backstage/tool',
+    name: 'backstage:tool',
+    perms: 'backstage:tool:manage',
+    children: [
+      Object.assign(deepCopy(menuItemObj), {
+        parentId: '90',
+        parentTitle: '系统工具',
+        id: '901',
+        sort: 10,
+        type: 'directory',
+        title: '表单生成器',
+        icon: 'form2',
+        iconSize: '18px',
+        path: '/backstage/tool/form',
+        name: 'backstage:tool:form',
+        perms: 'backstage:tool:form:manage',
+        children: [
+          Object.assign(deepCopy(menuItemObj), {
+            parentId: '901',
+            parentTitle: '表单生成器',
+            id: '9011',
+            sort: 10,
+            type: 'menu',
+            title: 'VForm',
+            icon: 'form1',
+            iconSize: '17px',
+            path: '/backstage/tool/form/vform',
+            name: 'backstage:tool:form:vform',
+            component: 'backstage-pages/tool/form/vform/vform',
+            perms: 'backstage:tool:form:vform:page',
+          }),
+        ]
+      }),
+      Object.assign(deepCopy(menuItemObj), {
+        parentId: '90',
+        parentTitle: '系统工具',
+        id: '902',
+        sort: 20,
+        type: 'menu',
+        title: '代码生成器',
+        icon: 'code1',
+        iconSize: '16px',
+        path: '/backstage/tool/code',
+        name: 'backstage:tool:code',
+        component: 'backstage-pages/tool/code/code',
+        perms: 'backstage:tool:code:page',
+      }),
+    ]
+  }),
+  // 关于项目 -------------------------------------------------------------------------------------------------------------------------------------------------
   Object.assign(deepCopy(menuItemObj), {
     id: '100',
     sort: 1000,
     type: 'menu',
     title: '关于项目',
     icon: 'about1',
-    iconSize: '18px',
+    iconSize: '19px',
     path: '/backstage/about',
     name: 'backstage:about',
     component: 'backstage-pages/about/about',
