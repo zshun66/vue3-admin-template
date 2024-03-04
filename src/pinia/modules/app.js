@@ -27,6 +27,7 @@ const useAppStore = defineStore('App', {
   },
   getters: {
     collapse: (state) => state.appConfig.collapse.value,
+    accordion: (state) => state.appConfig.accordion.value,
     theme: (state) => state.appConfig.theme.value,
     lang: (state) => state.appConfig.lang.value,
     size: (state) => state.appConfig.size.value,

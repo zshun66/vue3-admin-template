@@ -8,6 +8,13 @@ export default {
     value: false
   },
   /**
+   * 菜单手风琴(true、false)
+   */
+  accordion: {
+    storage: true,
+    value: false
+  },
+  /**
    * 主题(light亮色、dark暗色)
    */
   theme: {

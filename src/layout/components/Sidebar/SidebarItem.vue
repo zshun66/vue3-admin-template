@@ -24,6 +24,7 @@ const onClickMenuItem = function(e, menu) {
 <template>
   <template v-for="(menu, index) in menus" :key="index">
     <template v-if="menu.children && menu.children.length > 0">
+      <div style="height: 5px; background-color: transparent;"></div>
       <el-sub-menu popper-class="menu_submenu_popper" :index="menu.name" :title="menu.title">
         <template #title>
           <div class="menu_icon_box">
@@ -35,6 +36,7 @@ const onClickMenuItem = function(e, menu) {
       </el-sub-menu>
     </template>
     <template v-else>
+      <div style="height: 5px; background-color: transparent;"></div>
       <el-menu-item :index="menu.name" :title="menu.title" @click="onClickMenuItem($event, menu)">
         <div class="menu_icon_box">
           <svg-icon :name="menu.icon" :size="menu.iconSize"></svg-icon>

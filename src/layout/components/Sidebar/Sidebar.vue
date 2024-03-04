@@ -11,6 +11,8 @@ const appStore = useAppStore()
 const menus = computed(() => userStore.menus || [])
 // 是否折叠菜单栏
 const collapse = computed(() => appStore.collapse)
+// 菜单是否开启手风琴模式
+const accordion = computed(() => appStore.accordion)
 // 页面加载时默认激活的菜单
 const defaultActive = computed(() => $route.name)
 </script>
@@ -24,7 +26,7 @@ const defaultActive = computed(() => $route.name)
     <el-menu
       :collapse="collapse"
       :default-active="defaultActive"
-      unique-opened
+      :unique-opened="accordion"
     >
       <SidebarItem :menus="menus" />
     </el-menu>
