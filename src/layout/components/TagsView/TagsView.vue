@@ -122,7 +122,7 @@ const handleCloseOperate = (type) => {
 
 <template>
   <div class="comp_container tags_view_comp">
-    <div class="tags_wrap" :style="{ transform: `translateX(${left}px)` }" @mousewheel="handleMouseWheel">
+    <div class="tags_wrap" :style="{ transform: `translateX(${left}px)` }" @mousewheel.passive="handleMouseWheel">
       <div class="tags_item" :class="{ active: currRouteName === item.name }" v-for="(item, index) in tagPages" :key="index"
       @click="handleClickTagItem(item)" @contextmenu.prevent="handleContextmenu($event, item, index)">
         <span class="title">{{ item.title }}</span>

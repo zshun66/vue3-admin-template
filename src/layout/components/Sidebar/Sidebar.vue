@@ -60,7 +60,6 @@ const defaultActive = computed(() => $route.name)
 
   // el-menu 样式 --------------------------------------------------------------------------------------------------------------------------------------------------------
   :deep(.el-menu) {
-    margin-top: 8px;
     border-right: none;
     background-color: var(--theme-menu-bg-color);
   }

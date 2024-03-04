@@ -10,6 +10,6 @@
 
 <style scoped lang="scss">
 .vform_page {
-  
+  width: 100%;
 }
 </style>
