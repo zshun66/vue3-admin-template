@@ -5,12 +5,7 @@ import './router/permission.js'
 import pinia from './pinia/index.js'
 import i18n from './lang/index.js'
 
-import ElementPlus from 'element-plus'
-import 'element-plus/dist/index.css'
 import 'element-plus/theme-chalk/dark/css-vars.css'
-
-import VForm3 from 'vform3-builds'
-import 'vform3-builds/dist/designer.style.css'
 
 // 注册SVG图标
 import 'virtual:svg-icons-register'
@@ -23,8 +18,6 @@ const app = createApp(App)
 app.use(router)
 app.use(pinia)
 app.use(i18n)
-app.use(ElementPlus)
-app.use(VForm3)
 app.use(gloablComponents)
 app.mount('#app')
 
