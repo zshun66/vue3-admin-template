@@ -14,8 +14,7 @@
   align-items: center;
   justify-content: center;
   .home-img {
-    width: 70%;
-    margin-bottom: 20px;
+    width: 935px;
   }
 }
 </style>
