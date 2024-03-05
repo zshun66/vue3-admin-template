@@ -45,6 +45,7 @@ const defaultActive = computed(() => $route.name)
     display: flex;
     align-items: center;
     padding: 0 0 0 15px;
+    background-color: var(--theme-aside-bg-color);
     color: var(--theme-aside-logo-font-color);
     
     .logo {
