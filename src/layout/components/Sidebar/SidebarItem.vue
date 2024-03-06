@@ -16,7 +16,7 @@ const onClickMenuItem = function(e, menu) {
   }
   // 外链菜单
   else if (menu.isLink === '1') {
-    // TODO
+    window.open(menu.path, '_blank')
   }
 }
 </script>

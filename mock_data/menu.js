@@ -301,6 +301,49 @@ const menuListAll = [
       }),
     ]
   }),
+  // 外部链接 --------------------------------------------------------------------------------------------------------------------------------------------
+  Object.assign(deepCopy(menuItemObj), {
+    id: '91',
+    sort: 910,
+    type: 'directory',
+    title: '外部链接',
+    icon: 'link3',
+    iconSize: '19px',
+    path: '/backstage/outlink',
+    name: 'backstage:outlink',
+    perms: 'backstage:outlink',
+    children: [
+      Object.assign(deepCopy(menuItemObj), {
+        parentId: '91',
+        parentTitle: '外部链接',
+        id: '911',
+        sort: 10,
+        type: 'menu',
+        title: 'Bind内嵌',
+        icon: 'link1',
+        iconSize: '20px',
+        path: '/backstage/outlink/bind',
+        name: 'backstage:outlink:bind',
+        component: 'backstage-pages/outlink/bind/bind',
+        perms: 'backstage:systool:bind:page',
+      }),
+      Object.assign(deepCopy(menuItemObj), {
+        parentId: '91',
+        parentTitle: '外部链接',
+        id: '912',
+        sort: 20,
+        type: 'menu',
+        title: 'Gitee仓库',
+        icon: 'gitee1',
+        iconSize: '18px',
+        path: 'https://gitee.com/zshun66/vue3-admin-template',
+        name: 'backstage:outlink:gitee',
+        component: 'backstage-pages/outlink/gitee/gitee',
+        perms: 'backstage:systool:gitee:page',
+        isLink: '1'
+      }),
+    ]
+  }),
   // 关于项目 -------------------------------------------------------------------------------------------------------------------------------------------------
   Object.assign(deepCopy(menuItemObj), {
     id: '100',
