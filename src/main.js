@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router/index.js'
 import './router/permission.js'
 import pinia from './pinia/index.js'
+import directive from './directive/index.js'
 import i18n from './lang/index.js'
 
 import 'element-plus/theme-chalk/dark/css-vars.css'
@@ -17,6 +18,7 @@ import gloablComponents from './components/index.js'
 const app = createApp(App)
 app.use(router)
 app.use(pinia)
+app.use(directive)
 app.use(i18n)
 app.use(gloablComponents)
 app.mount('#app')
