@@ -18,6 +18,7 @@ const resolveComponent = (componentPath) => {
  */
 const resolveRoutes = (menus) => {
   menus.forEach(menu => {
+    if (menu.status === '0') return
     if (menu.type === 'button') return
     const hasChildren = menu.children && menu.children.length > 0
     let redirect = undefined
