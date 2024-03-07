@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import useAppStore from './app.js'
+import useDictStore from './dict.js'
 import useTagStore from './tag.js'
 import { reqUserLogin, reqUserLogout } from '@/api/system/user.js'
 import { getStorage, setStorage, removeStorage } from '@/utils/storage.js'
@@ -33,6 +34,7 @@ const useUserStore = defineStore('User', {
       this.userInfo = {}
       removeStorage('QS_ADMIN_USERINFO')
       useAppStore().clearStore()
+      useDictStore().clearStore()
       useTagStore().clearStore()
     }
   },

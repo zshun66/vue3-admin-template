@@ -4,12 +4,13 @@
 import useUserStore from '@/pinia/modules/user.js'
 import { extractKeyNamesFromTree } from '@/utils/tree.js'
 
+const userStore = useUserStore()
+const permss = userStore.userInfo.menus
+const roles = userStore.userInfo.roles
+const permsAuths = extractKeyNamesFromTree(permss, 'perms')
+const roleAuths = extractKeyNamesFromTree(roles, 'perms')
+
 const useAuth = () => {
-  const userStore = useUserStore()
-  const permss = userStore.userInfo.menus
-  const roles = userStore.userInfo.roles
-  const permsAuths = extractKeyNamesFromTree(permss, 'perms')
-  const roleAuths = extractKeyNamesFromTree(roles, 'perms')
   return {
     // 验证用户是否具备某个权限
     hasPerms(perms) {

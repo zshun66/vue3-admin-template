@@ -66,8 +66,8 @@ export default [
   {
     url: /\/api\/system\/dict\/data\/list\/all\/(.+)/,
     method: 'get',
-    response: ({ params }) => {
-      const type = params[0]
+    response: ({ query }) => {
+      const type = query['0']
 
       // 字典数据列表
       var dictDataList = dictDataListAll.find(item => item.type === type)?.options || []
