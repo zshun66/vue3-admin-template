@@ -1,11 +1,13 @@
 import perms from './modules/perms.js'
 import role from './modules/role.js'
 import copy from './modules/copy.js'
+import watermark from './modules/watermark.js'
 
 const directives = {
   perms,
   role,
-  copy
+  copy,
+  watermark
 }
 
 export default {
