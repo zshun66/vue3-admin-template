@@ -8,6 +8,7 @@ const dictStore = useDictStore()
 
 const useDict = (dictTypes) => {
   const dicts = ref({})
+  if (!dictTypes || !(dictTypes instanceof Array)) return dicts
   dictTypes.forEach(dictType => {
     const dictData = dictStore.getDict(dictType)
     if (dictData) {
