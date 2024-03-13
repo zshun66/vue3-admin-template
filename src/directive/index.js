@@ -3,13 +3,15 @@ import role from './modules/role.js'
 import copy from './modules/copy.js'
 import watermark from './modules/watermark.js'
 import draggable from './modules/draggable.js'
+import longpress from './modules/longpress.js'
 
 const directives = {
   perms,
   role,
   copy,
   watermark,
-  draggable
+  draggable,
+  longpress,
 }
 
 export default {
