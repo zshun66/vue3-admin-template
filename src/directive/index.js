@@ -4,6 +4,7 @@ import copy from './modules/copy.js'
 import watermark from './modules/watermark.js'
 import draggable from './modules/draggable.js'
 import longpress from './modules/longpress.js'
+import debounce from './modules/debounce.js'
 
 const directives = {
   perms,
@@ -12,6 +13,7 @@ const directives = {
   watermark,
   draggable,
   longpress,
+  debounce,
 }
 
 export default {
