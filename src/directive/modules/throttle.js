@@ -1,6 +1,6 @@
 /**
- * v-debounce
- * 防抖指令
+ * v-throttle
+ * 节流指令
  */
 export default {
   mounted(el, binding) {
@@ -9,10 +9,9 @@ export default {
       return
     }
     let delay = binding.arg || 1000
-    let immediate = binding.modifiers.immediate || false
     const callback = binding.value
     el.eventNames = Object.keys(binding.modifiers)
-    el.debouncedFunction = debounce(callback, delay, immediate)
+    el.debouncedFunction = throttle(callback, delay)
     for (let eventName of el.eventNames) {
       el.addEventListener(eventName, el.debouncedFunction)
     }
@@ -24,22 +23,22 @@ export default {
   }
 }
 
-function debounce(func, delay, immediate) {
-  let timeout = null
-  return function () {
+function throttle(func, delay) {
+  let timeoutId
+  let lastExecTime = 0
+  return function (...args) {
     const context = this
-    const args = arguments
-    const later = function () {
-      timeout = null
-      if (!immediate) {
-        func.apply(context, args)
-      }
-    }
-    const callNow = immediate && !timeout
-    clearTimeout(timeout)
-    timeout = setTimeout(later, delay)
-    if (callNow) {
+    const currentTime = Date.now()
+    const timeSinceLastExec = currentTime - lastExecTime
+    if (!lastExecTime || timeSinceLastExec >= delay) {
       func.apply(context, args)
+      lastExecTime = currentTime
+    } else if (!timeoutId) {
+      timeoutId = setTimeout(() => {
+        func.apply(context, args)
+        lastExecTime = Date.now()
+        timeoutId = null
+      }, delay - timeSinceLastExec)
     }
   }
 }
