@@ -8,7 +8,7 @@ export default {
       console.error('callback must be a function')
       return
     }
-    el.time = binding.arg || 1000
+    el.delay = binding.arg || 1000
     el.callback = binding.value
     el.timer = null
     el.addEventListener('mousedown', start)
@@ -26,7 +26,7 @@ function start(e) {
     (e.type === 'touchstart')
   ) {
     if (this.timer === null) {
-      this.timer = setTimeout(() => this.callback(e), this.time)
+      this.timer = setTimeout(() => this.callback(e), this.delay)
     }
   }
 }

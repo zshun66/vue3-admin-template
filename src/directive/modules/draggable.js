@@ -13,6 +13,9 @@ export default {
       parent = false
       screen = false
     }
+    if (parent && screen) {
+      screen = false
+    }
     el.disTop = binding.value
     el.draggable = false
     if (sticky) {
