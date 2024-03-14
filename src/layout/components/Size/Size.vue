@@ -80,11 +80,11 @@ const toggleSize = function (size) {
   }
 
   .size_item:hover {
-    background: #ECF5FF;
+    background: var(--el-color-primary-light-9);
   }
   
   .size_item.active {
-    color: #50A6FF;
+    color: var(--app-theme-color);
   }
 }
 </style>

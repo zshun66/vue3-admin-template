@@ -115,7 +115,7 @@ const handleCommand = function (command) {
   }
 
   .option_item:hover {
-    background: #ecf5ff;
+    background: var(--el-color-primary-light-9);
   }
 }
 </style>

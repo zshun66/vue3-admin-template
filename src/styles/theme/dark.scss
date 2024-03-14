@@ -9,8 +9,9 @@ html.dark {
   /* 侧边栏LOGO字体颜色 */
   --theme-aside-logo-font-color: #CFD3DC;
 
-  /* 导航栏背景颜色 */
-  --theme-navbar-bg-color: #191A1F;
+  /* 头部区域背景颜色 */
+  --theme-header-bg-color: #191A1F;
+
   /* 导航栏字体颜色 */
   --theme-navbar-font-color: #CFD3DC;
   /* 导航栏图标颜色 */
@@ -18,8 +19,6 @@ html.dark {
   /* 导航栏边框颜色 */
   --theme-navbar-border-color: #505050;
 
-  /* 标签栏背景颜色 */
-  --theme-tagbar-bg-color: #191A1F;
   /* 标签栏标签页背景颜色 */
   --theme-tagbar-tagpage-bg-color: #191A1F;
   /* 标签栏标签页边框颜色 */
@@ -75,6 +74,17 @@ html.dark {
 
 
   /* 以下是Element Plus变量 */
+  --el-color-primary: #009688;
+  --el-color-primary-dark-2: #066f65;
+  --el-color-primary-light-1: #1aa194;
+  --el-color-primary-light-2: #33aba0;
+  --el-color-primary-light-3: #4db6ac;
+  --el-color-primary-light-4: #66c0b8;
+  --el-color-primary-light-5: #80cbc4;
+  --el-color-primary-light-6: #99d5cf;
+  --el-color-primary-light-7: #b3e0db;
+  --el-color-primary-light-8: #173d38;
+  --el-color-primary-light-9: #1b332f;
   .el-table {
     --el-table-header-bg-color: #444444;
     --el-table-tr-bg-color: #191A1F;

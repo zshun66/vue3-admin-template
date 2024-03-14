@@ -18,11 +18,13 @@ const tagStore = useTagStore()
       <Sidebar />
     </el-aside>
     <el-container class="layout_inner_container">
-      <el-header class="layout_header navbar">
-        <Navbar />
-      </el-header>
-      <el-header class="layout_header tagsview">
-        <TagsView />
+      <el-header class="layout_header">
+        <div class="navbar_container">
+          <Navbar />
+        </div>
+        <div class="tagsview_container">
+          <TagsView />
+        </div>
       </el-header>
       <el-main class="layout_main custom_scrollbar">
         <router-view v-slot="{ Component }">
@@ -48,6 +50,7 @@ const tagStore = useTagStore()
   background-color: var(--theme-layout-bg-color);
 
   .layout_aside {
+    margin-right: 10px;
     padding: 0 10px;
     width: $layout-aside-expand-width;
     overflow-x: hidden;
@@ -61,26 +64,29 @@ const tagStore = useTagStore()
   }
 
   .layout_inner_container {
-    margin-left: 10px;
-    .layout_header.navbar {
-      padding: 0 20px 0 3px;
-      height: $layout-navbar-height;
-      background-color: var(--theme-navbar-bg-color);
-      border-radius: 10px 10px 0px 0px;
-      border-bottom: 1px solid var(--theme-navbar-border-color);
-    }
 
-    .layout_header.tagsview {
-      padding: 0 10px 0 13px;
-      height: $layout-tagbar-height;
-      background-color: var(--theme-tagbar-bg-color);
-      border-radius: 0px 0px 10px 10px;
-      display: flex;
-      align-items: center;
+    .layout_header {
+      margin-bottom: 10px;
+      padding: 0 0;
+      height: auto;
+      border-radius: 10px;
+      background-color: var(--theme-header-bg-color);
+
+      .navbar_container {
+        padding: 0 20px 0 3px;
+        height: $layout-navbar-height;
+        border-bottom: 1px solid var(--theme-navbar-border-color);
+      }
+
+      .tagsview_container {
+        padding: 0 10px 0 13px;
+        height: $layout-tagbar-height;
+        display: flex;
+        align-items: center;
+      }
     }
 
     .layout_main {
-      margin-top: 10px;
       padding: 0px 0px;
       background-color: var(--theme-main-bg-color);
       color: var(--theme-main-font-color);

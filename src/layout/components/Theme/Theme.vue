@@ -111,11 +111,11 @@ setTheme(currTheme.value)
   }
 
   .theme_item:hover {
-    background: #ECF5FF;
+    background: var(--el-color-primary-light-9);
   }
 
   .theme_item.active {
-    color: #50A6FF;
+    color: var(--app-theme-color);
   }
 }
 </style>

@@ -27,16 +27,16 @@ import packageJson from '/package.json'
           <el-tag>{{ packageJson.engines.node }}</el-tag>
         </el-descriptions-item>
         <el-descriptions-item label-class-name="descriptions-item" label="文档地址" :span="2">
-          <span style="color: #009688; cursor: pointer;">{{ packageJson.docsUrl }}</span>
+          <span style="color: var(--app-theme-color); cursor: pointer;">{{ packageJson.docsUrl }}</span>
         </el-descriptions-item>
         <el-descriptions-item label-class-name="descriptions-item" label="预览地址" :span="2">
-          <span style="color: #009688; cursor: pointer;">{{ packageJson.previewUrl }}</span>
+          <span style="color: var(--app-theme-color); cursor: pointer;">{{ packageJson.previewUrl }}</span>
         </el-descriptions-item>
         <el-descriptions-item label-class-name="descriptions-item" label="Gitee" :span="2">
-          <span style="color: #009688; cursor: pointer;">{{ packageJson.repository.gitee }}</span>
+          <span style="color: var(--app-theme-color); cursor: pointer;">{{ packageJson.repository.gitee }}</span>
         </el-descriptions-item>
         <el-descriptions-item label-class-name="descriptions-item" label="Github" :span="2">
-          <span style="color: #009688; cursor: pointer;">{{ packageJson.repository.github }}</span>
+          <span style="color: var(--app-theme-color); cursor: pointer;">{{ packageJson.repository.github }}</span>
         </el-descriptions-item>
       </el-descriptions>
     </div>
@@ -76,7 +76,7 @@ import packageJson from '/package.json'
       margin-top: 10px;
       line-height: 28px;
       .name {
-        color: #009688;
+        color: var(--app-theme-color);
         cursor: pointer;
       }
       .name:hover {
