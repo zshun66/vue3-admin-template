@@ -1,22 +1,22 @@
 <script setup name="TagsView">
 import useTagStore from '@/pinia/modules/tag.js'
+import { requestFullscreen } from '@/utils/fullscreen.js'
 
 const $route = useRoute()
 const $router = useRouter()
 const tagStore = useTagStore()
+const refreshPage = inject('refreshPage')
 
 let containerWidth = 0
 let tagsWrapWidth = 0
 let minLeft = 0
 const left = ref(0)
 const showRightClickMenu = ref(false)
-const position = ref({
-  left: 0,
-  top: 0,
-})
+const position = ref({ left: 0, top: 0 })
 const currRouteName = ref('')
 let currTagPage = null
 let currIndex = 0
+const showMaximize = ref(false)
 
 const tagPages = computed(() => tagStore.tagPages)
 
@@ -103,7 +103,17 @@ const handleContextmenu = (e, item, index) => {
 // 处理各种关闭操作
 const handleCloseOperate = (type) => {
   showRightClickMenu.value = false
-  if (type === 'curr') {
+  if (type === 'refresh') {
+    refreshPage()
+  } else if (type === 'fullscreen') {
+    requestFullscreen('main.el-main.layout_main')
+  } else if (type === 'maximize') {
+    const asideDom = document.querySelector('aside.el-aside.layout_aside')
+    const headerDom = document.querySelector('header.el-header.layout_header')
+    asideDom.style.display = 'none'
+    headerDom.style.display = 'none'
+    showMaximize.value = true
+  } else if (type === 'curr') {
     handleClickCloseIcon(currTagPage, currIndex)
   } else if (type === 'other') {
     if (currTagPage.name !== currRouteName) {
@@ -118,6 +128,15 @@ const handleCloseOperate = (type) => {
     tagStore.closeAllTagPage()
   }
 }
+
+// 处理退出最大化
+const handleExitMaximize = () => {
+  const asideDom = document.querySelector('aside.el-aside.layout_aside')
+  const headerDom = document.querySelector('header.el-header.layout_header')
+  asideDom.style.display = 'block'
+  headerDom.style.display = 'block'
+  showMaximize.value = false
+}
 </script>
 
 <template>
@@ -130,14 +149,64 @@ const handleCloseOperate = (type) => {
       </div>
     </div>
 
-    <div class="right_click_menu_mask" @click="showRightClickMenu = false" @contextmenu.prevent="showRightClickMenu = false" v-if="showRightClickMenu"></div>
+    <div class="right_click_menu_mask" @click="showRightClickMenu = false"
+    @contextmenu.prevent="showRightClickMenu = false" v-if="showRightClickMenu"></div>
     <div class="right_click_menu_box" :style="{ left: position.left + 'px', top: position.top + 'px' }" v-if="showRightClickMenu">
-      <div class="right_click_menu_item" @click="handleCloseOperate('curr')">关闭当前</div>
-      <div class="right_click_menu_item" @click="handleCloseOperate('other')">关闭其他</div>
-      <div class="right_click_menu_item" @click="handleCloseOperate('left')">关闭左侧</div>
-      <div class="right_click_menu_item" @click="handleCloseOperate('right')">关闭右侧</div>
-      <div class="right_click_menu_item" @click="handleCloseOperate('all')">关闭全部</div>
+      <div class="right_click_menu_item" @click="handleCloseOperate('refresh')">
+        <div class="right_click_menu_item_icon_box">
+          <svg-icon class="right_click_menu_item_icon" name="refresh2" size="16px"></svg-icon>
+        </div>
+        <span class="right_click_menu_item_text">刷新页面</span>
+      </div>
+      <div class="right_click_menu_item" @click="handleCloseOperate('fullscreen')">
+        <div class="right_click_menu_item_icon_box">
+          <svg-icon class="right_click_menu_item_icon" name="fullscreen2" size="13px"></svg-icon>
+        </div>
+        <span class="right_click_menu_item_text">屏幕全屏</span>
+      </div>
+      <div class="right_click_menu_item" @click="handleCloseOperate('maximize')">
+        <div class="right_click_menu_item_icon_box">
+          <svg-icon class="right_click_menu_item_icon" name="fullscreen2" size="13px"></svg-icon>
+        </div>
+        <span class="right_click_menu_item_text">窗口全屏</span>
+      </div>
+      <div class="right_click_menu_item" @click="handleCloseOperate('curr')">
+        <div class="right_click_menu_item_icon_box">
+          <svg-icon class="right_click_menu_item_icon" name="close4" size="15px"></svg-icon>
+        </div>
+        <span class="right_click_menu_item_text">关闭当前</span>
+      </div>
+      <div class="right_click_menu_item" @click="handleCloseOperate('other')">
+        <div class="right_click_menu_item_icon_box">
+          <svg-icon class="right_click_menu_item_icon" name="close1" size="15px"></svg-icon>
+        </div>
+        <span class="right_click_menu_item_text">关闭其他</span>
+      </div>
+      <div class="right_click_menu_item" @click="handleCloseOperate('left')">
+        <div class="right_click_menu_item_icon_box">
+          <svg-icon class="right_click_menu_item_icon" name="left-arrow1" size="17px"></svg-icon>
+        </div>
+        <span class="right_click_menu_item_text">关闭左侧</span>
+      </div>
+      <div class="right_click_menu_item" @click="handleCloseOperate('right')">
+        <div class="right_click_menu_item_icon_box">
+          <svg-icon class="right_click_menu_item_icon" name="right-arrow1" size="17px"></svg-icon>
+        </div>
+        <span class="right_click_menu_item_text">关闭右侧</span>
+      </div>
+      <div class="right_click_menu_item" @click="handleCloseOperate('all')">
+        <div class="right_click_menu_item_icon_box">
+          <svg-icon class="right_click_menu_item_icon" name="close3" size="15px"></svg-icon>
+        </div>
+        <span class="right_click_menu_item_text">关闭全部</span>
+      </div>
     </div>
+
+    <teleport to="body">
+      <div id="exit_maximize_box" title="退出最大化" @click="handleExitMaximize" v-if="showMaximize">
+        <svg-icon class="exit_icon" name="exit1" size="19px"></svg-icon>
+      </div>
+    </teleport>
   </div>
 </template>
 
@@ -212,6 +281,7 @@ const handleCloseOperate = (type) => {
     left: 0;
     top: 0;
   }
+
   .right_click_menu_box {
     position: fixed;
     z-index: 10;
@@ -222,15 +292,70 @@ const handleCloseOperate = (type) => {
     box-shadow: 0px 0px 10px -5px var(--theme-tagbar-menu-shadow-color);
 
     .right_click_menu_item {
-      padding: 5px 12px;
+      padding: 5px 15px 5px 12px;
       cursor: pointer;
-      color: var(--theme-tagbar-menuitem-font-color);
+      display: flex;
+      align-items: center;
+
+      .right_click_menu_item_icon_box {
+        --size: 18px;
+        width: var(--size);
+        height: var(--size);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        // margin-left: -2px;
+        margin-right: 5px;
+
+        .right_click_menu_item_icon {
+          fill: var(--theme-tagbar-menuitem-font-color);
+        }
+      }
+
+      .right_click_menu_item_text {
+        color: var(--theme-tagbar-menuitem-font-color);
+      }
     }
 
     .right_click_menu_item:hover {
       background-color: var(--theme-tagbar-menuitem-hover-bg-color);
-      color: var(--theme-tagbar-menuitem-hover-font-color);
+
+      .right_click_menu_item_icon {
+        fill: var(--theme-tagbar-menuitem-hover-font-color);
+      }
+
+      .right_click_menu_item_text {
+        color: var(--theme-tagbar-menuitem-hover-font-color);
+      }
     }
+  }
+}
+</style>
+
+<style lang="scss">
+#exit_maximize_box {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  position: fixed;
+  top: -25px;
+  right: -25px;
+  z-index: 99999;
+  background: #909399;
+  opacity: 0.9;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #73767a;
+  }
+
+  .exit_icon {
+    position: relative;
+    top: 52%;
+    left: 15%;
+    font-size: 14px;
+    fill: #ffffff;
+    transform: rotate(180deg);
   }
 }
 </style>

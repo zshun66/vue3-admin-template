@@ -5,8 +5,26 @@ import TagsView from './components/TagsView/TagsView.vue'
 import useAppStore from '@/pinia/modules/app.js'
 import useTagStore from '@/pinia/modules/tag.js'
 
+const $route = useRoute()
 const appStore = useAppStore()
 const tagStore = useTagStore()
+
+const showRouteView = ref(true)
+
+// 刷新页面
+const refreshPage = () => {
+  console.log('刷新页面', $route, tagStore.tagPages)
+  showRouteView.value = false
+  let findIndex = tagStore.tagPages.findIndex(item => item.name === $route.name)
+  let findItem = tagStore.tagPages[findIndex]
+  tagStore.removeTagPage(findIndex)
+  nextTick(() => {
+    showRouteView.value = true
+    tagStore.tagPages.splice(findIndex, 0, findItem)
+  })
+}
+
+provide('refreshPage', refreshPage)
 </script>
 
 <template>
@@ -33,7 +51,7 @@ const tagStore = useTagStore()
             mode="out-in" appear
           >
             <keep-alive :include="tagStore.cacheNames">
-              <component :is="Component" :key="$route.name"></component>
+              <component :is="Component" :key="$route.name" v-if="showRouteView"></component>
             </keep-alive>
           </transition>
         </router-view>
