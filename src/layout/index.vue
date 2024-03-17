@@ -17,7 +17,7 @@ const refreshPage = () => {
   showRouteView.value = false
   let findIndex = tagStore.tagPages.findIndex(item => item.name === $route.name)
   let findItem = tagStore.tagPages[findIndex]
-  tagStore.removeTagPage(findIndex)
+  tagStore.removeTagPageByIndex(findIndex)
   nextTick(() => {
     showRouteView.value = true
     tagStore.tagPages.splice(findIndex, 0, findItem)

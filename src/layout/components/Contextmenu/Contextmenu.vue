@@ -32,11 +32,14 @@ const $props = defineProps({
 const $emits = defineEmits(['update:show'])
 const refreshPage = inject('refreshPage')
 
+const tagPages = computed(() => tagStore.tagPages)
+const showMaximize = ref(false)
+
 // 右键菜单选项
 const options = [
-  { title: '刷新页面', name: 'refresh', iconName: 'refresh2', iconSize: '16px' },
-  { title: '屏幕全屏', name: 'fullscreen', iconName: 'fullscreen2', iconSize: '13px' },
-  { title: '窗口全屏', name: 'maximize', iconName: 'fullscreen2', iconSize: '13px' },
+  { title: '刷新页面', name: 'refresh', iconName: 'refresh2', iconSize: '15px' },
+  { title: '屏幕全屏', name: 'fullscreen', iconName: 'fullscreen2', iconSize: '12px' },
+  { title: '窗口全屏', name: 'maximize', iconName: 'fullscreen2', iconSize: '12px' },
   { title: '关闭当前', name: 'closeCurr', iconName: 'close4', iconSize: '15px' },
   { title: '关闭其他', name: 'closeOther', iconName: 'close1', iconSize: '15px' },
   { title: '关闭左侧', name: 'closeLeft', iconName: 'left-arrow1', iconSize: '17px' },
@@ -63,17 +66,24 @@ const handleOperate = (type) => {
     asideDom.style.display = 'none'
     headerDom.style.display = 'none'
     showMaximize.value = true
-  } else if (type === 'curr') {
-    // handleClickCloseIcon(currTagPage, currIndex)
+  } else if (type === 'closeCurr') {
+    if ($props.tag.name === $route.name) {
+      if ($props.idx === 0 && tagPages.value.length >= 2) {
+        $router.push(tagPages.value[$props.idx + 1].path)
+      } else if ($props.idx > 0) {
+        $router.push(tagPages.value[$props.idx - 1].path)
+      }
+    }
+    tagStore.removeTagPageByIndex($props.idx)
   } else if (type === 'other') {
-    // if (currTagPage.name !== currRouteName) {
-    //   $router.push(currTagPage.path)
-    // }
-    // tagStore.closeOtherTagPage(currTagPage)
+    if ($props.tag.name !== $route.name) {
+      $router.push($props.tag.path)
+    }
+    tagStore.closeOtherTagPageByIndex($props.tag)
   } else if (type === 'left') {
-    tagStore.closeLeftTagPage(currIndex)
+    tagStore.closeLeftTagPageByIndex($props.idx)
   } else if (type === 'right') {
-    tagStore.closeRightTagPage(currIndex)
+    tagStore.closeRightTagPageByIndex($props.idx)
   } else if (type === 'left') {
     tagStore.closeAllTagPage()
   }

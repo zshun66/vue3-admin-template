@@ -10,6 +10,8 @@ let containerWidth = 0
 let tagsWrapWidth = 0
 let minLeft = 0
 const left = ref(0)
+// 当前路由名称
+const currRouteName = ref('')
 // 是否显示右键菜单
 const showContextmenu = ref(false)
 // 右键菜单的显示位置信息
@@ -19,22 +21,14 @@ let currTagPage = ref(null)
 // 当前操作的标签页索引
 let currTagIndex = ref(0)
 
-const currRouteName = ref('')
-const showMaximize = ref(false)
-
 const tagPages = computed(() => tagStore.tagPages)
 
-onMounted(() => {
-  window.addEventListener('resize', getDomInfo, true)
-})
-
-onUnmounted(() => {
-  window.removeEventListener('resize', getDomInfo, true)
-})
+onMounted(() => window.addEventListener('resize', getDomInfo, true))
+onUnmounted(() => window.removeEventListener('resize', getDomInfo, true))
 
 watch(() => $route.path, (newv, oldv) => {
   currRouteName.value = $route.name || ''
-  tagStore.addTagPage({
+  tagStore.addTagPageByItem({
     title: $route.meta.title,
     name: $route.name,
     path: $route.path,
@@ -69,6 +63,14 @@ const getDomInfo = () => {
   }
 }
 
+// 处理鼠标滚轮事件
+const handleMouseWheel = (e) => {
+  if (containerWidth >= tagsWrapWidth) return
+  left.value += e.wheelDelta / 5
+  if (left.value > 0) left.value = 0
+  if (left.value < minLeft) left.value = minLeft
+}
+
 // 处理点击关闭图标
 const handleClickCloseIcon = (item, index) => {
   if (item.name === currRouteName.value) {
@@ -78,15 +80,7 @@ const handleClickCloseIcon = (item, index) => {
       $router.push(tagPages.value[index - 1].path)
     }
   }
-  tagStore.removeTagPage(index)
-}
-
-// 处理鼠标滚轮事件
-const handleMouseWheel = (e) => {
-  if (containerWidth >= tagsWrapWidth) return
-  left.value += e.wheelDelta / 5
-  if (left.value > 0) left.value = 0
-  if (left.value < minLeft) left.value = minLeft
+  tagStore.removeTagPageByIndex(index)
 }
 
 // 点击标签页
