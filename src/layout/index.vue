@@ -109,6 +109,8 @@ provide('refreshPage', refreshPage)
       background-color: var(--theme-main-bg-color);
       color: var(--theme-main-font-color);
       border-radius: 10px;
+      overflow-y: auto;
+      overflow-x: hidden;
     }
   }
 }

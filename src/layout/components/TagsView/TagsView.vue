@@ -6,12 +6,17 @@ const $route = useRoute()
 const $router = useRouter()
 const tagStore = useTagStore()
 
-let containerWidth = 0
-let tagsWrapWidth = 0
-let minLeft = 0
-const left = ref(0)
 // 当前路由名称
 const currRouteName = ref('')
+// 外容器宽度
+let containerWidth = 0
+// 内容器宽度
+let tagsWrapWidth = 0
+// 内容器最小可向左移动的值
+let minLeft = 0
+// 内容器向左移动的值
+const left = ref(0)
+
 // 是否显示右键菜单
 const showContextmenu = ref(false)
 // 右键菜单的显示位置信息
@@ -21,6 +26,7 @@ let currTagPage = ref(null)
 // 当前操作的标签页索引
 let currTagIndex = ref(0)
 
+// 标签页数据
 const tagPages = computed(() => tagStore.tagPages)
 
 onMounted(() => window.addEventListener('resize', getDomInfo, true))
@@ -71,6 +77,12 @@ const handleMouseWheel = (e) => {
   if (left.value < minLeft) left.value = minLeft
 }
 
+// 点击标签页
+const handleClickTagItem = (item) => {
+  if (item.name === currRouteName.value) return
+  $router.push(item.path)
+}
+
 // 处理点击关闭图标
 const handleClickCloseIcon = (item, index) => {
   if (item.name === currRouteName.value) {
@@ -81,12 +93,6 @@ const handleClickCloseIcon = (item, index) => {
     }
   }
   tagStore.removeTagPageByIndex(index)
-}
-
-// 点击标签页
-const handleClickTagItem = (item) => {
-  if (item.name === currRouteName.value) return
-  $router.push(item.path)
 }
 
 // 右键事件
@@ -101,36 +107,29 @@ const handleContextmenu = (event, item, index) => {
 
 <template>
   <div class="comp_container tags_view_comp">
-    <div
-      class="tags_wrap"
-      :style="{ transform: `translateX(${left}px)` }"
-      @mousewheel.passive="handleMouseWheel"
-    >
+    <div class="tags_wrap" :style="{ transform: `translateX(${left}px)` }" @mousewheel.passive="handleMouseWheel">
       <div
         class="tags_item"
         :class="{ active: currRouteName === item.name }"
-        v-for="(item, index) in tagPages"
-        :key="index"
+        v-for="(item, index) in tagPages" :key="index"
         @click="handleClickTagItem(item)"
         @contextmenu.prevent="handleContextmenu($event, item, index)"
       >
         <span class="title">{{ item.title }}</span>
-        <el-icon
-          class="close_icon"
-          @click.stop="handleClickCloseIcon(item, index)"
-          v-if="item.isClearable == '1'"
-        ><Close /></el-icon>
+        <el-icon class="close_icon" @click.stop="handleClickCloseIcon(item, index)" v-if="item.isClearable == '1'">
+          <Close />
+        </el-icon>
       </div>
     </div>
-
-    <Contextmenu
-      v-model:show="showContextmenu"
-      :left="position.left"
-      :top="position.top"
-      :tag="currTagPage"
-      :idx="currTagIndex"
-    ></Contextmenu>
   </div>
+
+  <Contextmenu
+    v-model:show="showContextmenu"
+    :left="position.left"
+    :top="position.top"
+    :tag="currTagPage"
+    :idx="currTagIndex"
+  ></Contextmenu>
 </template>
 
 <style scoped lang="scss">

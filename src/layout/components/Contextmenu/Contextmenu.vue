@@ -55,16 +55,11 @@ const handleClose = () => {
 // 处理各种操作
 const handleOperate = (type) => {
   $emits('update:show', false)
-
   if (type === 'refresh') {
     refreshPage()
   } else if (type === 'fullscreen') {
     requestFullscreen('main.el-main.layout_main')
   } else if (type === 'maximize') {
-    const asideDom = document.querySelector('aside.el-aside.layout_aside')
-    const headerDom = document.querySelector('header.el-header.layout_header')
-    asideDom.style.display = 'none'
-    headerDom.style.display = 'none'
     showMaximize.value = true
   } else if (type === 'closeCurr') {
     if ($props.tag.name === $route.name) {
@@ -102,6 +97,8 @@ const handleOperate = (type) => {
       </div>
     </div>
   </div>
+
+  <Maximize v-model:show="showMaximize" />
 </template>
 
 <style scoped lang="scss">

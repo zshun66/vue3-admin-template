@@ -7,20 +7,37 @@ const $props = defineProps({
 })
 const $emits = defineEmits(['update:show'])
 
-// 处理退出最大化
+// 进入最大化
+const handleEnterMaximize = () => {
+  const asideDom = document.querySelector('aside.el-aside.layout_aside')
+  const headerDom = document.querySelector('header.el-header.layout_header')
+  asideDom.style.display = 'none'
+  headerDom.style.display = 'none'
+}
+
+// 退出最大化
 const handleExitMaximize = () => {
   const asideDom = document.querySelector('aside.el-aside.layout_aside')
   const headerDom = document.querySelector('header.el-header.layout_header')
   asideDom.style.display = 'block'
   headerDom.style.display = 'block'
-  showMaximize.value = false
 }
+
+// 关闭
+const handleClose = () => {
+  $emits('update:show', false)
+}
+
+watch(() => $props.show, (newv, oldv) => {
+  if (newv) handleEnterMaximize()
+  else handleExitMaximize()
+})
 </script>
 
 <template>
-  <div class="comp_container maximize_comp" v-if="show">
+  <div class="comp_container maximize_comp">
     <teleport to="body">
-      <div id="exit_maximize_box" title="退出最大化" @click="handleExitMaximize" v-if="show">
+      <div id="exit_maximize_box" title="退出最大化" @click="handleClose" v-if="show">
         <svg-icon class="exit_icon" name="exit1" size="19px"></svg-icon>
       </div>
     </teleport>
