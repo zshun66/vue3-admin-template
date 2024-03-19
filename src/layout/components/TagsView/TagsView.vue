@@ -1,36 +1,40 @@
 <script setup name="TagsView">
+import Contextmenu from '../Contextmenu/Contextmenu.vue'
 import useTagStore from '@/pinia/modules/tag.js'
 
 const $route = useRoute()
 const $router = useRouter()
 const tagStore = useTagStore()
 
-let containerWidth = 0
-let tagsWrapWidth = 0
-let minLeft = 0
-const left = ref(0)
-const showRightClickMenu = ref(false)
-const position = ref({
-  left: 0,
-  top: 0,
-})
+// 当前路由名称
 const currRouteName = ref('')
-let currTagPage = null
-let currIndex = 0
+// 外容器宽度
+let containerWidth = 0
+// 内容器宽度
+let tagsWrapWidth = 0
+// 内容器最小可向左移动的值
+let minLeft = 0
+// 内容器向左移动的值
+const left = ref(0)
 
+// 是否显示右键菜单
+const showContextmenu = ref(false)
+// 右键菜单的显示位置信息
+const position = ref({ left: 0, top: 0 })
+// 当前操作的标签页对象
+let currTagPage = ref(null)
+// 当前操作的标签页索引
+let currTagIndex = ref(0)
+
+// 标签页数据
 const tagPages = computed(() => tagStore.tagPages)
 
-onMounted(() => {
-  window.addEventListener('resize', getDomInfo, true)
-})
-
-onUnmounted(() => {
-  window.removeEventListener('resize', getDomInfo, true)
-})
+onMounted(() => window.addEventListener('resize', getDomInfo, true))
+onUnmounted(() => window.removeEventListener('resize', getDomInfo, true))
 
 watch(() => $route.path, (newv, oldv) => {
   currRouteName.value = $route.name || ''
-  tagStore.addTagPage({
+  tagStore.addTagPageByItem({
     title: $route.meta.title,
     name: $route.name,
     path: $route.path,
@@ -65,18 +69,6 @@ const getDomInfo = () => {
   }
 }
 
-// 处理点击关闭图标
-const handleClickCloseIcon = (item, index) => {
-  if (item.name === currRouteName.value) {
-    if (index === 0 && tagPages.value.length >= 2) {
-      $router.push(tagPages.value[index + 1].path)
-    } else if (index > 0) {
-      $router.push(tagPages.value[index - 1].path)
-    }
-  }
-  tagStore.removeTagPage(index)
-}
-
 // 处理鼠标滚轮事件
 const handleMouseWheel = (e) => {
   if (containerWidth >= tagsWrapWidth) return
@@ -91,54 +83,46 @@ const handleClickTagItem = (item) => {
   $router.push(item.path)
 }
 
-// 右键事件
-const handleContextmenu = (e, item, index) => {
-  currTagPage = item
-  currIndex = index
-  position.value.left = e.clientX
-  position.value.top = e.clientY
-  showRightClickMenu.value = true
+// 处理点击关闭图标
+const handleClickCloseIcon = (index) => {
+  tagStore.removeTagPage(index)
 }
 
-// 处理各种关闭操作
-const handleCloseOperate = (type) => {
-  showRightClickMenu.value = false
-  if (type === 'curr') {
-    handleClickCloseIcon(currTagPage, currIndex)
-  } else if (type === 'other') {
-    if (currTagPage.name !== currRouteName) {
-      $router.push(currTagPage.path)
-    }
-    tagStore.closeOtherTagPage(currTagPage)
-  } else if (type === 'left') {
-    tagStore.closeLeftTagPage(currIndex)
-  } else if (type === 'right') {
-    tagStore.closeRightTagPage(currIndex)
-  } else if (type === 'left') {
-    tagStore.closeAllTagPage()
-  }
+// 右键事件
+const handleContextmenu = (event, item, index) => {
+  position.value.left = event.clientX
+  position.value.top = event.clientY
+  currTagPage.value = item
+  currTagIndex.value = index
+  showContextmenu.value = true
 }
 </script>
 
 <template>
   <div class="comp_container tags_view_comp">
     <div class="tags_wrap" :style="{ transform: `translateX(${left}px)` }" @mousewheel.passive="handleMouseWheel">
-      <div class="tags_item" :class="{ active: currRouteName === item.name }" v-for="(item, index) in tagPages" :key="index"
-      @click="handleClickTagItem(item)" @contextmenu.prevent="handleContextmenu($event, item, index)">
+      <div
+        class="tags_item"
+        :class="{ active: currRouteName === item.name }"
+        v-for="(item, index) in tagPages" :key="index"
+        @click="handleClickTagItem(item)"
+        @contextmenu.prevent="handleContextmenu($event, item, index)"
+      >
         <span class="title">{{ item.title }}</span>
-        <el-icon class="close_icon" @click.stop="handleClickCloseIcon(item, index)" v-if="item.isClearable == '1'"><Close /></el-icon>
+        <el-icon class="close_icon" @click.stop="handleClickCloseIcon(index)" v-if="item.isClearable == '1'">
+          <Close />
+        </el-icon>
       </div>
     </div>
-
-    <div class="right_click_menu_mask" @click="showRightClickMenu = false" @contextmenu.prevent="showRightClickMenu = false" v-if="showRightClickMenu"></div>
-    <div class="right_click_menu_box" :style="{ left: position.left + 'px', top: position.top + 'px' }" v-if="showRightClickMenu">
-      <div class="right_click_menu_item" @click="handleCloseOperate('curr')">关闭当前</div>
-      <div class="right_click_menu_item" @click="handleCloseOperate('other')">关闭其他</div>
-      <div class="right_click_menu_item" @click="handleCloseOperate('left')">关闭左侧</div>
-      <div class="right_click_menu_item" @click="handleCloseOperate('right')">关闭右侧</div>
-      <div class="right_click_menu_item" @click="handleCloseOperate('all')">关闭全部</div>
-    </div>
   </div>
+
+  <Contextmenu
+    v-model:show="showContextmenu"
+    :left="position.left"
+    :top="position.top"
+    :tag="currTagPage"
+    :idx="currTagIndex"
+  ></Contextmenu>
 </template>
 
 <style scoped lang="scss">
@@ -201,35 +185,6 @@ const handleCloseOperate = (type) => {
 
     .tags_item + .tags_item{
       margin-left: 5px;
-    }
-  }
-
-  .right_click_menu_mask {
-    width: 100%;
-    height: 100vh;
-    position: fixed;
-    z-index: 9;
-    left: 0;
-    top: 0;
-  }
-  .right_click_menu_box {
-    position: fixed;
-    z-index: 10;
-    background-color: var(--theme-tagbar-menu-bg-color);
-    font-size: 15px;
-    padding: 7px 0px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px -5px var(--theme-tagbar-menu-shadow-color);
-
-    .right_click_menu_item {
-      padding: 5px 12px;
-      cursor: pointer;
-      color: var(--theme-tagbar-menuitem-font-color);
-    }
-
-    .right_click_menu_item:hover {
-      background-color: var(--theme-tagbar-menuitem-hover-bg-color);
-      color: var(--theme-tagbar-menuitem-hover-font-color);
     }
   }
 }
