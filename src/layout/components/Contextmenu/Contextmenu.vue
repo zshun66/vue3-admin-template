@@ -3,8 +3,6 @@ import Maximize from '../Maximize/Maximize.vue'
 import useTagStore from '@/pinia/modules/tag.js'
 import { requestFullscreen } from '@/utils/fullscreen.js'
 
-const $route = useRoute()
-const $router = useRouter()
 const tagStore = useTagStore()
 
 const $props = defineProps({
@@ -32,7 +30,6 @@ const $props = defineProps({
 const $emits = defineEmits(['update:show'])
 const refreshPage = inject('refreshPage')
 
-const tagPages = computed(() => tagStore.tagPages)
 const showMaximize = ref(false)
 
 // 右键菜单选项
@@ -56,30 +53,22 @@ const handleClose = () => {
 const handleOperate = (type) => {
   $emits('update:show', false)
   if (type === 'refresh') {
+    tagStore.tagPages.splice($props.idx, 1)
+    nextTick(() => tagStore.tagPages.splice($props.idx, 0, $props.tag))
     refreshPage()
   } else if (type === 'fullscreen') {
     requestFullscreen('main.el-main.layout_main')
   } else if (type === 'maximize') {
     showMaximize.value = true
   } else if (type === 'closeCurr') {
-    if ($props.tag.name === $route.name) {
-      if ($props.idx === 0 && tagPages.value.length >= 2) {
-        $router.push(tagPages.value[$props.idx + 1].path)
-      } else if ($props.idx > 0) {
-        $router.push(tagPages.value[$props.idx - 1].path)
-      }
-    }
-    tagStore.removeTagPageByIndex($props.idx)
-  } else if (type === 'other') {
-    if ($props.tag.name !== $route.name) {
-      $router.push($props.tag.path)
-    }
-    tagStore.closeOtherTagPageByIndex($props.tag)
-  } else if (type === 'left') {
-    tagStore.closeLeftTagPageByIndex($props.idx)
-  } else if (type === 'right') {
-    tagStore.closeRightTagPageByIndex($props.idx)
-  } else if (type === 'left') {
+    tagStore.removeTagPage($props.idx)
+  } else if (type === 'closeOther') {
+    tagStore.closeOtherTagPage($props.idx)
+  } else if (type === 'closeLeft') {
+    tagStore.closeLeftTagPage($props.idx)
+  } else if (type === 'closeRight') {
+    tagStore.closeRightTagPage($props.idx)
+  } else if (type === 'closeAll') {
     tagStore.closeAllTagPage()
   }
 }

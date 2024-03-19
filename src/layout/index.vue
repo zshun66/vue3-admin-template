@@ -13,15 +13,8 @@ const showRouteView = ref(true)
 
 // 刷新页面
 const refreshPage = () => {
-  console.log('刷新页面', $route, tagStore.tagPages)
   showRouteView.value = false
-  let findIndex = tagStore.tagPages.findIndex(item => item.name === $route.name)
-  let findItem = tagStore.tagPages[findIndex]
-  tagStore.removeTagPageByIndex(findIndex)
-  nextTick(() => {
-    showRouteView.value = true
-    tagStore.tagPages.splice(findIndex, 0, findItem)
-  })
+  nextTick(() => showRouteView.value = true)
 }
 
 provide('refreshPage', refreshPage)

@@ -84,15 +84,8 @@ const handleClickTagItem = (item) => {
 }
 
 // 处理点击关闭图标
-const handleClickCloseIcon = (item, index) => {
-  if (item.name === currRouteName.value) {
-    if (index === 0 && tagPages.value.length >= 2) {
-      $router.push(tagPages.value[index + 1].path)
-    } else if (index > 0) {
-      $router.push(tagPages.value[index - 1].path)
-    }
-  }
-  tagStore.removeTagPageByIndex(index)
+const handleClickCloseIcon = (index) => {
+  tagStore.removeTagPage(index)
 }
 
 // 右键事件
@@ -116,7 +109,7 @@ const handleContextmenu = (event, item, index) => {
         @contextmenu.prevent="handleContextmenu($event, item, index)"
       >
         <span class="title">{{ item.title }}</span>
-        <el-icon class="close_icon" @click.stop="handleClickCloseIcon(item, index)" v-if="item.isClearable == '1'">
+        <el-icon class="close_icon" @click.stop="handleClickCloseIcon(index)" v-if="item.isClearable == '1'">
           <Close />
         </el-icon>
       </div>

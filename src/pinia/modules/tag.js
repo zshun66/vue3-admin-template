@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import router from '@/router/index.js'
 import { getStorage, setStorage, removeStorage } from '@/utils/storage.js'
 
 const useTagStore = defineStore('Tag', {
@@ -23,49 +24,38 @@ const useTagStore = defineStore('Tag', {
       this.tagPages.splice(index, 0, item)
       setStorage('QS_ADMIN_TAGPAGES', this.tagPages)
     },
-    // 移除标签页 - 根据标签页对象
-    removeTagPageByItem(item) {
-      const index = this.tagPages.findIndex(tag => tag.name === item.name)
+    // 移除标签页
+    removeTagPage(index) {
+      const item = this.tagPages[index]
+      const currRouteName = router.currentRoute.value.name
+      if (item.name === currRouteName) {
+        if (index === 0 && this.tagPages.length >= 2) {
+          router.push(this.tagPages[index + 1].path)
+        } else if (index > 0) {
+          router.push(this.tagPages[index - 1].path)
+        }
+      }
       this.tagPages.splice(index, 1)
       setStorage('QS_ADMIN_TAGPAGES', this.tagPages)
     },
-    // 移除标签页 - 根据标签页索引
-    removeTagPageByIndex(index) {
-      this.tagPages.splice(index, 1)
-      setStorage('QS_ADMIN_TAGPAGES', this.tagPages)
-    },
-    // 关闭其他标签页 - 根据标签页对象
-    closeOtherTagPageByItem(item) {
-      this.tagPages = []
-      this.tagPages.push(item)
-      setStorage('QS_ADMIN_TAGPAGES', this.tagPages)
-    },
-    // 关闭其他标签页 - 根据标签页索引
-    closeOtherTagPageByIndex(index) {
+    // 关闭其他标签页
+    closeOtherTagPage(index) {
       const item = this.tagPages[index]
       this.tagPages = []
       this.tagPages.push(item)
       setStorage('QS_ADMIN_TAGPAGES', this.tagPages)
+      const currRouteName = router.currentRoute.value.name
+      if (item.name !== currRouteName) {
+        router.push(item.path)
+      }
     },
-    // 关闭左边标签页 - 根据标签页对象
-    closeLeftTagPageByItem(item) {
-      const index = this.tagPages.findIndex(tag => tag.name === item.name)
+    // 关闭左侧标签页
+    closeLeftTagPage(index) {
       this.tagPages = this.tagPages.slice(index)
       setStorage('QS_ADMIN_TAGPAGES', this.tagPages)
     },
-    // 关闭左边标签页 - 根据标签页索引
-    closeLeftTagPageByIndex(index) {
-      this.tagPages = this.tagPages.slice(index)
-      setStorage('QS_ADMIN_TAGPAGES', this.tagPages)
-    },
-    // 关闭右边标签页 - 根据标签页对象
-    closeRightTagPageByItem(item) {
-      const index = this.tagPages.findIndex(tag => tag.name === item.name)
-      this.tagPages = this.tagPages.slice(0, index + 1)
-      setStorage('QS_ADMIN_TAGPAGES', this.tagPages)
-    },
-    // 关闭右边标签页 - 根据标签页索引
-    closeRightTagPageByIndex(index) {
+    // 关闭右侧标签页
+    closeRightTagPage(index) {
       this.tagPages = this.tagPages.slice(0, index + 1)
       setStorage('QS_ADMIN_TAGPAGES', this.tagPages)
     },
