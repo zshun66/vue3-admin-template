@@ -237,16 +237,7 @@ initFormData()
     }
   }
 
-  :deep(.el-dialog) {
-    border-radius: 7px;
-  }
-
-  :deep(.el-dialog__headerbtn) {
-    top: 0px;
-  }
-
   :deep(.el-dialog__body) {
-    padding: 20px 35px 20px 30px !important;
     height: auto !important;
   }
 
