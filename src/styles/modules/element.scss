@@ -21,3 +21,14 @@ label.el-form-item__label {
 div.el-table {
   border-radius: 7px;
 }
+
+// 弹框 ----------------------------------------------------------------------------------------------------------------
+div.el-dialog {
+  border-radius: 7px;
+}
+button.el-dialog__headerbtn {
+  top: 0px;
+}
+div.el-dialog__body {
+  padding: 12px 5px 0px;
+}

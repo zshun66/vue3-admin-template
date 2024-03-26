@@ -283,16 +283,7 @@ initQueryForm()
 <style scoped lang="scss">
 .dict_type_detail_dialog_comp {
 
-  :deep(.el-dialog) {
-    border-radius: 7px;
-  }
-
-  :deep(.el-dialog__headerbtn) {
-    top: 0px;
-  }
-
   :deep(.el-dialog__body) {
-    padding: 20px 20px;
     height: 80vh;
     overflow-y: auto;
     display: flex;
