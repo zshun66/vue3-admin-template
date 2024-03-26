@@ -1,6 +1,6 @@
 <template>
   <svg
-    class="svg-icon"
+    class="comp_container svg_icon_comp svg-icon"
     :style="{
       width: width ? width : size,
       minWidth: width ? width : size,

@@ -10,18 +10,11 @@ const useTagStore = defineStore('Tag', {
     }
   },
   actions: {
-    // 添加标签页 - 根据标签页对象
-    addTagPageByItem(item) {
+    // 添加标签页
+    addTagPage(item) {
       let isExist = this.tagPages.find(tag => tag.name === item.name)
       if (isExist) return
       this.tagPages.push(item)
-      setStorage('QS_ADMIN_TAGPAGES', this.tagPages)
-    },
-    // 添加标签页 - 根据标签页索引
-    addTagPageByIndex(item, index) {
-      let isExist = this.tagPages.find(tag => tag.name === item.name)
-      if (isExist) return
-      this.tagPages.splice(index, 0, item)
       setStorage('QS_ADMIN_TAGPAGES', this.tagPages)
     },
     // 移除标签页

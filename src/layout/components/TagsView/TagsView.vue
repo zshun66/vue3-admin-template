@@ -34,7 +34,7 @@ onUnmounted(() => window.removeEventListener('resize', getDomInfo, true))
 
 watch(() => $route.path, (newv, oldv) => {
   currRouteName.value = $route.name || ''
-  tagStore.addTagPageByItem({
+  tagStore.addTagPage({
     title: $route.meta.title,
     name: $route.name,
     path: $route.path,

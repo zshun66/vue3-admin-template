@@ -41,7 +41,7 @@ const options = [
   { title: '关闭其他', name: 'closeOther', iconName: 'close1', iconSize: '15px' },
   { title: '关闭左侧', name: 'closeLeft', iconName: 'left-arrow1', iconSize: '17px' },
   { title: '关闭右侧', name: 'closeRight', iconName: 'right-arrow1', iconSize: '17px' },
-  { title: '关闭全部', name: 'closeAll', iconName: 'close3', iconSize: '15px' },
+  { title: '关闭全部', name: 'closeAll', iconName: 'close2', iconSize: '15px' },
 ]
 
 // 关闭右键菜单
