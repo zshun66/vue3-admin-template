@@ -3,6 +3,7 @@ import SvgIcon from './SvgIcon/SvgIcon.vue'
 import IconSelect from './IconSelect/IconSelect.vue'
 import WangEditor from './WangEditor/WangEditor.vue'
 import StepGuide from './StepGuide/StepGuide.vue'
+import ClassifyFilter from './ClassifyFilter/ClassifyFilter.vue'
 
 const components = {
 	...ElementPlusIconsVue,
@@ -10,6 +11,7 @@ const components = {
 	IconSelect,
 	WangEditor,
 	StepGuide,
+	ClassifyFilter,
 }
 export default {
 	install(app) {
