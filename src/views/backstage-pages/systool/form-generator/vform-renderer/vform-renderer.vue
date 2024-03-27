@@ -1,20 +1,20 @@
 <script setup name="backstage:systool:form-generator:vform-renderer">
-import formJsonData from './formJson.json'
-const formJson = reactive(formJsonData)
+import formJsonObj from './formJson.json'
+const formJson = reactive(formJsonObj)
 const formData = reactive({
+  // inputValue: '是地方大使馆',
   // date: ['2021-05-09', '2024-02-25']
 })
 const optionData = reactive({})
 const vFormRef = ref(null)
 
 onMounted(() => {
-  console.log(vFormRef.value)
+  console.log('v-form-render实例', vFormRef.value)
 })
 
 const submitForm = () => {
   vFormRef.value.getFormData().then(formData => {
-    console.log(formData)
-    alert(JSON.stringify(formData))
+    console.log('formData', formData)
   }).catch(error => {
     ElMessage.error(error)
   })
