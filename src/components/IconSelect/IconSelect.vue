@@ -10,7 +10,7 @@ const $props = defineProps({
     type: Boolean,
     default: false
   },
-  // 图标类型(element、svg)
+  // 图标类型(ele、svg)
   type: {
     type: String,
     default: 'svg'
@@ -34,7 +34,7 @@ const dialogVisible = ref($props.show)
 const inputValue = ref('')
 
 const iconList = computed(() => {
-  if ($props.type === 'element') {
+  if ($props.type === 'ele') {
     return allEleIconKeys.filter(key => key.toLowerCase().indexOf(inputValue.value) > -1)
   } else if ($props.type === 'svg') {
     return allSvgIconKeys.filter(key => key.toLowerCase().indexOf(inputValue.value) > -1)
@@ -61,7 +61,7 @@ watch(() => $props.show, (newv, oldv) => {
       <el-input v-model="inputValue" placeholder="搜索图标" clearable prefix-icon="Search" />
       <div class="icon_list_wrapper custom_scrollbar" v-if="iconList.length > 0">
         <div class="icon_item" v-for="(item, index) in iconList" :key="index" @click="handleSelectIcon(item)">
-          <el-icon size="30px" color="#606266" v-if="type === 'element'"><component :is="item"></component></el-icon>
+          <el-icon size="30px" color="#606266" v-if="type === 'ele'"><component :is="item"></component></el-icon>
           <svg-icon :name="item" size="30px" color="#606266" v-if="type === 'svg'"></svg-icon>
           <span class="icon_name">{{ item }}</span>
         </div>

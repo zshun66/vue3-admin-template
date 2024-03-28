@@ -13,7 +13,7 @@ span.el-checkbox__inner {
 }
 
 // 表单 ----------------------------------------------------------------------------------------------------------------
-label.el-form-item__label {
+.el-form-item__label {
   font-weight: 700;
 }
 
@@ -26,9 +26,12 @@ div.el-table {
 div.el-dialog {
   border-radius: 7px;
 }
+header.el-dialog__header {
+  border-bottom: 1px solid var(--el-border-color-lighter);
+}
 button.el-dialog__headerbtn {
   top: 0px;
 }
 div.el-dialog__body {
-  padding: 12px 5px 0px;
+  padding: 20px 5px 0px;
 }
