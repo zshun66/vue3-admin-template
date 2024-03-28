@@ -2,6 +2,7 @@
  * 下载文件Hook
  */
 const useDownload = async (callback, params, fileName) => {
+  if (!callback || typeof callback !== 'function') return
   const loading = ElLoading.service({
     lock: true,
     text: '文件下载中...',
@@ -15,6 +16,15 @@ const useDownload = async (callback, params, fileName) => {
   if ('msSaveOrOpenBlob' in navigator) {
     return navigator.msSaveOrOpenBlob(blob, fileName)
   }
+  const blobUrl = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.style.display = 'none'
+  link.download = fileName
+  link.href = blobUrl
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+  URL.revokeObjectURL(blobUrl)
 }
 
 export default useDownload

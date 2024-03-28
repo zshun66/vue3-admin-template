@@ -98,53 +98,52 @@ watch(() => $props.modelValue, (newv, oldv) => {
 </script>
 
 <template>
-  <div class="comp_container import_excel_comp">
-    <el-dialog
-      v-model="show"
-      :title="title"
-      width="550px"
-      append-to="body"
-      :close-on-click-modal="true"
-      :close-on-press-escape="true"
-      :draggable="true"
-      :overflow="false"
-      :destroy-on-close="true"
-      @closed="handleDialogClosed"
-    >
-      <el-form class="import_excel_form">
-        <el-form-item label="模板下载 :" label-width="80px">
-          <el-button type="primary" icon="Download" @click="handleDownloadTemp">点击下载</el-button>
-        </el-form-item>
-        <el-form-item label="文件上传 :" label-width="80px">
-          <el-upload
-            class="import_excel_upload"
-            :action="uploadApi" :headers="headers"
-            method="post" name="file"
-            :data="{ isCover: isCover }"
-            accept=".xls, .xlsx"
-            :limit="1" :drag="true"
-            :show-file-list="true"
-            :on-change="handleUploadChange"
-            :on-remove="handleUploadRemove"
-            :on-exceed="handleUploadExceed"
-            :before-upload="handleBeforeUpload"
-            :on-progress="handleUploadProgress"
-            :on-success="handleUploadSuccess"
-            :on-error="handleUploadError"
-          >
-            <el-icon size="70px" color="#A8ABB2"><upload-filled /></el-icon>
-            <div class="upload_text">将文件拖到此处，或<span>点击上传</span></div>
-            <template #tip>
-              <div class="upload_tip">请上传 .xls , .xlsx 标准格式文件，文件最大为 {{ maxFileSize }}MB</div>
-            </template>
-          </el-upload>
-        </el-form-item>
-        <el-form-item label="数据覆盖 :" label-width="80px">
-          <el-switch v-model="isCover"></el-switch>
-        </el-form-item>
-      </el-form>
-    </el-dialog>
-  </div>
+  <el-dialog
+    class="comp_container import_excel_comp"
+    v-model="show"
+    :title="title"
+    width="550px"
+    append-to="body"
+    :close-on-click-modal="true"
+    :close-on-press-escape="true"
+    :draggable="true"
+    :overflow="false"
+    :destroy-on-close="true"
+    @closed="handleDialogClosed"
+  >
+    <el-form class="import_excel_form">
+      <el-form-item label="模板下载 :" label-width="80px">
+        <el-button type="primary" icon="Download" @click="handleDownloadTemp">点击下载</el-button>
+      </el-form-item>
+      <el-form-item label="文件上传 :" label-width="80px">
+        <el-upload
+          class="import_excel_upload"
+          :action="uploadApi" :headers="headers"
+          method="post" name="file"
+          :data="{ isCover: isCover }"
+          accept=".xls, .xlsx"
+          :limit="1" :drag="true"
+          :show-file-list="true"
+          :on-change="handleUploadChange"
+          :on-remove="handleUploadRemove"
+          :on-exceed="handleUploadExceed"
+          :before-upload="handleBeforeUpload"
+          :on-progress="handleUploadProgress"
+          :on-success="handleUploadSuccess"
+          :on-error="handleUploadError"
+        >
+          <el-icon size="70px" color="#A8ABB2"><upload-filled /></el-icon>
+          <div class="upload_text">将文件拖到此处，或<span>点击上传</span></div>
+          <template #tip>
+            <div class="upload_tip">请上传 .xls , .xlsx 标准格式文件，文件最大为 {{ maxFileSize }}MB</div>
+          </template>
+        </el-upload>
+      </el-form-item>
+      <el-form-item label="数据覆盖 :" label-width="80px">
+        <el-switch v-model="isCover"></el-switch>
+      </el-form-item>
+    </el-form>
+  </el-dialog>
 </template>
 
 <style scoped lang="scss">
