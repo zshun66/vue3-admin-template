@@ -10,7 +10,7 @@ const handleCopySuccess = (event) => {
 
 <template>
   <div class="page_container copy_page">
-    <h3 class="title">复制指令 🍇🍇🍇🍓🍓🍓</h3>
+    <h3 class="title">复制指令(v-copy) 🍇🍇🍇🍓🍓🍓</h3>
     <el-radio-group class="radio_group" v-model="active">
       <el-radio-button value="1">功能演示</el-radio-button>
       <el-radio-button value="2">指令文档</el-radio-button>
@@ -23,12 +23,12 @@ const handleCopySuccess = (event) => {
       </el-input>
     </div>
     <div class="doc_wrap" v-if="active === '2'">
-      <el-descriptions class="descriptions" title="配置项 📚" :column="1" border>
-        <el-descriptions-item label-class-name="descriptions-item" label="v-copy">
+      <el-descriptions class="descriptions" title="指令值 📚" :column="1" border>
+        <el-descriptions-item label-class-name="descriptions-item" label="value">
           <span>需要复制的文本，可绑定响应式数据，使用示例：v-copy="'复制的内容'" v-copy="copyValue"</span>
         </el-descriptions-item>
       </el-descriptions>
-      <el-descriptions class="descriptions" title="事件 📚" :column="1" border>
+      <el-descriptions class="descriptions" title="指令事件 📚" :column="1" border>
         <el-descriptions-item label-class-name="descriptions-item" label="copy-success">
           <span>复制成功时调用，使用示例：@copy-success="handleCopySuccess"</span>
         </el-descriptions-item>

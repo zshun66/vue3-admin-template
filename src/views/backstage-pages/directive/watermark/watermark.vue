@@ -13,7 +13,7 @@ const option = {
 
 <template>
   <div class="page_container watermark_page">
-    <h3 class="title">水印指令 🍇🍇🍇🍓🍓🍓</h3>
+    <h3 class="title">水印指令(v-watermark) 🍇🍇🍇🍓🍓🍓</h3>
     <el-radio-group class="radio_group" v-model="active">
       <el-radio-button value="1">功能演示</el-radio-button>
       <el-radio-button value="2">指令文档</el-radio-button>
@@ -22,8 +22,8 @@ const option = {
       
     </div>
     <div class="doc_wrap" v-if="active === '2'">
-      <el-descriptions class="descriptions" title="配置项 📚" :column="1" border>
-        <el-descriptions-item label-class-name="descriptions-item" label="option">
+      <el-descriptions class="descriptions" title="指令值 📚" :column="1" border>
+        <el-descriptions-item label-class-name="descriptions-item" label="value">
           <div>指令配置选项，对象类型，使用示例：v-watermark="option"</div>
           <div>option: <pre style="display: inline; font-family: inherit;">{{ option }}</pre></div>
           <div>text: 水印文字</div>

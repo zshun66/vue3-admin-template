@@ -13,7 +13,10 @@ export default {
       parent = false
       screen = false
     }
-    if (parent && screen) {
+    if (sticky && !parent && !screen) {
+      parent = true
+    }
+    if (sticky && parent && screen) {
       screen = false
     }
     el.disTop = binding.value
@@ -75,16 +78,19 @@ function handleCurrElMouseMove(e) {
 function handleCurrElMouseDown(e) {
   if (!this.draggable) return
   const el = this
-  let disX = e.clientX - this.offsetLeft
-  let disY = e.clientY - this.offsetTop
+  const elCS = window.getComputedStyle(el)
+  let eMT = parseFloat(elCS.marginTop)
+  let eML = parseFloat(elCS.marginLeft)
+  let disX = e.clientX - this.offsetLeft + eML
+  let disY = e.clientY - this.offsetTop + eMT
   document.onmousemove = function(e) {
     e.preventDefault()
     let x = e.clientX - disX
     let y = e.clientY - disY
-    if (x < el.minLeft) x = el.minLeft
-    if (x > el.maxLeft) x = el.maxLeft
-    if (y < el.minTop) y = el.minTop
-    if (y > el.maxTop) y = el.maxTop
+    if (x < el.minLeft - eML) x = el.minLeft - eML
+    if (x > el.maxLeft - eML) x = el.maxLeft - eML
+    if (y < el.minTop - eMT) y = el.minTop - eMT
+    if (y > el.maxTop - eMT) y = el.maxTop - eMT
     el.style.left = x + 'px'
     el.style.top = y + 'px'
   }
