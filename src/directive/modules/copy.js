@@ -2,8 +2,6 @@
  * v-copy
  * 复制指令
  */
-import { ElMessage } from 'element-plus'
-
 export default {
   mounted(el, binding) {
     el.copyText = binding.value
@@ -20,11 +18,9 @@ export default {
 function handleClick() {
   if (navigator.clipboard) {
     navigator.clipboard.writeText(this.copyText).then(() => {
-      ElMessage.success('复制成功')
-      this.dispatchEvent(new Event('copy-success'))
-    }).catch(err => {
-      ElMessage.error('复制失败')
-      this.dispatchEvent(new Event('copy-fail'))
+      this.dispatchEvent(new CustomEvent('copy-success', { detail: this.copyText }))
+    }).catch(error => {
+      this.dispatchEvent(new CustomEvent('copy-fail', { detail: error }))
     })
   } else {
     try {
@@ -36,11 +32,9 @@ function handleClick() {
       textarea.select()
       document.execCommand('copy')
       document.body.removeChild(textarea)
-      ElMessage.success('复制成功')
-      this.dispatchEvent(new Event('copy-success'))
+      this.dispatchEvent(new CustomEvent('copy-success', { detail: this.copyText }))
     } catch (error) {
-      ElMessage.error('复制失败')
-      this.dispatchEvent(new Event('copy-fail'))
+      this.dispatchEvent(new CustomEvent('copy-fail', { detail: error }))
     }
   }
 }

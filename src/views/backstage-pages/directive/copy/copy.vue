@@ -1,6 +1,11 @@
 <script setup name="backstage:directive:copy">
 const active = ref('1')
 const copyValue = ref('我是被复制的内容 🍒 🍉 🍊')
+const pasteValue = ref('')
+
+const handleCopySuccess = (event) => {
+  ElMessage.success(`我是复制成功后的回调，复制的文本为：${event.detail}`)
+}
 </script>
 
 <template>
@@ -11,7 +16,11 @@ const copyValue = ref('我是被复制的内容 🍒 🍉 🍊')
       <el-radio-button value="2">指令文档</el-radio-button>
     </el-radio-group>
     <div class="function_wrap" v-if="active === '1'">
-
+      <el-input style="width: 400px;" v-model="copyValue" placeholder="在此处输入需要复制的内容" clearable>
+        <template #append><span style="cursor: pointer;" v-copy="copyValue" @copy-success="handleCopySuccess">复制</span></template>
+      </el-input>
+      <el-input style="width: 400px; margin-top: 40px;" v-model="pasteValue" placeholder="在此处粘贴被复制的内容" clearable>
+      </el-input>
     </div>
     <div class="doc_wrap" v-if="active === '2'">
       <el-descriptions class="descriptions" title="配置项 📚" :column="1" border>
@@ -44,18 +53,22 @@ const copyValue = ref('我是被复制的内容 🍒 🍉 🍊')
   }
 
   .radio_group {
-    margin-top: 25px;
+    margin-top: 50px;
   }
 
   .function_wrap {
-
+    width: 1000px;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .doc_wrap {
     width: 1000px;
 
     :deep(.descriptions) {
-      margin-top: 30px;
+      margin-top: 50px;
     }
 
     :deep(.descriptions-item) {
