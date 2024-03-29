@@ -10,14 +10,14 @@ export default {
       size = 16,
       color = 'rgba(180, 180, 180, 0.3)',
       angle = -30,
-      row = 8,
-      column = 5,
+      row = 5,
+      column = 8,
     } = binding.value
     const canvas = document.createElement('canvas')
     el.appendChild(canvas)
     canvas.style.display = 'none'
-    canvas.width = Math.max(el.offsetWidth / row, 150)
-    canvas.height = Math.max(el.offsetHeight / column, 100)
+    canvas.width = Math.max(el.offsetWidth / column, 150)
+    canvas.height = Math.max(el.offsetHeight / row, 100)
     const ctx = canvas.getContext('2d')
     const textWidth = ctx.measureText(text).width
     const textHeight = size
