@@ -1,6 +1,6 @@
 import router from '@/router/index.js'
 
-const modules = import.meta.glob('../views/backstage-pages/**/*.vue')
+const modules = import.meta.glob('../views/backpages/**/*.vue')
 
 /**
  * 解析组件

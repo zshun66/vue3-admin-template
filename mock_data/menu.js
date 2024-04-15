@@ -38,7 +38,7 @@ const menuListAll = [
     iconSize: '18px',
     path: '/backstage/home',
     name: 'backstage:home',
-    component: 'backstage-pages/home/home',
+    component: 'backpages/home/home',
     perms: 'backstage:home:page',
     isClearable: '0'
   }),
@@ -64,7 +64,7 @@ const menuListAll = [
         iconSize: '16px',
         path: '/backstage/dashboard/workbenches',
         name: 'backstage:dashboard:workbenches',
-        component: 'backstage-pages/dashboard/workbenches/workbenches',
+        component: 'backpages/dashboard/workbenches/workbenches',
         perms: 'backstage:dashboard:workbenches:page',
       }),
       Object.assign(deepCopy(menuItemObj), {
@@ -78,7 +78,7 @@ const menuListAll = [
         iconSize: '16px',
         path: '/backstage/dashboard/monitor',
         name: 'backstage:dashboard:monitor',
-        component: 'backstage-pages/dashboard/monitor/monitor',
+        component: 'backpages/dashboard/monitor/monitor',
         perms: 'backstage:dashboard:monitor:page',
       }),
       Object.assign(deepCopy(menuItemObj), {
@@ -91,7 +91,7 @@ const menuListAll = [
         icon: 'analysis1',
         path: '/backstage/dashboard/analysis',
         name: 'backstage:dashboard:analysis',
-        component: 'backstage-pages/dashboard/analysis/analysis',
+        component: 'backpages/dashboard/analysis/analysis',
         perms: 'backstage:dashboard:analysis:page',
       })
     ]
@@ -116,7 +116,7 @@ const menuListAll = [
         icon: 'menu3',
         path: '/backstage/system/menu',
         name: 'backstage:system:menu',
-        component: 'backstage-pages/system/menu/menu',
+        component: 'backpages/system/menu/menu',
         perms: 'backstage:system:menu:page',
       }),
       Object.assign(deepCopy(menuItemObj), {
@@ -129,7 +129,7 @@ const menuListAll = [
         icon: 'role1',
         path: '/backstage/system/role',
         name: 'backstage:system:role',
-        component: 'backstage-pages/system/role/role',
+        component: 'backpages/system/role/role',
         perms: 'backstage:system:role:page',
       }),
       Object.assign(deepCopy(menuItemObj), {
@@ -142,7 +142,7 @@ const menuListAll = [
         icon: 'dept1',
         path: '/backstage/system/dept',
         name: 'backstage:system:dept',
-        component: 'backstage-pages/system/dept/dept',
+        component: 'backpages/system/dept/dept',
         perms: 'backstage:system:dept:page',
       }),
       Object.assign(deepCopy(menuItemObj), {
@@ -155,7 +155,7 @@ const menuListAll = [
         icon: 'post1',
         path: '/backstage/system/post',
         name: 'backstage:system:post',
-        component: 'backstage-pages/system/post/post',
+        component: 'backpages/system/post/post',
         perms: 'backstage:system:post:page',
       }),
       Object.assign(deepCopy(menuItemObj), {
@@ -168,7 +168,7 @@ const menuListAll = [
         icon: 'user1',
         path: '/backstage/system/user',
         name: 'backstage:system:user',
-        component: 'backstage-pages/system/user/user',
+        component: 'backpages/system/user/user',
         perms: 'backstage:system:user:page',
       }),
       Object.assign(deepCopy(menuItemObj), {
@@ -181,7 +181,7 @@ const menuListAll = [
         icon: 'dict1',
         path: '/backstage/system/dict',
         name: 'backstage:system:dict',
-        component: 'backstage-pages/system/dict/dict',
+        component: 'backpages/system/dict/dict',
         perms: 'backstage:system:dict:page',
       }),
       Object.assign(deepCopy(menuItemObj), {
@@ -195,7 +195,7 @@ const menuListAll = [
         iconSize: '16px',
         path: '/backstage/system/param',
         name: 'backstage:system:param',
-        component: 'backstage-pages/system/param/param',
+        component: 'backpages/system/param/param',
         perms: 'backstage:system:param:page',
       }),
       Object.assign(deepCopy(menuItemObj), {
@@ -208,7 +208,7 @@ const menuListAll = [
         icon: 'notice1',
         path: '/backstage/system/notice',
         name: 'backstage:system:notice',
-        component: 'backstage-pages/system/notice/notice',
+        component: 'backpages/system/notice/notice',
         perms: 'backstage:system:notice:page',
       }),
       Object.assign(deepCopy(menuItemObj), {
@@ -235,7 +235,7 @@ const menuListAll = [
             iconSize: '18px',
             path: '/backstage/system/log/loginlog',
             name: 'backstage:system:log:loginlog',
-            component: 'backstage-pages/system/log/loginlog/loginlog',
+            component: 'backpages/system/log/loginlog/loginlog',
             perms: 'backstage:system:loginlog:page',
             isCache: '0'
           }),
@@ -250,7 +250,7 @@ const menuListAll = [
             iconSize: '21px',
             path: '/backstage/system/log/operlog',
             name: 'backstage:system:log:operlog',
-            component: 'backstage-pages/system/log/operlog/operlog',
+            component: 'backpages/system/log/operlog/operlog',
             perms: 'backstage:system:operlog:page',
             isCache: '0'
           }),
@@ -265,7 +265,7 @@ const menuListAll = [
             iconSize: '16px',
             path: '/backstage/system/log/errorlog',
             name: 'backstage:system:log:errorlog',
-            component: 'backstage-pages/system/log/errorlog/errorlog',
+            component: 'backpages/system/log/errorlog/errorlog',
             perms: 'backstage:system:errorlog:page',
             isCache: '0'
           }),
@@ -309,7 +309,7 @@ const menuListAll = [
             iconSize: '17px',
             path: '/backstage/systool/form-generator/vform-designer',
             name: 'backstage:systool:form-generator:vform-designer',
-            component: 'backstage-pages/systool/form-generator/vform-designer/vform-designer',
+            component: 'backpages/systool/form-generator/vform-designer/vform-designer',
             perms: 'backstage:systool:form-generator:vform-designer:page',
           }),
           Object.assign(deepCopy(menuItemObj), {
@@ -323,7 +323,7 @@ const menuListAll = [
             iconSize: '17px',
             path: '/backstage/systool/form-generator/vform-renderer',
             name: 'backstage:systool:form-generator:vform-renderer',
-            component: 'backstage-pages/systool/form-generator/vform-renderer/vform-renderer',
+            component: 'backpages/systool/form-generator/vform-renderer/vform-renderer',
             perms: 'backstage:systool:form-generator:vform-renderer:page',
           }),
         ]
@@ -339,7 +339,7 @@ const menuListAll = [
         iconSize: '16px',
         path: '/backstage/systool/code-generator',
         name: 'backstage:systool:code-generator',
-        component: 'backstage-pages/systool/code-generator/code-generator',
+        component: 'backpages/systool/code-generator/code-generator',
         perms: 'backstage:systool:code-generator:page',
       }),
     ]
@@ -367,7 +367,7 @@ const menuListAll = [
         iconSize: '20px',
         path: '/backstage/outlink/bind',
         name: 'backstage:outlink:bind',
-        component: 'backstage-pages/outlink/bind/bind',
+        component: 'backpages/outlink/bind/bind',
         perms: 'backstage:systool:bind:page',
       }),
       Object.assign(deepCopy(menuItemObj), {
@@ -381,7 +381,7 @@ const menuListAll = [
         iconSize: '18px',
         path: 'https://gitee.com/zshun66/vue3-admin-template',
         name: 'backstage:outlink:gitee',
-        component: 'backstage-pages/outlink/gitee/gitee',
+        component: 'backpages/outlink/gitee/gitee',
         perms: 'backstage:systool:gitee:page',
         isLink: '1'
       }),
@@ -410,7 +410,7 @@ const menuListAll = [
         iconSize: '16px',
         path: '/backstage/directive/copy',
         name: 'backstage:directive:copy',
-        component: 'backstage-pages/directive/copy/copy',
+        component: 'backpages/directive/copy/copy',
         perms: 'backstage:directive:copy:page',
       }),
       Object.assign(deepCopy(menuItemObj), {
@@ -424,7 +424,7 @@ const menuListAll = [
         iconSize: '18px',
         path: '/backstage/directive/watermark',
         name: 'backstage:directive:watermark',
-        component: 'backstage-pages/directive/watermark/watermark',
+        component: 'backpages/directive/watermark/watermark',
         perms: 'backstage:directive:watermark:page',
       }),
       Object.assign(deepCopy(menuItemObj), {
@@ -438,7 +438,7 @@ const menuListAll = [
         iconSize: '15px',
         path: '/backstage/directive/draggable',
         name: 'backstage:directive:draggable',
-        component: 'backstage-pages/directive/draggable/draggable',
+        component: 'backpages/directive/draggable/draggable',
         perms: 'backstage:directive:draggable:page',
       }),
       Object.assign(deepCopy(menuItemObj), {
@@ -452,7 +452,7 @@ const menuListAll = [
         iconSize: '18px',
         path: '/backstage/directive/longpress',
         name: 'backstage:directive:longpress',
-        component: 'backstage-pages/directive/longpress/longpress',
+        component: 'backpages/directive/longpress/longpress',
         perms: 'backstage:directive:longpress:page',
       }),
       Object.assign(deepCopy(menuItemObj), {
@@ -466,7 +466,7 @@ const menuListAll = [
         iconSize: '15px',
         path: '/backstage/directive/debounce',
         name: 'backstage:directive:debounce',
-        component: 'backstage-pages/directive/debounce/debounce',
+        component: 'backpages/directive/debounce/debounce',
         perms: 'backstage:directive:debounce:page',
       }),
       Object.assign(deepCopy(menuItemObj), {
@@ -480,7 +480,7 @@ const menuListAll = [
         iconSize: '15px',
         path: '/backstage/directive/throttle',
         name: 'backstage:directive:throttle',
-        component: 'backstage-pages/directive/throttle/throttle',
+        component: 'backpages/directive/throttle/throttle',
         perms: 'backstage:directive:throttle:page',
       }),
     ]
@@ -495,7 +495,7 @@ const menuListAll = [
     iconSize: '19px',
     path: '/backstage/about',
     name: 'backstage:about',
-    component: 'backstage-pages/about/about',
+    component: 'backpages/about/about',
     perms: 'backstage:about:page',
     children: []
   })
