@@ -1,6 +1,6 @@
 <script setup name="login">
 import useUserStore from '@/pinia/modules/user.js'
-import { findFieldValueInTree } from '@/utils/tree.js'
+import { findFieldValueInTree } from '@/utils/treehandler.js'
 
 const $router = useRouter()
 const $route = useRoute()

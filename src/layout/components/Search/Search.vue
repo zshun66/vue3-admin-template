@@ -1,6 +1,6 @@
 <script setup name="Search">
 import useUserStore from '@/pinia/modules/user.js'
-import { extractPathsFromTree } from '@/utils/tree.js'
+import { extractPathsFromTree } from '@/utils/treehandler.js'
 
 const $router = useRouter()
 const userStore = useUserStore()

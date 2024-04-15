@@ -2,7 +2,7 @@
  * 权限Hook
  */
 import useUserStore from '@/pinia/modules/user.js'
-import { extractKeyNamesFromTree } from '@/utils/tree.js'
+import { extractKeyNamesFromTree } from '@/utils/treehandler.js'
 
 const userStore = useUserStore()
 const permss = userStore.userInfo.menus

@@ -4,7 +4,7 @@ import useDictStore from './dict.js'
 import useTagStore from './tag.js'
 import { reqUserLogin, reqUserLogout } from '@/api/system/user.js'
 import { getStorage, setStorage, removeStorage } from '@/utils/storage.js'
-import resolveRoutes from '@/utils/resolveRoutes.js'
+import resolveRoutes from '@/router/resolve.js'
 
 const useUserStore = defineStore('User', {
   state: () => {

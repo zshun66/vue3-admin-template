@@ -3,7 +3,7 @@
  * 按钮权限指令
  */
 import useUserStore from '@/pinia/modules/user.js'
-import { extractKeyNamesFromTree } from '@/utils/tree.js'
+import { extractKeyNamesFromTree } from '@/utils/treehandler.js'
 
 export default {
   mounted(el, binding) {

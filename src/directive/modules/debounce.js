@@ -2,6 +2,8 @@
  * v-debounce
  * 防抖指令
  */
+import { debounce } from '@/utils/index.js'
+
 export default {
   mounted(el, binding) {
     if (typeof binding.value !== 'function') {
@@ -20,26 +22,6 @@ export default {
   beforeUnmount(el) {
     for (let eventName of el.eventNames) {
       el.removeEventListener(eventName, el.debouncedFunction)
-    }
-  }
-}
-
-function debounce(func, delay, immediate) {
-  let timeout = null
-  return function () {
-    const context = this
-    const args = arguments
-    const later = function () {
-      timeout = null
-      if (!immediate) {
-        func.apply(context, args)
-      }
-    }
-    const callNow = immediate && !timeout
-    clearTimeout(timeout)
-    timeout = setTimeout(later, delay)
-    if (callNow) {
-      func.apply(context, args)
     }
   }
 }

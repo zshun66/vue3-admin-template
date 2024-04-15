@@ -1,6 +1,6 @@
 import router from './index.js'
 import useUserStore from '@/pinia/modules/user.js'
-import resolveRoutes from '@/utils/resolveRoutes.js'
+import resolveRoutes from '@/router/resolve.js'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { ElLoading } from 'element-plus'

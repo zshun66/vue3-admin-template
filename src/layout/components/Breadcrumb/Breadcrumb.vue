@@ -1,6 +1,6 @@
 <script setup name="Breadcrumb">
 import useUserStore from '@/pinia/modules/user.js'
-import { extractBreadcrumbsFromTree } from '@/utils/tree.js'
+import { extractBreadcrumbsFromTree } from '@/utils/treehandler.js'
 
 const $route = useRoute()
 const userStore = useUserStore()
