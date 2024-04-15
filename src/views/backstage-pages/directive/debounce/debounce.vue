@@ -31,8 +31,8 @@ const handleClick = (e, name) => {
         </el-descriptions-item>
       </el-descriptions>
       <el-descriptions class="descriptions" title="指令参数 📚" :column="1" border>
-        <el-descriptions-item label-class-name="descriptions-item" label="delay(延迟时间)">
-          <span>防抖延迟时间(即多久时间内不可重复触发)，使用示例：v-debounce:1000="callback"</span>
+        <el-descriptions-item label-class-name="descriptions-item" label="delay(延迟时间， 单位：ms)">
+          <span>防抖延迟时间(即多久时间内不可重复触发，默认1000毫秒)，使用示例：v-debounce:1000="callback"</span>
         </el-descriptions-item>
       </el-descriptions>
       <el-descriptions class="descriptions" title="修饰符 📚" :column="1" border>
