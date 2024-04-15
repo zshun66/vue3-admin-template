@@ -513,10 +513,38 @@ const menuListAll = [
       }),
     ]
   }),
-  // 菜单嵌套 --------------------------------------------------------------------------------------------------------------------------------------------
+  // 全局组件 --------------------------------------------------------------------------------------------------------------------------------------------
   Object.assign(deepCopy(menuItemObj), {
     id: '93',
     sort: 930,
+    type: 'directory',
+    title: '全局组件',
+    icon: 'component1',
+    iconSize: '18px',
+    path: '/backstage/component',
+    name: 'backstage:component',
+    perms: 'backstage:component',
+    children: [
+      Object.assign(deepCopy(menuItemObj), {
+        parentId: '93',
+        parentTitle: '全局组件',
+        id: '931',
+        sort: 10,
+        type: 'menu',
+        title: '分类筛选器',
+        icon: 'filter1',
+        iconSize: '20px',
+        path: '/backstage/component/classifyfilter',
+        name: 'backstage:component:classifyfilter',
+        component: 'backpages/component/classifyfilter/classifyfilter',
+        perms: 'backstage:component:classifyfilter:page',
+      }),
+    ]
+  }),
+  // 菜单嵌套 --------------------------------------------------------------------------------------------------------------------------------------------
+  Object.assign(deepCopy(menuItemObj), {
+    id: '101',
+    sort: 1010,
     type: 'directory',
     title: '菜单嵌套',
     icon: 'menu3',
@@ -526,9 +554,9 @@ const menuListAll = [
     perms: 'backstage:nesting',
     children: [
       Object.assign(deepCopy(menuItemObj), {
-        parentId: '93',
+        parentId: '101',
         parentTitle: '菜单嵌套',
-        id: '931',
+        id: '1011',
         sort: 10,
         type: 'menu',
         title: '二级菜单1',
@@ -540,9 +568,9 @@ const menuListAll = [
         perms: 'backstage:nesting:twomenu1:page',
       }),
       Object.assign(deepCopy(menuItemObj), {
-        parentId: '93',
+        parentId: '101',
         parentTitle: '菜单嵌套',
-        id: '932',
+        id: '1012',
         sort: 20,
         type: 'directory',
         title: '二级菜单2',
@@ -553,9 +581,9 @@ const menuListAll = [
         perms: 'backstage:nesting:twomenu2',
         children: [
           Object.assign(deepCopy(menuItemObj), {
-            parentId: '932',
+            parentId: '1012',
             parentTitle: '二级菜单2',
-            id: '9321',
+            id: '10121',
             sort: 10,
             type: 'menu',
             title: '三级菜单1',
@@ -567,9 +595,9 @@ const menuListAll = [
             perms: 'backstage:nesting:twomenu2:threemenu1:page',
           }),
           Object.assign(deepCopy(menuItemObj), {
-            parentId: '932',
+            parentId: '1012',
             parentTitle: '二级菜单2',
-            id: '9322',
+            id: '10122',
             sort: 20,
             type: 'menu',
             title: '三级菜单2',
