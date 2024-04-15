@@ -4,7 +4,7 @@
 
 <template>
   <div class="page_container gitee_page">
-    <div class="text-wrap">
+    <div class="text_wrap">
       <span>Gitee 仓库：</span>
       <a href="https://gitee.com/zshun66/vue3-admin-template" target="_blank">https://gitee.com/zshun66/vue3-admin-template</a>
       <span> 🍒🍉🍊</span>
