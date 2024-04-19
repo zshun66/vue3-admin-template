@@ -3,7 +3,7 @@
 
 <template>
   <div class="page_container svgicon_page">
-    <div class="title_wrap">图标选择器 🍓🍇🍈🍉</div>
+    <div class="title_wrap">SVG图标 🍓🍇🍈🍉</div>
     <div class="svg_icon_wrap">
       <svg-icon name="svg1" color="#4DB6AC" size="100px"></svg-icon>
       <svg-icon name="search1" color="#4DB6AC" size="130px"></svg-icon>

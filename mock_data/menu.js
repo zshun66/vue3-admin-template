@@ -595,6 +595,20 @@ const menuListAll = [
         component: 'backpages/component/svgicon/svgicon',
         perms: 'backstage:component:svgicon:page',
       }),
+      Object.assign(deepCopy(menuItemObj), {
+        parentId: '93',
+        parentTitle: '全局组件',
+        id: '936',
+        sort: 60,
+        type: 'menu',
+        title: '数据导入',
+        icon: 'import1',
+        iconSize: '16px',
+        path: '/backstage/component/importexcel',
+        name: 'backstage:component:importexcel',
+        component: 'backpages/component/importexcel/importexcel',
+        perms: 'backstage:component:importexcel:page',
+      }),
     ]
   }),
   // 菜单嵌套 --------------------------------------------------------------------------------------------------------------------------------------------
