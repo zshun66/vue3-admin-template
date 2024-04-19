@@ -116,10 +116,46 @@ const initFormData = function() {
   }
 }
 
+// 打开弹框时
+const handleDialogOpen = function() {
+  if ($props.type === 'add') {
+    formData.value.parentId = ($props.row && $props.row.id) || 0
+  } else if ($props.type === 'edit') {
+    for (let key in formData.value) {
+      formData.value[key] = $props.row[key]
+    }
+  }
+}
+
 // 当前选中节点变化时触发的事件
 const handleTreeSelectCurrentChange = function(data, node) {
   formData.value.parentId = data.id
   menuTreeSelectRef.value.blur()
+}
+
+// 选择的菜单类型改变时
+const handleTypeChange = function(value) {
+  for (let key in formDataRules.value) {
+    formDataRules.value[key][0].required = true
+  }
+  if (value === 'directory') { // 目录
+    formDataRules.value.isLink[0].required = false
+    formDataRules.value.name[0].required = false
+    formDataRules.value.component[0].required = false
+    formDataRules.value.isCache[0].required = false
+    formDataRules.value.isClearable[0].required = false
+  } else if (value === 'button') { // 按钮
+    formDataRules.value.icon[0].required = false
+    formDataRules.value.iconSize[0].required = false
+    formDataRules.value.isLink[0].required = false
+    formDataRules.value.name[0].required = false
+    formDataRules.value.path[0].required = false
+    formDataRules.value.component[0].required = false
+    formDataRules.value.isVisible[0].required = false
+    formDataRules.value.isCache[0].required = false
+    formDataRules.value.isClearable[0].required = false
+  } else if (value === 'menu') { // 菜单
+  }
 }
 
 // 取消
@@ -137,17 +173,6 @@ const handleConfirm = async function() {
   $emits('success')
 }
 
-// 打开弹框时
-const handleDialogOpen = function() {
-  if ($props.type === 'add') {
-    formData.value.parentId = ($props.row && $props.row.id) || 0
-  } else if ($props.type === 'edit') {
-    for (let key in formData.value) {
-      formData.value[key] = $props.row[key]
-    }
-  }
-}
-
 // 关闭弹框时
 const handleDialogClosed = function() {
   initFormData()
@@ -155,6 +180,7 @@ const handleDialogClosed = function() {
 }
 
 initFormData()
+handleTypeChange(formData.value.type)
 </script>
 
 <template>
@@ -180,8 +206,12 @@ initFormData()
         </div>
       </template>
 
-      <el-form class="form" ref="menuFormRef" :model="formData" :rules="formDataRules" label-width="auto">
-        <el-form-item label="父级菜单:" prop="parentId">
+      <el-form
+        class="form" ref="menuFormRef" :model="formData" :rules="formDataRules"
+        label-width="auto" :validate-on-rule-change="false" scroll-to-error
+        :scroll-into-view-options="{ behavior: 'smooth', block: 'center', inline: 'nearest' }"
+      >
+        <el-form-item style="width: 100%;" label="父级菜单:" prop="parentId">
           <el-tree-select
             class="form_width"
             ref="menuTreeSelectRef"
@@ -199,7 +229,7 @@ initFormData()
           ></el-tree-select>
         </el-form-item>
         <el-form-item label="菜单类型:" prop="type">
-          <el-select class="form_width" v-model="formData.type">
+          <el-select class="form_width" v-model="formData.type" :validate-event="false" @change="handleTypeChange">
             <el-option label="目录" value="directory"></el-option>
             <el-option label="菜单" value="menu"></el-option>
             <el-option label="按钮" value="button"></el-option>
@@ -223,7 +253,7 @@ initFormData()
             placeholder="请输入菜单标题"
           ></el-input>
         </el-form-item>
-        <el-form-item label="菜单图标:" prop="icon" v-if="formData.type !== 'button'">
+        <el-form-item label="菜单图标:" prop="icon">
           <el-input
             class="form_width"
             v-model="formData.icon"
@@ -231,7 +261,7 @@ initFormData()
             placeholder="请输入菜单图标"
           ></el-input>
         </el-form-item>
-        <el-form-item label="图标大小:" prop="iconSize" v-if="formData.type !== 'button'">
+        <el-form-item label="图标大小:" prop="iconSize">
           <el-input
             class="form_width"
             v-model="formData.iconSize"
@@ -239,13 +269,13 @@ initFormData()
             placeholder="请输入图标大小"
           ></el-input>
         </el-form-item>
-        <el-form-item label="是否外链:" prop="isLink" v-if="formData.type === 'menu'">
+        <el-form-item label="是否外链:" prop="isLink">
           <el-select class="form_width" v-model="formData.isLink">
             <el-option label="是" value="1"></el-option>
             <el-option label="否" value="0"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="路由名称:" prop="name" v-if="formData.type !== 'button'">
+        <el-form-item style="width: 100%;" label="路由名称:" prop="name">
           <el-input
             class="form_width"
             v-model="formData.name"
@@ -253,7 +283,7 @@ initFormData()
             placeholder="请输入路由名称"
           ></el-input>
         </el-form-item>
-        <el-form-item label="路由路径:" prop="path" v-if="formData.type !== 'button'">
+        <el-form-item style="width: 100%;" label="路由路径:" prop="path">
           <el-input
             class="form_width"
             v-model="formData.path"
@@ -261,7 +291,7 @@ initFormData()
             placeholder="请输入路由路径"
           ></el-input>
         </el-form-item>
-        <el-form-item label="权限字符:" prop="perms">
+        <el-form-item style="width: 100%;" label="权限字符:" prop="perms">
           <el-input
             class="form_width"
             v-model="formData.perms"
@@ -269,7 +299,7 @@ initFormData()
             placeholder="请输入权限字符"
           ></el-input>
         </el-form-item>
-        <el-form-item style="width: 100%;" label="组件路径:" prop="component" v-if="formData.type === 'menu'">
+        <el-form-item style="width: 100%;" label="组件路径:" prop="component">
           <el-input
             class="form_width"
             v-model="formData.component"
@@ -277,19 +307,19 @@ initFormData()
             placeholder="请输入组件路径"
           ></el-input>
         </el-form-item>
-        <el-form-item label="显隐状态:" prop="isVisible" v-if="formData.type !== 'button'">
+        <el-form-item label="显隐状态:" prop="isVisible">
           <el-select class="form_width" v-model="formData.isVisible">
             <el-option label="显示" value="1"></el-option>
             <el-option label="隐藏" value="0"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="是否缓存:" prop="isCache" v-if="formData.type !== 'button'">
+        <el-form-item label="是否缓存:" prop="isCache">
           <el-select class="form_width" v-model="formData.isCache">
             <el-option label="是" value="1"></el-option>
             <el-option label="否" value="0"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="可否关闭:" prop="isClearable" v-if="formData.type !== 'button'">
+        <el-form-item label="可否关闭:" prop="isClearable">
           <el-select class="form_width" v-model="formData.isClearable">
             <el-option label="是" value="1"></el-option>
             <el-option label="否" value="0"></el-option>
@@ -318,16 +348,16 @@ initFormData()
     flex-wrap: wrap;
     justify-content: space-between;
 
-    .form_width {
-      width: 100%;
-    }
-
     :deep(.el-form-item) {
       width: 48%;
     }
 
     :deep(.el-input__inner) {
       text-align: left;
+    }
+
+    .form_width {
+      width: 100%;
     }
   }
 

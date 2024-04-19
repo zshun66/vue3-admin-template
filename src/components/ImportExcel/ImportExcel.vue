@@ -103,7 +103,7 @@ watch(() => $props.modelValue, (newv, oldv) => {
     v-model="show"
     :title="title"
     width="550px"
-    append-to="body"
+    :append-to-body="false"
     :close-on-click-modal="true"
     :close-on-press-escape="true"
     :draggable="true"
