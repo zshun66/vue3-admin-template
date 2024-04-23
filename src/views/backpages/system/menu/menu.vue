@@ -1,6 +1,6 @@
 <script setup name="backstage:system:menu">
 import MenuFormDialog from './components/MenuFormDialog.vue'
-import { reqMenuListPage } from '@/api/system/menu.js'
+import { reqMenuListPage, reqDeleteMenu } from '@/api/system/menu.js'
 
 // 数据加载状态
 const showLoading = ref(false)
@@ -76,15 +76,15 @@ const handleOperate = function(type, row) {
 const handleDelete = function(row) {
   ElMessageBox.confirm('确认删除该菜单?', '提示', {
     type: 'warning',
-    beforeClose: (action, instance, done) => {
+    beforeClose: async (action, instance, done) => {
       if (action === 'confirm') {
         instance.confirmButtonLoading = true
-        setTimeout(() => {
-          instance.confirmButtonLoading = false
-          ElMessage.success('操作成功')
-          done()
-          getMenuListPage()
-        }, 2000)
+        const { result } = await reqDeleteMenu()
+        instance.confirmButtonLoading = false
+        if (!result) return
+        done()
+        ElMessage.success('操作成功')
+        getMenuListPage()
       } else if (action !== 'confirm') {
         if (!instance.confirmButtonLoading) done()
       }
@@ -191,6 +191,11 @@ getMenuListPage()
           <span>{{ scope.row.perms }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="路由名称" prop="name" align="center" min-width="200">
+        <template #default="scope">
+          <span>{{ scope.row.name }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="组价路径" prop="component" align="center" min-width="250" show-overflow-tooltip>
         <template #default="scope">
           <span>{{ scope.row.component }}</span>
@@ -237,7 +242,6 @@ getMenuListPage()
     <MenuFormDialog
       v-model="showMenuFormDialog"
       :type="dialogType"
-      :menuTree="menuList"
       :row="currRow"
       @success="handleMenuFormDialogSuccess"
     />

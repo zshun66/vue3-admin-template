@@ -1,4 +1,6 @@
 <script setup name="MenuFormDialog">
+import { reqMenuListAll, reqAddMenu, reqUpdateMenu } from '@/api/system/menu.js'
+
 const $props = defineProps({
   modelValue: {
     type: Boolean,
@@ -7,10 +9,6 @@ const $props = defineProps({
   type: {
     type: String,
     default: 'add'
-  },
-  menuTree: {
-    type: Array,
-    default: () => ([])
   },
   row: {
     type: Object,
@@ -31,6 +29,8 @@ const showDialog = computed({
     $emits('update:modelValue', value)
   }
 })
+// 是否显示图标选择器
+const showIconSelectDialog = ref(false)
 // 表单数据
 const formData = ref(null)
 // 表单数据验证规则
@@ -82,17 +82,19 @@ const formDataRules = ref({
   ],
 })
 // 菜单树形数据
-const menuTreeData = computed(() => {
-  const result = [{}]
-  result[0]['id'] = 0
-  result[0]['title'] = '主类目'
-  result[0]['children'] = $props.menuTree
-  return result
-})
+const menuTreeData = ref([
+  {
+    id: 0,
+    title: '主类目',
+    children: []
+  }
+])
 // 表单实例
 const menuFormRef = ref(null)
 // 菜单树选择器实例
 const menuTreeSelectRef = ref(null)
+// 按钮加载态
+const btnLoading = ref(false)
 
 
 // 初始化表单数据
@@ -118,6 +120,7 @@ const initFormData = function() {
 
 // 打开弹框时
 const handleDialogOpen = function() {
+  getMenuListAll()
   if ($props.type === 'add') {
     formData.value.parentId = ($props.row && $props.row.id) || 0
   } else if ($props.type === 'edit') {
@@ -125,6 +128,13 @@ const handleDialogOpen = function() {
       formData.value[key] = $props.row[key]
     }
   }
+}
+
+// 获取菜单列表(全部)
+const getMenuListAll = async function() {
+  const { result } = await reqMenuListAll()
+  if (!result) return
+  menuTreeData.value[0].children = result.data || []
 }
 
 // 当前选中节点变化时触发的事件
@@ -168,6 +178,12 @@ const handleConfirm = async function() {
   const valid = await menuFormRef.value.validate().catch(err => {})
   if (!valid) return
   console.log(formData.value)
+  btnLoading.value = true
+  const data = JSON.parse(JSON.stringify(formData.value))
+  let reqFn = $props.type === 'add' ? reqAddMenu : reqUpdateMenu
+  const { result } = await reqFn(data)
+  btnLoading.value = false
+  if (!result) return
   showDialog.value = false
   ElMessage.success('操作成功')
   $emits('success')
@@ -259,6 +275,7 @@ handleTypeChange(formData.value.type)
             v-model="formData.icon"
             clearable
             placeholder="请输入菜单图标"
+            @click="showIconSelectDialog = true;"
           ></el-input>
         </el-form-item>
         <el-form-item label="图标大小:" prop="iconSize">
@@ -335,9 +352,16 @@ handleTypeChange(formData.value.type)
 
       <template #footer>
         <el-button type="info" plain @click="handleCancel">取消</el-button>
-        <el-button type="primary" @click="handleConfirm">确定</el-button>
+        <el-button type="primary" :loading="btnLoading" @click="handleConfirm">确定</el-button>
       </template>
     </el-dialog>
+
+    <IconSelect
+      v-model:show="showIconSelectDialog"
+      v-model:icon="formData.icon"
+      type="svg"
+      title="请选择图标"
+    ></IconSelect>
   </div>
 </template>
 
