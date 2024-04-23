@@ -1,5 +1,6 @@
 <script setup name="RoleFormDialog">
 import { reqMenuListAll } from '@/api/system/menu.js'
+import { reqAddRole, reqUpdateRole } from '@/api/system/role.js'
 import { extractKeyNamesFromTree } from '@/utils/treehandler.js'
 
 const $props = defineProps({
@@ -63,6 +64,8 @@ const isExpand = ref(false)
 const isAllSelect = ref(false)
 // 父子联动状态(true联动、false不联动)
 const isLinkage = ref(true)
+// 按钮加载态
+const btnLoading = ref(false)
 
 
 // 获取菜单列表(全部)
@@ -95,6 +98,12 @@ const handleConfirm = async function() {
   const valid = await roleFormRef.value.validate().catch(err => {})
   if (!valid) return
   console.log(formData.value)
+  btnLoading.value = true
+  const data = JSON.parse(JSON.stringify(formData.value))
+  let reqFn = $props.type === 'add' ? reqAddRole : reqUpdateRole
+  const { result } = await reqFn(data)
+  btnLoading.value = false
+  if (!result) return
   showDialog.value = false
   ElMessage.success('操作成功')
   $emits('success')
@@ -238,7 +247,7 @@ initFormData()
 
       <template #footer>
         <el-button type="info" plain @click="handleCancel">取消</el-button>
-        <el-button type="primary" @click="handleConfirm">确定</el-button>
+        <el-button type="primary" :loading="btnLoading" @click="handleConfirm">确定</el-button>
       </template>
     </el-dialog>
   </div>

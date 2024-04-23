@@ -1,6 +1,6 @@
 <script setup name="backstage:system:role">
 import RoleFormDialog from './components/RoleFormDialog.vue'
-import { reqRoleListPage } from '@/api/system/role.js'
+import { reqRoleListPage, reqDeleteRole } from '@/api/system/role.js'
 
 // 数据加载状态
 const showLoading = ref(false)
@@ -74,15 +74,15 @@ const handleOperate = function(type, row) {
 const handleDelete = function(row) {
   ElMessageBox.confirm('确认删除该角色?', '提示', {
     type: 'warning',
-    beforeClose: (action, instance, done) => {
+    beforeClose: async (action, instance, done) => {
       if (action === 'confirm') {
         instance.confirmButtonLoading = true
-        setTimeout(() => {
-          instance.confirmButtonLoading = false
-          ElMessage.success('操作成功')
-          done()
-          getRoleListPage()
-        }, 2000)
+        const { result } = await reqDeleteRole()
+        instance.confirmButtonLoading = false
+        if (!result) return
+        done()
+        ElMessage.success('操作成功')
+        getRoleListPage()
       } else if (action !== 'confirm') {
         if (!instance.confirmButtonLoading) done()
       }

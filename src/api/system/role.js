@@ -16,3 +16,30 @@ export const reqRoleListPage = (params) => {
 		params: params
 	})
 }
+
+// 添加角色
+export const reqAddRole = (data) => {
+	return request({
+		url: '/system/role/add',
+		method: 'post',
+		data: data
+	})
+}
+
+// 修改角色
+export const reqUpdateRole = (data) => {
+	return request({
+		url: '/system/role/update',
+		method: 'post',
+		data: data
+	})
+}
+
+// 删除角色(可批量)
+export const reqDeleteRole = (ids) => {
+	return request({
+		url: '/system/role/delete',
+		method: 'delete',
+		params: { ids: ids }
+	})
+}

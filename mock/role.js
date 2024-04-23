@@ -4,6 +4,7 @@ export default [
   {
     url: '/api/system/role/list/all',
     method: 'get',
+    timeout: 300,
     response: ({ query }) => {
       return {
         code: 200,
@@ -15,6 +16,7 @@ export default [
   {
     url: '/api/system/role/list/page',
     method: 'get',
+    timeout: 300,
     response: ({ query }) => {
       var pageNum = query.pageNum || 1
       var pageSize = query.pageSize || 10
@@ -57,4 +59,40 @@ export default [
       }
     }
   },
+  {
+    url: '/api/system/role/add',
+    method: 'post',
+    timeout: 500,
+    response: ({ body }) => {
+      return {
+        code: 200,
+        data: null,
+        message: '操作成功',
+      }
+    }
+  },
+  {
+    url: '/api/system/role/update',
+    method: 'post',
+    timeout: 500,
+    response: ({ body }) => {
+      return {
+        code: 200,
+        data: null,
+        message: '操作成功',
+      }
+    }
+  },
+  {
+    url: '/api/system/role/delete',
+    method: 'delete',
+    timeout: 500,
+    response: ({ query }) => {
+      return {
+        code: 200,
+        data: null,
+        message: '操作成功',
+      }
+    }
+  }
 ]

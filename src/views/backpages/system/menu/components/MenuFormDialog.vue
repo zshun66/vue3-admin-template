@@ -97,6 +97,14 @@ const menuTreeSelectRef = ref(null)
 const btnLoading = ref(false)
 
 
+// 获取菜单列表(全部)
+const getMenuListAll = async function() {
+  if (menuTreeData.value[0].children.length > 0) return
+  const { result } = await reqMenuListAll()
+  if (!result) return
+  menuTreeData.value[0].children = result.data || []
+}
+
 // 初始化表单数据
 const initFormData = function() {
   formData.value = {
@@ -128,13 +136,6 @@ const handleDialogOpen = function() {
       formData.value[key] = $props.row[key]
     }
   }
-}
-
-// 获取菜单列表(全部)
-const getMenuListAll = async function() {
-  const { result } = await reqMenuListAll()
-  if (!result) return
-  menuTreeData.value[0].children = result.data || []
 }
 
 // 当前选中节点变化时触发的事件
