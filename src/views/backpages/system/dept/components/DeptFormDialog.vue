@@ -1,4 +1,6 @@
 <script setup name="DeptFormDialog">
+import { reqDeptListAll, reqAddDept, reqUpdateDept } from '@/api/system/dept.js'
+
 const $props = defineProps({
   modelValue: {
     type: Boolean,
@@ -7,10 +9,6 @@ const $props = defineProps({
   type: {
     type: String,
     default: 'add'
-  },
-  deptTree: {
-    type: Array,
-    default: () => ([])
   },
   row: {
     type: Object,
@@ -51,11 +49,29 @@ const formDataRules = ref({
     { required: true, message: '请选择部门状态', trigger: 'change' }
   ],
 })
+// 部门树形数据
+const deptTreeData = ref([
+  {
+    id: 0,
+    name: '主类目',
+    children: []
+  }
+])
 // 表单实例
 const deptFormRef = ref(null)
 // 部门树选择器实例
 const deptTreeSelectRef = ref(null)
+// 按钮加载态
+const btnLoading = ref(false)
 
+
+// 获取部门列表(全部)
+const getDeptListAll = async function() {
+  if (deptTreeData.value[0].children.length > 0) return
+  const { result } = await reqDeptListAll()
+  if (!result) return
+  deptTreeData.value[0].children = result.data || []
+}
 
 // 初始化表单数据
 const initFormData = function() {
@@ -86,6 +102,12 @@ const handleConfirm = async function() {
   const valid = await deptFormRef.value.validate().catch(err => {})
   if (!valid) return
   console.log(formData.value)
+  btnLoading.value = true
+  const data = JSON.parse(JSON.stringify(formData.value))
+  let reqFn = $props.type === 'add' ? reqAddDept : reqUpdateDept
+  const { result } = await reqFn(data)
+  btnLoading.value = false
+  if (!result) return
   showDialog.value = false
   ElMessage.success('操作成功')
   $emits('success')
@@ -93,8 +115,9 @@ const handleConfirm = async function() {
 
 // 打开弹框时
 const handleDialogOpen = function() {
+  getDeptListAll()
   if ($props.type === 'add') {
-    formData.value.parentId = ($props.row && $props.row.id) || ''
+    formData.value.parentId = ($props.row && $props.row.id) || 0
   } else if ($props.type === 'edit') {
     for (let key in formData.value) {
       formData.value[key] = $props.row[key]
@@ -140,7 +163,7 @@ initFormData()
             class="form_width"
             ref="deptTreeSelectRef"
             v-model="formData.parentId"
-            :data="deptTree"
+            :data="deptTreeData"
             node-key="id"
             render-after-expand
             :expand-on-click-node="false"
@@ -204,7 +227,7 @@ initFormData()
 
       <template #footer>
         <el-button type="info" plain @click="handleCancel">取消</el-button>
-        <el-button type="primary" @click="handleConfirm">确定</el-button>
+        <el-button type="primary" :loading="btnLoading" @click="handleConfirm">确定</el-button>
       </template>
     </el-dialog>
   </div>

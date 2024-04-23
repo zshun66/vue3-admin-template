@@ -1,6 +1,6 @@
 <script setup name="backstage:system:dept">
 import DeptFormDialog from './components/DeptFormDialog.vue'
-import { reqDeptListPage } from '@/api/system/dept.js'
+import { reqDeptListPage, reqDeleteDept } from '@/api/system/dept.js'
 
 // 数据加载状态
 const showLoading = ref(false)
@@ -77,15 +77,15 @@ const handleOperate = function(type, row) {
 const handleDelete = function(row) {
   ElMessageBox.confirm('确认删除该部门?', '提示', {
     type: 'warning',
-    beforeClose: (action, instance, done) => {
+    beforeClose: async (action, instance, done) => {
       if (action === 'confirm') {
         instance.confirmButtonLoading = true
-        setTimeout(() => {
-          instance.confirmButtonLoading = false
-          ElMessage.success('操作成功')
-          done()
-          getDeptListPage()
-        }, 2000)
+        const { result } = await reqDeleteDept()
+        instance.confirmButtonLoading = false
+        if (!result) return
+        done()
+        ElMessage.success('操作成功')
+        getDeptListPage()
       } else if (action !== 'confirm') {
         if (!instance.confirmButtonLoading) done()
       }
@@ -231,7 +231,6 @@ getDeptListPage()
     <DeptFormDialog
       v-model="showDeptFormDialog"
       :type="dialogType"
-      :deptTree="deptList"
       :row="currRow"
       @success="handleDeptFormDialogSuccess"
     />

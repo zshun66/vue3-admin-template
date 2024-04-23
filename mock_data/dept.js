@@ -1,8 +1,8 @@
 // 部门列表
 const deptListAll = [
   {
-    parentId: '',
-    parentName: '',
+    parentId: 0,
+    parentName: null,
     id: '1',
     sort: 10,
     name: '江西天顺软件有限公司',
