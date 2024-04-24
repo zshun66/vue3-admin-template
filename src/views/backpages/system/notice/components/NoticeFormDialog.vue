@@ -1,4 +1,6 @@
 <script setup name="NoticeFormDialog">
+import { reqAddNotice, reqUpdateNotice } from '@/api/system/notice.js'
+
 const $props = defineProps({
   modelValue: {
     type: Boolean,
@@ -45,6 +47,8 @@ const formDataRules = ref({
 })
 // 表单实例
 const noticeFormRef = ref(null)
+// 按钮加载态
+const btnLoading = ref(false)
 
 
 // 初始化表单数据
@@ -68,7 +72,13 @@ const handleConfirm = async function() {
   const valid = await noticeFormRef.value.validate().catch(err => {})
   if (!valid) return
   console.log(formData.value)
-  // showDialog.value = false
+  btnLoading.value = true
+  const data = JSON.parse(JSON.stringify(formData.value))
+  let reqFn = $props.type === 'add' ? reqAddNotice : reqUpdateNotice
+  const { result } = await reqFn(data)
+  btnLoading.value = false
+  if (!result) return
+  showDialog.value = false
   ElMessage.success('操作成功')
   $emits('success')
 }
@@ -157,7 +167,7 @@ initFormData()
 
       <template #footer>
         <el-button type="info" plain @click="handleCancel">取消</el-button>
-        <el-button type="primary" @click="handleConfirm">确定</el-button>
+        <el-button type="primary" :loading="btnLoading" @click="handleConfirm">确定</el-button>
       </template>
     </el-dialog>
   </div>

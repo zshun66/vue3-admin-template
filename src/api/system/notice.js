@@ -8,3 +8,30 @@ export const reqNoticeListPage = (params) => {
 		params: params
 	})
 }
+
+// 添加通知公告
+export const reqAddNotice = (data) => {
+	return request({
+		url: '/system/notice/add',
+		method: 'post',
+		data: data
+	})
+}
+
+// 修改通知公告
+export const reqUpdateNotice = (data) => {
+	return request({
+		url: '/system/notice/update',
+		method: 'post',
+		data: data
+	})
+}
+
+// 删除通知公告(可批量)
+export const reqDeleteNotice = (ids) => {
+	return request({
+		url: '/system/notice/delete',
+		method: 'delete',
+		params: { ids: ids }
+	})
+}
