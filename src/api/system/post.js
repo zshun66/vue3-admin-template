@@ -16,3 +16,30 @@ export const reqPostListPage = (params) => {
 		params: params
 	})
 }
+
+// 添加岗位
+export const reqAddPost = (data) => {
+	return request({
+		url: '/system/post/add',
+		method: 'post',
+		data: data
+	})
+}
+
+// 修改岗位
+export const reqUpdatePost = (data) => {
+	return request({
+		url: '/system/post/update',
+		method: 'post',
+		data: data
+	})
+}
+
+// 删除岗位(可批量)
+export const reqDeletePost = (ids) => {
+	return request({
+		url: '/system/post/delete',
+		method: 'delete',
+		params: { ids: ids }
+	})
+}

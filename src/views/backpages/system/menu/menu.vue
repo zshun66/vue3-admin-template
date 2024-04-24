@@ -93,10 +93,10 @@ const handleDelete = function(row) {
 }
 
 // 展开/折叠
-const handleCollapse = function() {
+const handleCollapse = function(expand) {
   const loop = function(menuList) {
     menuList.forEach(menu => {
-      menuTableRef.value.toggleRowExpansion(menu)
+      menuTableRef.value.toggleRowExpansion(menu, expand)
       if (menu.children && menu.children.length > 0) {
         loop(menu.children)
       }
@@ -151,7 +151,7 @@ getMenuListPage()
 
     <div class="operate_btn_group">
       <el-button type="primary" icon="Plus" plain @click="handleOperate('add')">新增</el-button>
-      <el-button type="info" icon="Switch" plain @click="handleCollapse">展开/折叠</el-button>
+      <el-button type="info" icon="Switch" plain @click="handleCollapse()">展开/折叠</el-button>
     </div>
 
     <el-table

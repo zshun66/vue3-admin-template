@@ -39,7 +39,7 @@ const getDeptListPage = async function() {
   if (!result) return
   deptList.value = result.data.list || []
   dataTotal.value = result.data.total || 0
-  nextTick(() => handleCollapse())
+  nextTick(() => handleCollapse(true))
 }
 
 // 搜索
@@ -94,10 +94,10 @@ const handleDelete = function(row) {
 }
 
 // 展开/折叠
-const handleCollapse = function() {
+const handleCollapse = function(expand) {
   const loop = function(deptList) {
     deptList.forEach(dept => {
-      deptTableRef.value.toggleRowExpansion(dept)
+      deptTableRef.value.toggleRowExpansion(dept, expand)
       if (dept.children && dept.children.length > 0) {
         loop(dept.children)
       }
@@ -152,7 +152,7 @@ getDeptListPage()
 
     <div class="operate_btn_group">
       <el-button type="primary" icon="Plus" plain @click="handleOperate('add')">新增</el-button>
-      <el-button type="info" icon="Switch" plain @click="handleCollapse">展开/折叠</el-button>
+      <el-button type="info" icon="Switch" plain @click="handleCollapse()">展开/折叠</el-button>
     </div>
 
     <el-table

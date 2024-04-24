@@ -1,6 +1,6 @@
 <script setup name="backstage:system:post">
 import PostFormDialog from './components/PostFormDialog.vue'
-import { reqPostListPage } from '@/api/system/post.js'
+import { reqPostListPage, reqDeletePost } from '@/api/system/post.js'
 
 // 数据加载状态
 const showLoading = ref(false)
@@ -75,15 +75,15 @@ const handleOperate = function(type, row) {
 const handleDelete = function(row) {
   ElMessageBox.confirm('确认删除该岗位?', '提示', {
     type: 'warning',
-    beforeClose: (action, instance, done) => {
+    beforeClose: async (action, instance, done) => {
       if (action === 'confirm') {
         instance.confirmButtonLoading = true
-        setTimeout(() => {
-          instance.confirmButtonLoading = false
-          ElMessage.success('操作成功')
-          done()
-          getPostListPage()
-        }, 2000)
+        const { result } = await reqDeletePost()
+        instance.confirmButtonLoading = false
+        if (!result) return
+        done()
+        ElMessage.success('操作成功')
+        getDeptListPage()
       } else if (action !== 'confirm') {
         if (!instance.confirmButtonLoading) done()
       }
