@@ -1,6 +1,6 @@
 <script setup name="backstage:system:param">
 import ParamFormDialog from './components/ParamFormDialog.vue'
-import { reqParamListPage } from '@/api/system/param.js'
+import { reqParamListPage, reqDeleteParam } from '@/api/system/param.js'
 
 // 数据加载状态
 const showLoading = ref(false)
@@ -76,15 +76,15 @@ const handleOperate = function(type, row) {
 const handleDelete = function(row) {
   ElMessageBox.confirm('确认删除该参数?', '提示', {
     type: 'warning',
-    beforeClose: (action, instance, done) => {
+    beforeClose: async (action, instance, done) => {
       if (action === 'confirm') {
         instance.confirmButtonLoading = true
-        setTimeout(() => {
-          instance.confirmButtonLoading = false
-          ElMessage.success('操作成功')
-          done()
-          getParamListPage()
-        }, 2000)
+        const { result } = await reqDeleteParam()
+        instance.confirmButtonLoading = false
+        if (!result) return
+        done()
+        ElMessage.success('操作成功')
+        getParamListPage()
       } else if (action !== 'confirm') {
         if (!instance.confirmButtonLoading) done()
       }

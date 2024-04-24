@@ -4,6 +4,7 @@ export default [
   {
     url: '/api/system/param/list/page',
     method: 'get',
+    timeout: 300,
     response: ({ query }) => {
       var pageNum = query.pageNum || 1
       var pageSize = query.pageSize || 10
@@ -56,4 +57,40 @@ export default [
       }
     }
   },
+  {
+    url: '/api/system/param/add',
+    method: 'post',
+    timeout: 500,
+    response: ({ body }) => {
+      return {
+        code: 200,
+        data: null,
+        message: '操作成功',
+      }
+    }
+  },
+  {
+    url: '/api/system/param/update',
+    method: 'post',
+    timeout: 500,
+    response: ({ body }) => {
+      return {
+        code: 200,
+        data: null,
+        message: '操作成功',
+      }
+    }
+  },
+  {
+    url: '/api/system/param/delete',
+    method: 'delete',
+    timeout: 500,
+    response: ({ query }) => {
+      return {
+        code: 200,
+        data: null,
+        message: '操作成功',
+      }
+    }
+  }
 ]

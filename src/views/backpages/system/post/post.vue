@@ -83,7 +83,7 @@ const handleDelete = function(row) {
         if (!result) return
         done()
         ElMessage.success('操作成功')
-        getDeptListPage()
+        getPostListPage()
       } else if (action !== 'confirm') {
         if (!instance.confirmButtonLoading) done()
       }
