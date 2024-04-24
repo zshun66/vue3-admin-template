@@ -4,6 +4,7 @@ export default [
   {
     url: '/api/system/loginlog/list/page',
     method: 'get',
+    timeout: 300,
     response: ({ query }) => {
       var pageNum = query.pageNum || 1
       var pageSize = query.pageSize || 10
@@ -70,6 +71,18 @@ export default [
           list: resultList,
           total: resultTotal
         },
+        message: '操作成功',
+      }
+    }
+  },
+  {
+    url: '/api/system/loginlog/delete',
+    method: 'delete',
+    timeout: 500,
+    response: ({ query }) => {
+      return {
+        code: 200,
+        data: null,
         message: '操作成功',
       }
     }
@@ -153,6 +166,18 @@ export default [
     }
   },
   {
+    url: '/api/system/operlog/delete',
+    method: 'delete',
+    timeout: 500,
+    response: ({ query }) => {
+      return {
+        code: 200,
+        data: null,
+        message: '操作成功',
+      }
+    }
+  },
+  {
     url: '/api/system/errorlog/list/page',
     method: 'get',
     response: ({ query }) => {
@@ -225,4 +250,16 @@ export default [
       }
     }
   },
+  {
+    url: '/api/system/errorlog/delete',
+    method: 'delete',
+    timeout: 500,
+    response: ({ query }) => {
+      return {
+        code: 200,
+        data: null,
+        message: '操作成功',
+      }
+    }
+  }
 ]

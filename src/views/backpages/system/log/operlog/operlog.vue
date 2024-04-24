@@ -1,5 +1,5 @@
 <script setup name="backstage:system:log:operlog">
-import { reqOperLogListPage } from '@/api/system/log.js'
+import { reqOperLogListPage, reqDeleteOperLog } from '@/api/system/log.js'
 
 // 操作类型选项
 const operTypeOptions = ref([
@@ -84,15 +84,15 @@ const handlePaginationSizeChange = function(size) {
 const handleDelete = function(row) {
   ElMessageBox.confirm('确认删除所选操作日志?', '提示', {
     type: 'warning',
-    beforeClose: (action, instance, done) => {
+    beforeClose: async (action, instance, done) => {
       if (action === 'confirm') {
         instance.confirmButtonLoading = true
-        setTimeout(() => {
-          instance.confirmButtonLoading = false
-          ElMessage.success('操作成功')
-          done()
-          getOperLogListPage()
-        }, 2000)
+        const { result } = await reqDeleteOperLog()
+        instance.confirmButtonLoading = false
+        if (!result) return
+        done()
+        ElMessage.success('操作成功')
+        getOperLogListPage()
       } else if (action !== 'confirm') {
         if (!instance.confirmButtonLoading) done()
       }
@@ -104,15 +104,15 @@ const handleDelete = function(row) {
 const handleClearAll = function() {
   ElMessageBox.confirm('确认清空操作日志?', '提示', {
     type: 'warning',
-    beforeClose: (action, instance, done) => {
+    beforeClose: async (action, instance, done) => {
       if (action === 'confirm') {
         instance.confirmButtonLoading = true
-        setTimeout(() => {
-          instance.confirmButtonLoading = false
-          ElMessage.success('操作成功')
-          done()
-          getOperLogListPage()
-        }, 2000)
+        const { result } = await reqDeleteOperLog()
+        instance.confirmButtonLoading = false
+        if (!result) return
+        done()
+        ElMessage.success('操作成功')
+        getOperLogListPage()
       } else if (action !== 'confirm') {
         if (!instance.confirmButtonLoading) done()
       }

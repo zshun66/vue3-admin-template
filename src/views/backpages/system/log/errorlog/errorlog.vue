@@ -1,5 +1,5 @@
 <script setup name="backstage:system:log:errorlog">
-import { reqErrorLogListPage } from '@/api/system/log.js'
+import { reqErrorLogListPage, reqDeleteErrorLog } from '@/api/system/log.js'
 
 // 数据加载状态
 const showLoading = ref(false)
@@ -66,15 +66,15 @@ const handlePaginationSizeChange = function(size) {
 const handleDelete = function(row) {
   ElMessageBox.confirm('确认删除所选错误日志?', '提示', {
     type: 'warning',
-    beforeClose: (action, instance, done) => {
+    beforeClose: async (action, instance, done) => {
       if (action === 'confirm') {
         instance.confirmButtonLoading = true
-        setTimeout(() => {
-          instance.confirmButtonLoading = false
-          ElMessage.success('错误成功')
-          done()
-          getErrorLogListPage()
-        }, 2000)
+        const { result } = await reqDeleteErrorLog()
+        instance.confirmButtonLoading = false
+        if (!result) return
+        done()
+        ElMessage.success('操作成功')
+        getErrorLogListPage()
       } else if (action !== 'confirm') {
         if (!instance.confirmButtonLoading) done()
       }
@@ -86,15 +86,15 @@ const handleDelete = function(row) {
 const handleClearAll = function() {
   ElMessageBox.confirm('确认清空错误日志?', '提示', {
     type: 'warning',
-    beforeClose: (action, instance, done) => {
+    beforeClose: async (action, instance, done) => {
       if (action === 'confirm') {
         instance.confirmButtonLoading = true
-        setTimeout(() => {
-          instance.confirmButtonLoading = false
-          ElMessage.success('错误成功')
-          done()
-          getErrorLogListPage()
-        }, 2000)
+        const { result } = await reqDeleteErrorLog()
+        instance.confirmButtonLoading = false
+        if (!result) return
+        done()
+        ElMessage.success('操作成功')
+        getErrorLogListPage()
       } else if (action !== 'confirm') {
         if (!instance.confirmButtonLoading) done()
       }

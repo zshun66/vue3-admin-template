@@ -66,6 +66,10 @@ onMounted(() => {
   })
 })
 
+watch(() => $props.modelValue, (newv, oldv) => {
+  nextTick(() => editorRef.value.setHtml(newv))
+})
+
 // 组件销毁时，也及时销毁编辑器
 onBeforeUnmount(() => {
   const editor = editorRef.value
