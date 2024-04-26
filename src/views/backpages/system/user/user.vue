@@ -1,7 +1,7 @@
 <script setup name="backstage:system:user">
 import UserFormDialog from './components/UserFormDialog.vue'
-import { reqDeptListPage } from '@/api/system/dept.js'
-import { reqUserListPage } from '@/api/system/user.js'
+import { reqDeptListAll } from '@/api/system/dept.js'
+import { reqUserListPage, reqDeleteUser } from '@/api/system/user.js'
 
 // 数据加载状态
 const showLoading = ref(false)
@@ -28,9 +28,9 @@ const currRow = ref({})
 // 获取部门列表
 const getDeptList = async function() {
   const params = {}
-  const { result } = await reqDeptListPage(params)
+  const { result } = await reqDeptListAll(params)
   if (!result) return
-  deptTree.value = result.data.list || []
+  deptTree.value = result.data || []
 }
 
 // 过滤部门方法
@@ -113,15 +113,15 @@ const handleOperate = function(type, row) {
 const handleDelete = function(row) {
   ElMessageBox.confirm('确认删除该用户?', '提示', {
     type: 'warning',
-    beforeClose: (action, instance, done) => {
+    beforeClose: async (action, instance, done) => {
       if (action === 'confirm') {
         instance.confirmButtonLoading = true
-        setTimeout(() => {
-          instance.confirmButtonLoading = false
-          ElMessage.success('操作成功')
-          done()
-          getUserListPage()
-        }, 2000)
+        const { result } = await reqDeleteUser()
+        instance.confirmButtonLoading = false
+        if (!result) return
+        done()
+        ElMessage.success('操作成功')
+        getUserListPage()
       } else if (action !== 'confirm') {
         if (!instance.confirmButtonLoading) done()
       }

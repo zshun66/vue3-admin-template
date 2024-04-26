@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import useAppStore from './app.js'
 import useDictStore from './dict.js'
 import useTagStore from './tag.js'
-import { reqUserLogin, reqUserLogout } from '@/api/system/user.js'
+import { reqUserLogin, reqUserLogout } from '@/api/login.js'
 import { getStorage, setStorage, removeStorage } from '@/utils/storage.js'
 import resolveRoutes from '@/router/resolve.js'
 

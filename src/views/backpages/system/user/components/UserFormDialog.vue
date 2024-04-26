@@ -1,7 +1,8 @@
 <script setup name="UserFormDialog">
-import { reqRoleListPage } from '@/api/system/role.js'
-import { reqDeptListPage } from '@/api/system/dept.js'
-import { reqPostListPage } from '@/api/system/post.js'
+import { reqRoleListAll } from '@/api/system/role.js'
+import { reqDeptListAll } from '@/api/system/dept.js'
+import { reqPostListAll } from '@/api/system/post.js'
+import { reqAddUser, reqUpdateUser } from '@/api/system/user.js'
 
 const $props = defineProps({
   modelValue: {
@@ -86,6 +87,8 @@ const formDataRules = ref({
 const userFormRef = ref(null)
 // 部门树形组件实例
 const deptTreeSelectRef = ref(null)
+// 按钮加载态
+const btnLoading = ref(false)
 
 
 // 初始化表单数据
@@ -112,27 +115,27 @@ const initFormData = function() {
 const getRoleList = async function() {
   if (roleList.value.length > 0) return
   const params = {}
-  const { result } = await reqRoleListPage(params)
+  const { result } = await reqRoleListAll(params)
   if (!result) return
-  roleList.value = result.data.list || []
+  roleList.value = result.data || []
 }
 
 // 获取部门列表
 const getDeptList = async function() {
   if (deptList.value.length > 0) return
   const params = {}
-  const { result } = await reqDeptListPage(params)
+  const { result } = await reqDeptListAll(params)
   if (!result) return
-  deptList.value = result.data.list || []
+  deptList.value = result.data || []
 }
 
 // 获取岗位列表
 const getPostList = async function() {
   if (postList.value.length > 0) return
   const params = {}
-  const { result } = await reqPostListPage(params)
+  const { result } = await reqPostListAll(params)
   if (!result) return
-  postList.value = result.data.list || []
+  postList.value = result.data || []
 }
 
 // 取消
@@ -145,6 +148,12 @@ const handleConfirm = async function() {
   const valid = await userFormRef.value.validate().catch(err => {})
   if (!valid) return
   console.log(formData.value)
+  btnLoading.value = true
+  const data = JSON.parse(JSON.stringify(formData.value))
+  let reqFn = $props.type === 'add' ? reqAddUser : reqUpdateUser
+  const { result } = await reqFn(data)
+  btnLoading.value = false
+  if (!result) return
   showDialog.value = false
   ElMessage.success('操作成功')
   $emits('success')
@@ -356,7 +365,7 @@ initFormData()
 
       <template #footer>
         <el-button type="info" plain @click="handleCancel">取消</el-button>
-        <el-button type="primary" @click="handleConfirm">确定</el-button>
+        <el-button type="primary" :loading="btnLoading" @click="handleConfirm">确定</el-button>
       </template>
     </el-dialog>
   </div>

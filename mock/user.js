@@ -4,6 +4,7 @@ export default [
   {
     url: '/api/system/user/list/all',
     method: 'get',
+    timeout: 300,
     response: ({ query }) => {
       return {
         code: 200,
@@ -15,6 +16,7 @@ export default [
   {
     url: '/api/system/user/list/page',
     method: 'get',
+    timeout: 300,
     response: ({ query }) => {
       var pageNum = query.pageNum || 1
       var pageSize = query.pageSize || 10
@@ -91,37 +93,34 @@ export default [
     }
   },
   {
-    url: '/api/system/user/login',
+    url: '/api/system/user/add',
     method: 'post',
+    timeout: 500,
     response: ({ body }) => {
-      var username = body.username || ''
-      var password = body.password || ''
-
-      var message = ''
-      var code = 200
-      var userInfo = null
-      const findRes = userData.find(item => item.username === username && item.password === password)
-      if (findRes) {
-        userInfo = findRes
-        message = '操作成功'
-        code = 200
-      } else {
-        userInfo = null
-        message = '用户名或密码错误'
-        code = 500
-      }
-
       return {
-        code: code,
-        data: userInfo,
-        message: message,
+        code: 200,
+        data: null,
+        message: '操作成功',
       }
     }
   },
   {
-    url: '/api/system/user/logout',
+    url: '/api/system/user/update',
     method: 'post',
+    timeout: 500,
     response: ({ body }) => {
+      return {
+        code: 200,
+        data: null,
+        message: '操作成功',
+      }
+    }
+  },
+  {
+    url: '/api/system/user/delete',
+    method: 'delete',
+    timeout: 500,
+    response: ({ query }) => {
       return {
         code: 200,
         data: null,

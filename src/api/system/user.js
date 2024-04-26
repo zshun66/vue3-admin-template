@@ -17,22 +17,29 @@ export const reqUserListPage = (params) => {
 	})
 }
 
-// 用户登录
-export const reqUserLogin = (data) => {
+// 添加用户
+export const reqAddUser = (data) => {
 	return request({
-		url: '/system/user/login',
+		url: '/system/user/add',
 		method: 'post',
-		data: data,
-		headers: {
-			isAuth: false
-		}
+		data: data
 	})
 }
 
-// 用户退出登录
-export const reqUserLogout = () => {
+// 修改用户
+export const reqUpdateUser = (data) => {
 	return request({
-		url: '/system/user/logout',
+		url: '/system/user/update',
 		method: 'post',
+		data: data
+	})
+}
+
+// 删除用户(可批量)
+export const reqDeleteUser = (ids) => {
+	return request({
+		url: '/system/user/delete',
+		method: 'delete',
+		params: { ids: ids }
 	})
 }
