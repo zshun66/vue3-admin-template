@@ -8,20 +8,25 @@ import Language from '@/layout/components/Language/Language.vue'
 import Size from '@/layout/components/Size/Size.vue'
 import Setting from '@/layout/components/Setting/Setting.vue'
 import UserInfo from '@/layout/components/UserInfo/UserInfo.vue'
+
+import useAppStore from '@/pinia/modules/app.js'
+
+const appStore = useAppStore()
+const appConfig = computed(() => appStore.appConfig)
 </script>
 
 <template>
   <div class="comp_container navbar_comp">
     <div class="left_wrapper">
-      <Toggle />
-      <Breadcrumb />
+      <Toggle v-if="appConfig.showCollapse.value" />
+      <Breadcrumb v-if="appConfig.showBreadcrumb.value" />
     </div>
     <div class="right_wrapper">
-      <Search />
-      <Fullscreen />
-      <Theme />
-      <Language />
-      <Size />
+      <Search v-if="appConfig.showSearch.value" />
+      <Fullscreen v-if="appConfig.showFullscreen.value" />
+      <Theme v-if="appConfig.showTheme.value" />
+      <Language v-if="appConfig.showLanguage.value" />
+      <Size v-if="appConfig.showSize.value" />
       <Setting />
       <UserInfo />
     </div>

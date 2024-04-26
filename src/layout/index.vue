@@ -10,6 +10,7 @@ const appStore = useAppStore()
 const tagStore = useTagStore()
 
 const showRouteView = ref(true)
+const appConfig = computed(() => appStore.appConfig)
 
 // 刷新页面
 const refreshPage = () => {
@@ -22,27 +23,17 @@ provide('refreshPage', refreshPage)
 
 <template>
   <el-container class="comp_container layout_comp">
-    <el-aside
-      class="layout_aside custom_scrollbar"
-      :class="{ shrink: appStore.collapse }"
-    >
+    <el-aside class="layout_aside custom_scrollbar" :class="{ shrink: appStore.collapse }">
       <Sidebar />
     </el-aside>
     <el-container class="layout_inner_container">
       <el-header class="layout_header">
-        <div class="navbar_container">
-          <Navbar />
-        </div>
-        <div class="tagsview_container">
-          <TagsView />
-        </div>
+        <div class="navbar_container"><Navbar /></div>
+        <div class="tagsview_container" v-if="appConfig.showTagsView.value"><TagsView /></div>
       </el-header>
       <el-main class="layout_main custom_scrollbar">
         <router-view v-slot="{ Component }">
-          <transition
-            :name="appStore.pageTranstion ? 'fade-transform' : 'none'"
-            mode="out-in" appear
-          >
+          <transition :name="appStore.pageTranstion ? 'fade-transform' : 'none'" mode="out-in" appear>
             <keep-alive :include="tagStore.cacheNames">
               <component :is="Component" :key="$route.name" v-if="showRouteView"></component>
             </keep-alive>
