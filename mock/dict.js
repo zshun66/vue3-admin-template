@@ -4,6 +4,7 @@ export default [
   {
     url: '/api/system/dict/type/list/all',
     method: 'get',
+    timeout: 300,
     response: ({ query }) => {
       return {
         code: 200,
@@ -15,6 +16,7 @@ export default [
   {
     url: '/api/system/dict/type/list/page',
     method: 'get',
+    timeout: 300,
     response: ({ query }) => {
       var pageNum = query.pageNum || 1
       var pageSize = query.pageSize || 10
@@ -64,8 +66,46 @@ export default [
     }
   },
   {
+    url: '/api/system/dict/type/add',
+    method: 'post',
+    timeout: 500,
+    response: ({ body }) => {
+      return {
+        code: 200,
+        data: null,
+        message: '操作成功',
+      }
+    }
+  },
+  {
+    url: '/api/system/dict/type/update',
+    method: 'post',
+    timeout: 500,
+    response: ({ body }) => {
+      return {
+        code: 200,
+        data: null,
+        message: '操作成功',
+      }
+    }
+  },
+  {
+    url: '/api/system/dict/type/delete',
+    method: 'delete',
+    timeout: 500,
+    response: ({ query }) => {
+      return {
+        code: 200,
+        data: null,
+        message: '操作成功',
+      }
+    }
+  },
+  // ------------------------------------------------------------------------------------
+  {
     url: /\/api\/system\/dict\/data\/list\/all\/(.+)/,
     method: 'get',
+    timeout: 300,
     response: ({ query }) => {
       const type = query['0']
 
@@ -82,6 +122,7 @@ export default [
   {
     url: '/api/system/dict/data/list/page',
     method: 'get',
+    timeout: 300,
     response: ({ query }) => {
       // 字典数据列表
       var dictDataList = []
@@ -131,4 +172,40 @@ export default [
       }
     }
   },
+  {
+    url: '/api/system/dict/data/add',
+    method: 'post',
+    timeout: 500,
+    response: ({ body }) => {
+      return {
+        code: 200,
+        data: null,
+        message: '操作成功',
+      }
+    }
+  },
+  {
+    url: '/api/system/dict/data/update',
+    method: 'post',
+    timeout: 500,
+    response: ({ body }) => {
+      return {
+        code: 200,
+        data: null,
+        message: '操作成功',
+      }
+    }
+  },
+  {
+    url: '/api/system/dict/data/delete',
+    method: 'delete',
+    timeout: 500,
+    response: ({ query }) => {
+      return {
+        code: 200,
+        data: null,
+        message: '操作成功',
+      }
+    }
+  }
 ]

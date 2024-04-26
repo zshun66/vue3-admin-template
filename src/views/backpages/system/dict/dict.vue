@@ -1,7 +1,7 @@
 <script setup name="backstage:system:dict">
 import DictTypeFormDialog from './components/DictTypeFormDialog.vue'
 import DictTypeDetailDialog from './components/DictTypeDetailDialog.vue'
-import { reqDictTypeListPage } from '@/api/system/dict.js'
+import { reqDictTypeListPage, reqDeleteDictType } from '@/api/system/dict.js'
 
 // 数据加载状态
 const showLoading = ref(false)
@@ -78,15 +78,15 @@ const handleOperate = function(type, row) {
 const handleDelete = function(row) {
   ElMessageBox.confirm('确认删除该字典?', '提示', {
     type: 'warning',
-    beforeClose: (action, instance, done) => {
+    beforeClose: async (action, instance, done) => {
       if (action === 'confirm') {
         instance.confirmButtonLoading = true
-        setTimeout(() => {
-          instance.confirmButtonLoading = false
-          ElMessage.success('操作成功')
-          done()
-          getDictTypeListPage()
-        }, 2000)
+        const { result } = await reqDeleteDictType()
+        instance.confirmButtonLoading = false
+        if (!result) return
+        done()
+        ElMessage.success('操作成功')
+        getDictTypeListPage()
       } else if (action !== 'confirm') {
         if (!instance.confirmButtonLoading) done()
       }

@@ -1,4 +1,6 @@
 <script setup name="DictDataFormDialog">
+import { reqAddDictData, reqUpdateDictData } from '@/api/system/dict.js'
+
 const $props = defineProps({
   modelValue: {
     type: Boolean,
@@ -64,6 +66,8 @@ const cssStyleOptions = ref([
 ])
 // 表单实例
 const dictDataFormRef = ref(null)
+// 按钮加载态
+const btnLoading = ref(false)
 
 
 // 初始化表单数据
@@ -90,6 +94,12 @@ const handleConfirm = async function() {
   const valid = await dictDataFormRef.value.validate().catch(err => {})
   if (!valid) return
   console.log(formData.value)
+  btnLoading.value = true
+  const data = JSON.parse(JSON.stringify(formData.value))
+  let reqFn = $props.type === 'add' ? reqAddDictData : reqUpdateDictData
+  const { result } = await reqFn(data)
+  btnLoading.value = false
+  if (!result) return
   showDialog.value = false
   ElMessage.success('操作成功')
   $emits('success')
@@ -211,7 +221,7 @@ initFormData()
 
       <template #footer>
         <el-button type="info" plain @click="handleCancel">取消</el-button>
-        <el-button type="primary" @click="handleConfirm">确定</el-button>
+        <el-button type="primary" :loading="btnLoading" @click="handleConfirm">确定</el-button>
       </template>
     </el-dialog>
   </div>

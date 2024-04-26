@@ -1,6 +1,6 @@
 <script setup name="DictTypeDetailDialog">
 import DictDataFormDialog from './DictDataFormDialog.vue'
-import { reqDictTypeListAll, reqDictDataListPage } from '@/api/system/dict.js'
+import { reqDictTypeListAll, reqDictDataListPage, reqDeleteDictData } from '@/api/system/dict.js'
 
 const $props = defineProps({
   modelValue: {
@@ -110,15 +110,15 @@ const handleOperate = function(type, row) {
 const handleDelete = function(row) {
   ElMessageBox.confirm('确认删除该字典?', '提示', {
     type: 'warning',
-    beforeClose: (action, instance, done) => {
+    beforeClose: async (action, instance, done) => {
       if (action === 'confirm') {
         instance.confirmButtonLoading = true
-        setTimeout(() => {
-          instance.confirmButtonLoading = false
-          ElMessage.success('操作成功')
-          done()
-          getDictDataListPage()
-        }, 2000)
+        const { result } = await reqDeleteDictData()
+        instance.confirmButtonLoading = false
+        if (!result) return
+        done()
+        ElMessage.success('操作成功')
+        getDictDataListPage()
       } else if (action !== 'confirm') {
         if (!instance.confirmButtonLoading) done()
       }
