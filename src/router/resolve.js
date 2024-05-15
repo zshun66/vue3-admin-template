@@ -34,9 +34,14 @@ const resolveRoutes = (menus) => {
         title: menu.title,
         isCache: menu.isCache,
         isClearable: menu.isClearable,
+        isFull: menu.isFull
       }
     }
-    router.addRoute('backstage', routeObj)
+    if (routeObj.meta.isFull == '0') {
+      router.addRoute('backstage', routeObj)
+    } else if (routeObj.meta.isFull == '1') {
+      router.addRoute(routeObj)
+    }
     if (hasChildren) resolveRoutes(menu.children)
   })
 }

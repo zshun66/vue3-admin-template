@@ -8,6 +8,7 @@ const menuItemObj = {
   icon: '',
   iconSize: '20px',
   isLink: '0',
+  isFull: '0',
   path: '',
   name: '',
   component: null,
@@ -94,6 +95,34 @@ const menuListAll = [
         component: 'backpages/dashboard/analysis/analysis',
         perms: 'backstage:dashboard:analysis:page',
       })
+    ]
+  }),
+  // 大屏案例菜单 --------------------------------------------------------------------------------------------------------------------------------------------
+  Object.assign(deepCopy(menuItemObj), {
+    id: '94',
+    sort: 90,
+    title: '大屏案例',
+    icon: 'largescreen1',
+    iconSize: '25px',
+    path: '/largescreen',
+    name: 'largescreen',
+    perms: 'largescreen:manage',
+    children: [
+      Object.assign(deepCopy(menuItemObj), {
+        parentId: '94',
+        parentTitle: '大屏案例',
+        id: '941',
+        sort: 10,
+        type: 'menu',
+        title: '地图案例',
+        icon: 'map1',
+        iconSize: '16px',
+        path: '/largescreen/mapcase',
+        name: 'largescreen:mapcase',
+        component: 'largescreen/mapcase/mapcase',
+        perms: 'largescreen:mapcase:page',
+        isFull: '1'
+      }),
     ]
   }),
   // 系统管理菜单 -------------------------------------------------------------------------------------------------------------------------------------------------

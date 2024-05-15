@@ -56,6 +56,9 @@ const formDataRules = ref({
   isLink: [
     { required: true, message: '请选择是否外链', trigger: 'change' }
   ],
+  isFull: [
+    { required: true, message: '请选择是否全屏', trigger: 'change' }
+  ],
   path: [
     { required: true, message: '请输入路由路径', trigger: 'blur' }
   ],
@@ -115,6 +118,7 @@ const initFormData = function() {
     icon: '',
     iconSize: '20px',
     isLink: '0',
+    isFull: '0',
     path: '',
     name: '',
     component: '',
@@ -151,6 +155,7 @@ const handleTypeChange = function(value) {
   }
   if (value === 'directory') { // 目录
     formDataRules.value.isLink[0].required = false
+    formDataRules.value.isFull[0].required = false
     formDataRules.value.name[0].required = false
     formDataRules.value.component[0].required = false
     formDataRules.value.isCache[0].required = false
@@ -159,6 +164,7 @@ const handleTypeChange = function(value) {
     formDataRules.value.icon[0].required = false
     formDataRules.value.iconSize[0].required = false
     formDataRules.value.isLink[0].required = false
+    formDataRules.value.isFull[0].required = false
     formDataRules.value.name[0].required = false
     formDataRules.value.path[0].required = false
     formDataRules.value.component[0].required = false
@@ -262,7 +268,7 @@ handleTypeChange(formData.value.type)
             placeholder="请输入显示排序"
           ></el-input-number>
         </el-form-item>
-        <el-form-item label="菜单标题:" prop="title">
+        <el-form-item style="width: 100%;" label="菜单标题:" prop="title">
           <el-input
             class="form_width"
             v-model="formData.title"
@@ -289,6 +295,12 @@ handleTypeChange(formData.value.type)
         </el-form-item>
         <el-form-item label="是否外链:" prop="isLink">
           <el-select class="form_width" v-model="formData.isLink">
+            <el-option label="是" value="1"></el-option>
+            <el-option label="否" value="0"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="是否全屏:" prop="isFull">
+          <el-select class="form_width" v-model="formData.isFull">
             <el-option label="是" value="1"></el-option>
             <el-option label="否" value="0"></el-option>
           </el-select>
