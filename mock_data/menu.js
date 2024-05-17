@@ -104,9 +104,9 @@ const menuListAll = [
     title: '大屏案例',
     icon: 'largescreen1',
     iconSize: '25px',
-    path: '/largescreen',
-    name: 'largescreen',
-    perms: 'largescreen:manage',
+    path: '/backstage/largescreen',
+    name: 'backstage:largescreen',
+    perms: 'backstage:largescreen:manage',
     children: [
       Object.assign(deepCopy(menuItemObj), {
         parentId: '94',
@@ -114,13 +114,13 @@ const menuListAll = [
         id: '941',
         sort: 10,
         type: 'menu',
-        title: '地图案例',
-        icon: 'map1',
+        title: '智慧旅游',
+        icon: 'tour1',
         iconSize: '16px',
-        path: '/largescreen/mapcase',
-        name: 'largescreen:mapcase',
-        component: 'largescreen/mapcase/mapcase',
-        perms: 'largescreen:mapcase:page',
+        path: '/backstage/largescreen/smarttour',
+        name: 'backstage:largescreen:smarttour',
+        component: 'backpages/largescreen/smarttour/smarttour',
+        perms: 'backstage:largescreen:smarttour:page',
         isFull: '1'
       }),
     ]

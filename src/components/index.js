@@ -5,6 +5,7 @@ import WangEditor from './WangEditor/WangEditor.vue'
 import StepGuide from './StepGuide/StepGuide.vue'
 import ClassifyFilter from './ClassifyFilter/ClassifyFilter.vue'
 import ImportExcel from './ImportExcel/ImportExcel.vue'
+import ECharts from './ECharts/ECharts.vue'
 
 const components = {
 	...ElementPlusIconsVue,
@@ -14,6 +15,7 @@ const components = {
 	StepGuide,
 	ClassifyFilter,
 	ImportExcel,
+	ECharts,
 }
 export default {
 	install(app) {
