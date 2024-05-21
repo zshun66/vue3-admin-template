@@ -1,5 +1,7 @@
 <script setup name="backstage:largescreen:smarttour">
 import RealtimeTouristStatistics from './components/RealtimeTouristStatistics.vue'
+import GenderRatio from './components/GenderRatio.vue'
+import AgeRatio from './components/AgeRatio.vue'
 const $router = useRouter()
 
 // 跳转首页
@@ -26,6 +28,8 @@ const handleNavToHome = () => {
     <div class="largescreen_main">
       <div class="main_left_box">
         <RealtimeTouristStatistics></RealtimeTouristStatistics>
+        <GenderRatio></GenderRatio>
+        <AgeRatio></AgeRatio>
       </div>
       <div class="main_center_box">
         
@@ -46,7 +50,8 @@ const handleNavToHome = () => {
   background-size: cover;
   padding: 0px 0px;
   border-radius: 0px;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: hidden;
   --largescreen-header-height: 35px;
   --largescreen-left-width: 22vw;
   --largescreen-center-width: 56vw;
@@ -151,6 +156,11 @@ const handleNavToHome = () => {
 
     .main_left_box {
       width: calc(var(--largescreen-left-width) - var(--largescreen-main-left-padding));
+      height: 100%;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
   }
 }

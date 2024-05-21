@@ -164,13 +164,15 @@ const option = ref({
       <div class="title">实时游客统计</div>
       <div class="img"></div>
     </div>
-    <div class="expect_total">可预约总量<i class="num">{{ bookableTotal }}</i>人</div>
-    <div class="actual_total">
-      <div class="actual_item" v-for="(item, index) in bookedTotal.split('')" :key="index">{{ item }}</div>
-      <div class="actual_item">人</div>
-    </div>
-    <div class="echarts_box">
-      <ECharts :option="option"></ECharts>
+    <div class="content_box">
+      <div class="expect_total">可预约总量<i class="num">{{ bookableTotal }}</i>人</div>
+      <div class="actual_total">
+        <div class="actual_item" v-for="(item, index) in bookedTotal.split('')" :key="index">{{ item }}</div>
+        <div class="actual_item">人</div>
+      </div>
+      <div class="echarts_box">
+        <ECharts :option="option"></ECharts>
+      </div>
     </div>
   </div>
 </template>
@@ -178,27 +180,24 @@ const option = ref({
 <style scoped lang="scss">
 .realtime_tourist_statistics_comp {
   width: 100%;
-  height: 350px;
-  padding-top: 47px;
-  background-image: url('../images/main-lt.png');
-  background-repeat: no-repeat;
-  background-size: cover;
-  position: relative;
-  display: flex;
-  flex-direction: column;
+  height: 35%;
+  min-height: 320px;
 
   .title_box {
-    position: absolute;
-    top: 1px;
-    left: 0px;
+    height: 45px;
+    background-image: url('../images/chart-bg1.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
 
     .title {
+      position: relative;
+      top: 2px;
       color: #ffffff;
       line-height: 1;
     }
 
     .img {
-      margin-top: 5px;
+      margin-top: 12px;
       width: 68px;
       height: 7px;
       background-image: url('../images/title-img.png');
@@ -207,47 +206,57 @@ const option = ref({
     }
   }
 
-  .expect_total {
-    position: absolute;
-    top: 32px;
-    right: 10px;
-    color: #ffffff;
-
-    .num {
-      color: #ff8100;
-      font-style: oblique;
-    }
-  }
-
-  .actual_total {
-    padding: 15px 10px 0px;
+  .content_box {
+    height: calc(100% - 45px);
+    background-image: url('../images/chart-bg2.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
+    position: relative;
 
-    .actual_item {
+    .expect_total {
+      position: absolute;
+      top: -15px;
+      right: 25px;
+      color: #ffffff;
+
+      .num {
+        color: #ff8100;
+        font-style: oblique;
+      }
+    }
+
+    .actual_total {
+      padding: 15px 10px 0px;
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 50px;
-      height: 50px;
-      font-family: MetroDF;
-      font-size: 32px;
-      color: #6ff;
-      background-image: url('../images/total-bg.png');
-      background-repeat: no-repeat;
-      background-size: 100% 100%;
+
+      .actual_item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        font-family: MetroDF;
+        font-size: 32px;
+        color: #6ff;
+        background-image: url('../images/total-bg.png');
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+      }
+
+      .actual_item + .actual_item {
+        margin-left: 1px;
+      }
     }
 
-    .actual_item + .actual_item {
-      margin-left: 1px;
+    .echarts_box {
+      width: 100%;
+      height: 100%;
+      padding: 0px 10px;
     }
-  }
-
-  .echarts_box {
-    width: 100%;
-    height: 100%;
-    padding: 0px 10px;
   }
 }
 </style>
