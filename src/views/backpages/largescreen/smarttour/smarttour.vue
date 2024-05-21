@@ -2,6 +2,10 @@
 import RealtimeTouristStatistics from './components/RealtimeTouristStatistics.vue'
 import GenderRatio from './components/GenderRatio.vue'
 import AgeRatio from './components/AgeRatio.vue'
+import ScenicRealTimeFlow from './components/ScenicRealTimeFlow.vue'
+import Next30DaysTrend from './components/Next30DaysTrend.vue'
+import HotScenicRank from './components/HotScenicRank.vue'
+
 const $router = useRouter()
 
 // 跳转首页
@@ -32,10 +36,11 @@ const handleNavToHome = () => {
         <AgeRatio></AgeRatio>
       </div>
       <div class="main_center_box">
-        
+        <ScenicRealTimeFlow></ScenicRealTimeFlow>
+        <Next30DaysTrend></Next30DaysTrend>
       </div>
       <div class="main_right_box">
-        
+        <HotScenicRank></HotScenicRank>
       </div>
     </div>
   </div>
@@ -153,9 +158,29 @@ const handleNavToHome = () => {
     --largescreen-main-right-padding: 20px;
     --largescreen-main-bottom-padding: 10px;
     --largescreen-main-left-padding: 20px;
+    display: flex;
 
     .main_left_box {
       width: calc(var(--largescreen-left-width) - var(--largescreen-main-left-padding));
+      height: 100%;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .main_center_box {
+      width: var(--largescreen-center-width);
+      height: 100%;
+      padding: 0 15px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .main_right_box {
+      width: calc(var(--largescreen-right-width) - var(--largescreen-main-right-padding));
       height: 100%;
       overflow: hidden;
       display: flex;
