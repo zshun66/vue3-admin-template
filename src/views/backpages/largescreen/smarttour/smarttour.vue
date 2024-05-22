@@ -7,13 +7,21 @@ import Next30DaysTrend from './components/Next30DaysTrend.vue'
 import HotScenicRank from './components/HotScenicRank.vue'
 import YearTouristVolumeContrast from './components/YearTouristVolumeContrast.vue'
 import ReservationChannelStatistics from './components/ReservationChannelStatistics.vue'
+import { formatTime } from '@/utils/dater.js'
 
 const $router = useRouter()
+
+const currTime = ref('')
 
 // 跳转首页
 const handleNavToHome = () => {
   $router.replace('/backstage/home')
 }
+
+// 更新当前时间
+setInterval(() => {
+  currTime.value = formatTime(new Date(), 'YYYY年MM月DD日 HH:mm:ss')
+}, 1000)
 </script>
 
 <template>
@@ -28,6 +36,7 @@ const handleNavToHome = () => {
       </div>
       <div class="header_right">
         <div class="right_btn">统计报告</div>
+        <div class="curr_time">当前时间：{{ currTime }}</div>
       </div>
     </div>
 
@@ -133,6 +142,7 @@ const handleNavToHome = () => {
       background-repeat: no-repeat;
       background-size: 100% 100%;
       display: flex;
+      align-items: center;
       justify-content: flex-start;
 
       .right_btn {
@@ -148,6 +158,13 @@ const handleNavToHome = () => {
         color: #29fcff;
         cursor: pointer;
       }
+
+      .curr_time {
+        margin-left: auto;
+        margin-right: 15px;
+        font-size: 16px;
+        color: #29fcff;
+      }
     }
   }
 
@@ -159,9 +176,9 @@ const handleNavToHome = () => {
     padding-bottom: var(--largescreen-main-bottom-padding);
     padding-left: var(--largescreen-main-left-padding);
     --largescreen-main-top-padding: 10px;
-    --largescreen-main-right-padding: 20px;
+    --largescreen-main-right-padding: 15px;
     --largescreen-main-bottom-padding: 10px;
-    --largescreen-main-left-padding: 20px;
+    --largescreen-main-left-padding: 15px;
     display: flex;
 
     .main_left_box {
