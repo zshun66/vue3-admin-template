@@ -1,6 +1,7 @@
 <script setup name="ECharts">
 import * as echarts from 'echarts'
 import 'echarts-liquidfill'
+import { debounce } from '@/utils/index.js'
 
 const $props = defineProps({
   option: {
@@ -42,11 +43,25 @@ const drawECharts = () => {
   echartInstance.value.setOption($props.option, { notMerge: false })
 }
 
+const handleDebounceResize = debounce(() => {
+  if (echartInstance.value) {
+    echartInstance.value.resize({ animation: { duration: 300 } })
+  }
+}, 300, false)
+
 onMounted(() => {
   initECharts()
+  window.addEventListener('resize', handleDebounceResize)
 })
 
-defineExpose({ echartInstance })
+onBeforeUnmount(() => {
+  echartInstance.value?.dispose()
+  window.removeEventListener('resize', handleDebounceResize)
+})
+
+defineExpose({
+  getInstance: () => echartInstance.value,
+})
 </script>
 
 <template>

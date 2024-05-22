@@ -1,103 +1,206 @@
 <script setup name="HotScenicRank">
+import { ranking1, ranking2, ranking3, ranking4 } from '../assets/ranking-icon.js'
+
 const data = [
-  { value: 200, name: '10岁以下', percentage: '16%' },
-  { value: 110, name: '10 - 18岁', percentage: '8%' },
-  { value: 150, name: '18 - 30岁', percentage: '12%' },
-  { value: 310, name: '30 - 40岁', percentage: '24%' },
-  { value: 250, name: '40 - 60岁', percentage: '20%' },
-  { value: 260, name: '60岁以上', percentage: '20%' }
+  {
+    value: 79999,
+    name: '峨眉山',
+    percentage: '80%',
+    maxValue: 100000
+  },
+  {
+    value: 59999,
+    name: '稻城亚丁',
+    percentage: '60%',
+    maxValue: 100000
+  },
+  {
+    value: 49999,
+    name: '九寨沟',
+    percentage: '50%',
+    maxValue: 100000
+  },
+  {
+    value: 39999,
+    name: '万里长城',
+    percentage: '40%',
+    maxValue: 100000
+  },
+  {
+    value: 29999,
+    name: '北京故宫',
+    percentage: '30%',
+    maxValue: 100000
+  }
 ]
-const colors = ['#F6C95C', '#EF7D33', '#1F9393', '#184EA1', '#81C8EF', '#9270CA']
+
+const colors = ['#1089E7', '#F57474', '#56D0E3', '#F8B448', '#8B78F6']
 
 const option = ref({
-  color: colors,
-  tooltip: {
-    show: true,
-    trigger: 'item',
-    formatter: '{b}<br/>占比：{d}%'
+  grid: {
+    top: '5px',
+    left: '20px',
+    right: '8px',
+    bottom: '5px',
+    containLabel: true
   },
-  legend: {
-    orient: 'vertical',
-    right: '5px',
-    top: '15px',
-    itemGap: 15,
-    itemWidth: 14,
-    formatter: function (name) {
-      let text = ''
-      const findRes = data.find(item => item.name === name)
-      text = findRes ? `${name}  ${findRes.percentage}` : ''
-      return text
+  xAxis: {
+    type: 'value',
+    axisLine: {
+      show: false,
+      lineStyle: {
+        color: 'white'
+      }
     },
-    textStyle: { color: '#fff' }
+    nameGap: 1,
+    splitLine: {
+      show: false
+    },
+    axisTick: {
+      show: false
+    },
+    axisLabel: {
+      show: false,
+      fontSize: 16
+    },
+    triggerEvent: false
   },
-  grid: { top: 'bottom', left: 0, bottom: 0 },
-  series: [
+  yAxis: [
     {
-      zlevel: 1,
-      name: '年龄比例',
-      type: 'pie',
-      selectedMode: 'single',
-      radius: [50, 90],
-      center: ['32%', '50%'],
-      startAngle: 60,
-      label: {
-        position: 'inside',
-        show: true,
+      show: true,
+      data: data.map((val) => val.name),
+      inverse: true,
+      axisLine: {
+        show: false
+      },
+      splitLine: {
+        show: false
+      },
+      axisTick: {
+        show: false
+      },
+      axisLabel: {
         color: '#fff',
-        formatter: function (params) {
-          return params.data.percentage
+        formatter: (value) => {
+          let str = value.length > 6 ? value.slice(0, 6) + '...' : value
+          let index = data.map((item) => item.name).indexOf(value) + 1
+          return ['{' + (index > 3 ? 'lg' : 'lg' + index) + '|NO.' + index + '}', '{title|' + str + '}'].join(' ')
         },
         rich: {
-          b: {
-            fontSize: 16,
-            lineHeight: 30,
-            color: '#fff'
+          lg1: {
+            width: 60,
+            backgroundColor: {
+              image: ranking1
+            },
+            color: '#fff',
+            align: 'center',
+            height: 20,
+            fontSize: 13
+          },
+          lg2: {
+            width: 60,
+            backgroundColor: {
+              image: ranking2
+            },
+            color: '#fff',
+            align: 'center',
+            height: 20,
+            fontSize: 13
+          },
+          lg3: {
+            width: 60,
+            backgroundColor: {
+              image: ranking3
+            },
+            color: '#fff',
+            align: 'center',
+            height: 20,
+            fontSize: 13
+          },
+          lg: {
+            width: 60,
+            backgroundColor: {
+              image: ranking4
+            },
+            color: '#fff',
+            align: 'center',
+            height: 20,
+            fontSize: 13
+          },
+          title: {
+            width: 60,
+            fontSize: 13,
+            align: 'center',
+            padding: [0, 10, 0, 15]
           }
         }
       },
-      itemStyle: {
-        shadowColor: 'rgba(0, 0, 0, 0.2)',
-        shadowBlur: 10
-      },
-      data: data.map((val, index) => {
-        return {
-          value: val.value,
-          name: val.name,
-          percentage: val.percentage,
-          itemStyle: {
-            borderWidth: 10,
-            shadowBlur: 20,
-            borderColor: colors[index],
-            borderRadius: 10
-          }
-        }
-      })
+      triggerEvent: false
     },
     {
-      name: '',
-      type: 'pie',
-      selectedMode: 'single',
-      radius: [50, 90],
-      center: ['32%', '50%'],
-      startAngle: 60,
-      data: [
-        {
-          value: 1000,
-          name: '',
-          label: {
-            show: true,
-            formatter: '{a|本日总数}',
-            rich: {
-              a: {
-                align: 'center',
-                color: 'rgb(98,,137169)',
-                fontSize: 16
-              }
-            },
-            position: 'center'
-          }
+      show: true,
+      inverse: true,
+      data,
+      axisLabel: {
+        fontSize: 14,
+        color: '#fff',
+        margin: 20,
+        formatter: (value) => {
+          return value >= 10000 ? (value / 10000).toFixed(2) + 'w' : value + ''
         }
-      ]
+      },
+      axisLine: {
+        show: false
+      },
+      splitLine: {
+        show: false
+      },
+      axisTick: {
+        show: false
+      },
+      triggerEvent: false
+    }
+  ],
+  series: [
+    {
+      name: '条',
+      type: 'bar',
+      yAxisIndex: 0,
+      data,
+      barWidth: 12,
+      itemStyle: {
+        borderRadius: 30,
+        color: function (params) {
+          let num = colors.length
+          return colors[params.dataIndex % num]
+        }
+      },
+      label: {
+        show: true,
+        position: [12, 0],
+        lineHeight: 14,
+        color: '#fff',
+        formatter: params => {
+          return (params.data).percentage
+        }
+      }
+    },
+    {
+      name: '框',
+      type: 'bar',
+      yAxisIndex: 1,
+      data: data.map((val) => {
+        if (!val.maxValue) return 5
+        return val.maxValue
+      }),
+      barWidth: 18,
+      itemStyle: {
+        color: 'none',
+        borderColor: '#00c1de',
+        borderWidth: 1,
+        borderRadius: 15
+      },
+      silent: true
     }
   ]
 })
@@ -110,6 +213,11 @@ const option = ref({
       <div class="img"></div>
     </div>
     <div class="content_box">
+      <div class="thead_box">
+        <span>排名</span>
+        <span>景区</span>
+        <span>预约数量</span>
+      </div>
       <div class="echarts_box">
         <ECharts :option="option"></ECharts>
       </div>
@@ -120,8 +228,8 @@ const option = ref({
 <style scoped lang="scss">
 .hot_scenic_rank_comp {
   width: 100%;
-  height: 30%;
-  min-height: 260px;
+  height: 35%;
+  min-height: 320px;
 
   .title_box {
     height: 45px;
@@ -147,12 +255,38 @@ const option = ref({
   }
 
   .content_box {
+    padding: 10px 10px 0px;
     height: calc(100% - 45px);
     background-image: url("../images/chart-bg2.png");
     background-repeat: no-repeat;
     background-size: 100% 100%;
     display: flex;
     flex-direction: column;
+
+    .thead_box {
+      display: flex;
+      height: 36px;
+      line-height: 36px;
+      background: url("../images/rankingChart-bg.png");
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+
+      span {
+        width: 70px;
+        font-size: 14px;
+        font-weight: bold;
+        color: #fdbc52;
+        text-align: center;
+
+        &:nth-child(2) {
+          width: 90px;
+        }
+
+        &:nth-child(3) {
+          width: 150px;
+        }
+      }
+    }
 
     .echarts_box {
       width: 100%;

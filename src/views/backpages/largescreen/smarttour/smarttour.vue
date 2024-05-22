@@ -5,6 +5,8 @@ import AgeRatio from './components/AgeRatio.vue'
 import ScenicRealTimeFlow from './components/ScenicRealTimeFlow.vue'
 import Next30DaysTrend from './components/Next30DaysTrend.vue'
 import HotScenicRank from './components/HotScenicRank.vue'
+import YearTouristVolumeContrast from './components/YearTouristVolumeContrast.vue'
+import ReservationChannelStatistics from './components/ReservationChannelStatistics.vue'
 
 const $router = useRouter()
 
@@ -41,6 +43,8 @@ const handleNavToHome = () => {
       </div>
       <div class="main_right_box">
         <HotScenicRank></HotScenicRank>
+        <YearTouristVolumeContrast></YearTouristVolumeContrast>
+        <ReservationChannelStatistics></ReservationChannelStatistics>
       </div>
     </div>
   </div>
@@ -163,7 +167,6 @@ const handleNavToHome = () => {
     .main_left_box {
       width: calc(var(--largescreen-left-width) - var(--largescreen-main-left-padding));
       height: 100%;
-      overflow: hidden;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -173,7 +176,6 @@ const handleNavToHome = () => {
       width: var(--largescreen-center-width);
       height: 100%;
       padding: 0 15px;
-      overflow: hidden;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -182,7 +184,6 @@ const handleNavToHome = () => {
     .main_right_box {
       width: calc(var(--largescreen-right-width) - var(--largescreen-main-right-padding));
       height: 100%;
-      overflow: hidden;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
