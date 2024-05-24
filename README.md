@@ -34,3 +34,38 @@ isAlertMsg: 请求发生异常后是否弹出错误消息
 系统缺陷：
 1、菜单数据中的'name'字段值必须与对应文件<setup name="">语法糖中的name属性保持一致
 ```
+
+```
+关于Mock说明：
+提供本地和生产模拟服务。
+vite 的数据模拟插件，是基于 vite.js 开发的。 并同时支持本地环境和生产环境。 Connect 服务中间件在本地使用，mockjs 在生产环境中使用。
+若仅在开发环境使用Mock，只需要安装 `vite-plugin-mock` 即可(`pnpm add vite-plugin-mock -D`)，若需要在生产环境使用Mock，还需要再安装 `mockjs` (pnpm add mockjs)
+
+
+项目中Mock踪迹：
+1、项目根目录下 `mock` 文件夹
+2、项目根目录下 `mock_data` 文件夹
+3、项目根目录下 `mockProdServer` 文件夹(生产环境需要)
+4、项目根目录 => src => main.js
+  // 生产环境应用Mock
+  import { setupProdMockServer } from '../mockProdServer/index.js'
+  if (import.meta.env.VITE_APP_ENABLE_PROD_MOCK === 'true') {
+    setupProdMockServer()
+  }
+5、vite.config.js
+  import { viteMockServe } from 'vite-plugin-mock'
+  viteMockServe({
+    mockPath: 'mock',
+    watchFiles: true,
+    logger: true,
+    enable: env.VITE_APP_ENABLE_DEV_MOCK === 'true', // 这里最好只在开发环境开启 因为该配置会影响生产环境
+  }),
+6、项目根目录下 => env => 各个环境配置文件中
+  # 是否开启开发环境Mock
+  VITE_APP_ENABLE_MOCK = true
+
+  # 是否开启生产环境Mock
+  VITE_APP_ENABLE_MOCK = true
+
+若需要清除项目中的Mock，只需删除上述提及的地方即可
+```

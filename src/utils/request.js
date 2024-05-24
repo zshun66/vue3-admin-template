@@ -24,7 +24,7 @@ request.interceptors.request.use((config) => {
 	if (error) return Promise.reject(new Error(error))
 	return config
 }, (error) => {
-	console.warn('请求拦截器捕获错误：')
+	console.error('请求拦截器捕获错误：')
 	console.dir(error)
 	return Promise.reject(error)
 })
@@ -50,7 +50,7 @@ request.interceptors.response.use((response) => {
 		return { result: null, error: message }
 	}
 }, (error) => {
-	console.warn('响应拦截器捕获错误：')
+	console.error('响应拦截器捕获错误：')
 	console.dir(error)
 	let message = ''
 	let status = error?.response?.status
