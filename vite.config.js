@@ -59,10 +59,6 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
         watchFiles: true,
         logger: true,
         enable: true,
-        injectCode: `
-          import { setupProdMockServer } from './mockProdServer/index.js';
-          setupProdMockServer();
-        `,
       }),
     ],
     resolve: {

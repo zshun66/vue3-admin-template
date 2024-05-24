@@ -20,6 +20,10 @@ import '@/styles/index.scss'
 // 全局自定义组件
 import gloablComponents from './components/index.js'
 
+// 生产环境应用Mock
+import { setupProdMockServer } from '../mockProdServer/index.js'
+setupProdMockServer()
+
 const app = createApp(App)
 app.use(router)
 app.use(pinia)
