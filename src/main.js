@@ -22,7 +22,7 @@ import gloablComponents from './components/index.js'
 
 // 生产环境应用Mock
 import { setupProdMockServer } from '../mockProdServer/index.js'
-if (import.meta.env.VITE_APP_ENABLE_PROD_MOCK === 'true') {
+if (import.meta.env.VITE_APP_MOCK_ENABLE_MODE === 'prod') {
   setupProdMockServer()
 }
 
