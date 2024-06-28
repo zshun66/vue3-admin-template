@@ -49,7 +49,7 @@ vite 的数据模拟插件，是基于 vite.js 开发的。 并同时支持本�
 4、项目根目录 => src => main.js
   // 生产环境应用Mock
   import { setupProdMockServer } from '../mockProdServer/index.js'
-  if (import.meta.env.VITE_APP_ENABLE_PROD_MOCK === 'true') {
+  if (import.meta.env.VITE_APP_MOCK_ENABLE_MODE === 'prod') {
     setupProdMockServer()
   }
 5、vite.config.js
@@ -58,7 +58,7 @@ vite 的数据模拟插件，是基于 vite.js 开发的。 并同时支持本�
     mockPath: 'mock',
     watchFiles: true,
     logger: true,
-    enable: env.VITE_APP_ENABLE_DEV_MOCK === 'true', // 这里最好只在开发环境开启 因为该配置会影响生产环境
+    enable: env.VITE_APP_MOCK_ENABLE_MODE === 'dev', // 这里最好只在开发环境开启 因为该配置会影响生产环境
   }),
 6、项目根目录下 => env => 各个环境配置文件中
   # 是否开启开发环境Mock

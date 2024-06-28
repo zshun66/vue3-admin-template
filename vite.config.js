@@ -58,7 +58,7 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
         mockPath: 'mock',
         watchFiles: true,
         logger: true,
-        enable: env.VITE_APP_ENABLE_DEV_MOCK === 'true',
+        enable: env.VITE_APP_MOCK_ENABLE_MODE === 'dev',
       }),
     ],
     resolve: {
