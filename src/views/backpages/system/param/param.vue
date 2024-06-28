@@ -176,13 +176,13 @@ getParamListPage()
       </el-table-column>
       <el-table-column label="系统内置" prop="type" align="center" min-width="80">
         <template #default="scope">
-          <el-tag type="" v-if="scope.row.type === '1'">是</el-tag>
+          <el-tag type="primary" v-if="scope.row.type === '1'">是</el-tag>
           <el-tag type="info" v-if="scope.row.type === '0'">否</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="状态" prop="status" align="center" min-width="100">
         <template #default="scope">
-          <el-tag type="" v-if="scope.row.status === '1'">正常</el-tag>
+          <el-tag type="primary" v-if="scope.row.status === '1'">正常</el-tag>
           <el-tag type="danger" v-if="scope.row.status === '0'">禁用</el-tag>
         </template>
       </el-table-column>

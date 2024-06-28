@@ -222,7 +222,7 @@ getErrorLogListPage()
       </el-table-column>
       <el-table-column label="错误状态" prop="status" align="center" min-width="100">
         <template #default="scope">
-          <el-tag type="" v-if="scope.row.status === '1'">成功</el-tag>
+          <el-tag type="primary" v-if="scope.row.status === '1'">成功</el-tag>
           <el-tag type="danger" v-if="scope.row.status === '0'">失败</el-tag>
         </template>
       </el-table-column>

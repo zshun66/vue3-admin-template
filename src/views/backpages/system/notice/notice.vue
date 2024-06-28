@@ -168,7 +168,7 @@ getNoticeListPage()
       </el-table-column>
       <el-table-column label="状态" prop="status" align="center" min-width="100">
         <template #default="scope">
-          <el-tag type="" v-if="scope.row.status === '1'">正常</el-tag>
+          <el-tag type="primary" v-if="scope.row.status === '1'">正常</el-tag>
           <el-tag type="danger" v-if="scope.row.status === '0'">关闭</el-tag>
         </template>
       </el-table-column>

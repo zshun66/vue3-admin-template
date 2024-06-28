@@ -1,7 +1,7 @@
 <script setup name="ClassifyFilter">
 const $props = defineProps({
   modelValue: {
-    type: [String, Array],
+    type: [String, Number, Array],
     default: ''
   },
   title: {
