@@ -711,6 +711,34 @@ const menuListAll = [
       }),
     ]
   }),
+  // 人工智能 --------------------------------------------------------------------------------------------------------------------------------------------
+  Object.assign(deepCopy(menuItemObj), {
+    id: '150',
+    sort: 1500,
+    type: 'directory',
+    title: '人工智能',
+    icon: 'menu3',
+    iconSize: '19px',
+    path: '/backstage/intelligent',
+    name: 'backstage:intelligent',
+    perms: 'backstage:intelligent',
+    children: [
+      Object.assign(deepCopy(menuItemObj), {
+        parentId: '150',
+        parentTitle: '人工智能',
+        id: '1501',
+        sort: 10,
+        type: 'menu',
+        title: '小说推文',
+        icon: 'menu3',
+        iconSize: '19px',
+        path: '/backstage/intelligent/noveltweets',
+        name: 'backstage:intelligent:noveltweets',
+        component: 'backpages/intelligent/noveltweets/noveltweets',
+        perms: 'backstage:intelligent:noveltweets:page',
+      }),
+    ]
+  }),
   // 关于项目 -------------------------------------------------------------------------------------------------------------------------------------------------
   Object.assign(deepCopy(menuItemObj), {
     id: '100',
