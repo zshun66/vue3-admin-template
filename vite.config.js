@@ -92,6 +92,11 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
           target: 'localhost',
           changeOrigin: true,
           rewrite: (path) => path.replace(new RegExp('^' + env.VITE_APP_BASE_API), '')
+        },
+        '/gpt': {
+          target: 'https://api.chatanywhere.tech',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(new RegExp('^/gpt'), '')
         }
       }
     },
