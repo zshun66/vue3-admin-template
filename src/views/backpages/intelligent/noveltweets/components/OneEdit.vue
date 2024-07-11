@@ -23,20 +23,23 @@ const currTemplateFrontContent = ref(reviseTextTemplate[0].frontContent)
 // 当前模板后置内容
 const currTemplateBackContent = ref(reviseTextTemplate[0].backConternt)
 
-
 // AI推理配置
 const aiReasonConfig = ref({
   platform: 'DS', // AI推理平台
   model: 'deepseek-chat', // AI模型
   apikey: 'sk-3c265109215a442288abd61c340204e6', // API密钥
+  balance: '--', // 剩余额度
 
   deepSeek_ApiKey: 'sk-3c265109215a442288abd61c340204e6', // DeepSeek的apikey
   zpqy_ApiKey: '80ade88391309a945f06d7fb2b406bbb.E5OUXo7mOnziQz6c', // 智普清言的apikey
+  wwxq_ApiKey: 'sk-c7qqk6zlgjyc5nkq', // 无问芯穹的apikey
 })
 // 原文案内容
 const originText = ref('')
 // 修改后文案内容
 const editedText = ref('')
+// 开始按钮加载状态
+const startBtnLoading = ref(false)
 
 // 选择的模板改变时
 const handleTemplateChange = (value) => {
@@ -53,6 +56,10 @@ const handleAiPlatformChange = (value) => {
     aiReasonConfig.value.apikey = aiReasonConfig.value.deepSeek_ApiKey
   } else if (value === 'ZPQY') {
     aiReasonConfig.value.apikey = aiReasonConfig.value.zpqy_ApiKey
+  } else if (value === 'WWXQ') {
+    aiReasonConfig.value.apikey = aiReasonConfig.value.wwxq_ApiKey
+  } else if (value === 'TYQW') {
+    aiReasonConfig.value.apikey = ''
   }
 }
 
@@ -61,8 +68,8 @@ const handleTestAiPlatform = () => {
   // 测试DeepSeek
   if (aiReasonConfig.value.platform === 'DS') {
     let config = {
+      url: 'https://api.deepseek.com/user/balance',
       method: 'get',
-      url: 'https://api.deepseek.com/models',
       headers: { 
         'Accept': 'application/json', 
         'Authorization': `Bearer ${aiReasonConfig.value.apikey}`
@@ -71,6 +78,8 @@ const handleTestAiPlatform = () => {
     }
     axios(config).then((response) => {
       ElMessage.success('测试通过')
+      let text = response.data.balance_infos[0].total_balance + response.data.balance_infos[0].currency + '(1CNY = 50万 tokens)'
+      aiReasonConfig.value.balance = text
     }).catch((error) => {
       ElMessage.error('测试不通过')
     })
@@ -79,6 +88,52 @@ const handleTestAiPlatform = () => {
   else if (aiReasonConfig.value.platform === 'ZPQY') {
     
   }
+}
+
+// 一键开始改文
+const handleOneKeyStart = () => {
+  if (originText.value === '') {
+    ElMessage.error('请输入原文案内容')
+    return
+  }
+  let data = JSON.stringify({
+    messages: [{ role: 'user', content: `${currTemplateFrontContent.value}${originText.value}${currTemplateBackContent.value}` }],
+    model: aiReasonConfig.value.model,
+    frequency_penalty: 0,
+    max_tokens: 2048,
+    presence_penalty: 0,
+    stop: null,
+    stream: false,
+    temperature: 1,
+    top_p: 1,
+    logprobs: false,
+    top_logprobs: null
+  })
+  let config = {
+    url: 'https://api.deepseek.com/chat/completions',
+    method: 'post',
+    headers: { 
+      'Content-Type': 'application/json', 
+      'Accept': 'application/json', 
+      'Authorization': `Bearer ${aiReasonConfig.value.apikey}`
+    },
+    maxBodyLength: Infinity,
+    data: data,
+  }
+  startBtnLoading.value = true
+  axios(config).then((response) => {
+    ElMessage.success('操作成功')
+    editedText.value = response.data.choices[0].message.content
+    startBtnLoading.value = false
+  }).catch((error) => {
+    ElMessage.error('操作失败')
+    startBtnLoading.value = false
+  })
+}
+
+// 一键复制成功
+const handleCopySuccess = (e) => {
+  ElMessage.success('复制成功')
 }
 </script>
 
@@ -107,9 +162,9 @@ const handleTestAiPlatform = () => {
         <label class="label" for="">AI平台：</label>
         <el-select class="platform_selector" v-model="aiReasonConfig.platform" @change="handleAiPlatformChange">
           <el-option label="DeepSeek" value="DS"></el-option>
-          <el-option label="智普清言" value="ZPQY"></el-option>
-          <el-option label="无问芯穹" value="WWXQ"></el-option>
-          <el-option label="通义千问" value="TYQW"></el-option>
+          <el-option label="智普清言" value="ZPQY" disabled></el-option>
+          <el-option label="无问芯穹" value="WWXQ" disabled></el-option>
+          <el-option label="通义千问" value="TYQW" disabled></el-option>
         </el-select>
         <el-select class="model_selector" v-model="aiReasonConfig.model" placeholder="请选择模型" clearable v-if="aiReasonConfig.platform === 'DS'">
           <el-option label="deepseek-chat" value="deepseek-chat"></el-option>
@@ -159,14 +214,21 @@ const handleTestAiPlatform = () => {
             <el-button @click="handleTestAiPlatform">测试</el-button>
           </template>
         </el-input>
+        <label class="balance" for="">余额：{{ aiReasonConfig.balance }}</label>
       </div>
       <div class="origin_content_box">
-        <div class="label">原文案内容:</div>
-        <el-input class="content" v-model="originText" type="textarea" :autosize="{ minRows: 14, maxRows: 14 }"></el-input>
+        <div class="label">
+          <span>原文案内容:</span>
+          <el-button type="primary" :loading="startBtnLoading" @click="handleOneKeyStart">开始</el-button>
+        </div>
+        <el-input class="content" v-model="originText" type="textarea" maxlength="2000" show-word-limit :autosize="{ minRows: 29, maxRows: 29 }"></el-input>
       </div>
       <div class="edited_content_box">
-        <div class="label">修改文案内容:</div>
-        <el-input class="content" v-model="editedText" type="textarea" :autosize="{ minRows: 13, maxRows: 13 }"></el-input>
+        <div class="label">
+          <span>修改文案内容:</span>
+          <el-button type="primary" v-copy="editedText" @copy-success="handleCopySuccess">复制</el-button>
+        </div>
+        <el-input class="content" v-model="editedText" type="textarea" maxlength="2000" show-word-limit :autosize="{ minRows: 29, maxRows: 29 }"></el-input>
       </div>
     </div>
   </div>
@@ -194,7 +256,7 @@ const handleTestAiPlatform = () => {
     }
 
     .template_content_wrap {
-      margin-top: 20px;
+      margin-top: 27px;
 
       .front_content_box {
 
@@ -224,8 +286,11 @@ const handleTestAiPlatform = () => {
   .content_wrapper {
     margin-left: 15px;
     flex: 6;
+    display: flex;
+    flex-wrap: wrap;
 
     .platform_select_wrap {
+      width: 100%;
 
       .label {
         font-size: 15px;
@@ -240,15 +305,23 @@ const handleTestAiPlatform = () => {
       }
 
       .apikey_input {
-        width: 400px;
+        width: 300px;
+      }
+
+      .balance {
+        margin-left: 15px;
       }
     }
 
     .origin_content_box {
       margin-top: 20px;
+      flex: 5;
 
       .label {
         font-size: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
       }
 
       .content {
@@ -258,9 +331,14 @@ const handleTestAiPlatform = () => {
 
     .edited_content_box {
       margin-top: 20px;
+      margin-left: 15px;
+      flex: 5;
 
       .label {
         font-size: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
       }
 
       .content {

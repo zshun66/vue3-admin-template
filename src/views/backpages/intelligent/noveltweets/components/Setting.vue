@@ -12,7 +12,7 @@ const aiReasonConfig = ref({
 <template>
   <div class="comp_container setting_comp">
     <!-- AI推理配置 -->
-    <el-card class="card_box" shadow="never">
+    <el-card class="card_box aireason" shadow="never">
       <template #header>
         <div class="card_header">
           <span>AI推理配置</span>
@@ -90,39 +90,14 @@ const aiReasonConfig = ref({
       </el-form>
     </el-card>
     <!-- 翻译配置 -->
-    <el-card class="card_box" shadow="never">
+    <el-card class="card_box translate" shadow="never">
       <template #header>
         <div class="card_header">
           <span>翻译配置</span>
         </div>
       </template>
       <el-form :model="aiReasonConfig" label-position="right" label-width="68px">
-        <el-form-item prop="platform" label="推理平台">
-          <el-radio-group v-model="aiReasonConfig.platform" @change="aiReasonConfig.model = ''">
-            <el-radio-button label="DS">DeepSeek</el-radio-button>
-            <el-radio-button label="ZPQY">智普清言</el-radio-button>
-            <el-radio-button label="WWXQ">无问芯穹</el-radio-button>
-            <el-radio-button label="TYQW">通义千问</el-radio-button>
-            <el-radio-button label="LLM">本地LLM</el-radio-button>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item prop="model" label="模型" v-if="aiReasonConfig.platform !== 'LLM'">
-         
-        </el-form-item>
-        <el-form-item prop="apikey" label="ApiKey" v-if="aiReasonConfig.platform !== 'LLM'">
-          <el-input v-model="aiReasonConfig.apikey" type="password" show-password clearable>
-            <template #append>
-              <el-button>测试</el-button>
-            </template>
-          </el-input>
-        </el-form-item>
-        <el-form-item prop="apiurl" label="ApiUrl" v-if="aiReasonConfig.platform === 'LLM'">
-          <el-input v-model="aiReasonConfig.apiurl" clearable>
-            <template #append>
-              <el-button>测试</el-button>
-            </template>
-          </el-input>
-        </el-form-item>
+       
       </el-form>
     </el-card>
   </div>
@@ -135,7 +110,7 @@ const aiReasonConfig = ref({
   flex-wrap: wrap;
 
   .card_box {
-    width: 50%;
+    flex: 5;
     
     :deep(.el-card__header) {
       padding-top: 12px;
@@ -145,6 +120,10 @@ const aiReasonConfig = ref({
     .card_header {
       line-height: 1;
     }
+  }
+
+  .card_box.translate {
+    margin-left: 15px;
   }
 }
 </style>
