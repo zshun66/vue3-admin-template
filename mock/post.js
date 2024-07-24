@@ -81,7 +81,7 @@ export default [
       if (process.env.NODE_ENV === 'development') {
         fs.writeFileSync('./database/operdata/post.json', JSON.stringify(newPostData, null, 2))
       } else if (process.env.NODE_ENV === 'production') {
-        axios.post('/database/operdata/post.json', JSON.stringify(newPostData, null, 2))
+        axios.put('/database/operdata/post.json', JSON.stringify(newPostData, null, 2))
       }
       return {
         code: 200,
