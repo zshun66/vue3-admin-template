@@ -1,5 +1,6 @@
 import postData from '../database/operdata/post.json'
 import fs from 'fs'
+import axios from 'axios'
 
 export default [
   {
@@ -77,7 +78,11 @@ export default [
         createTime: '2024-07-24 11:11:11',
       }
       const newPostData = [...postData, newPost]
-      fs.writeFileSync('./database/operdata/post.json', JSON.stringify(newPostData, null, 2))
+      if (process.env.NODE_ENV === 'development') {
+        fs.writeFileSync('./database/operdata/post.json', JSON.stringify(newPostData, null, 2))
+      } else if (process.env.NODE_ENV === 'production') {
+        axios.post('/database/operdata/post.json', JSON.stringify(newPostData, null, 2))
+      }
       return {
         code: 200,
         data: null,

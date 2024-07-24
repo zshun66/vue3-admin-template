@@ -48,15 +48,5 @@
     "remark": "前端开发工程师",
     "creator": "超级管理员",
     "createTime": "2023-11-13 17:08:36"
-  },
-  {
-    "name": "销售经理",
-    "code": "XSJL",
-    "sort": 10,
-    "status": "1",
-    "remark": "销售经理",
-    "id": "6",
-    "creator": "超级管理员",
-    "createTime": "2024-07-24 11:11:11"
   }
 ]
