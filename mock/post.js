@@ -1,4 +1,5 @@
-import postData from '../mock_data/post.js'
+import postData from '../database/operdata/post.json'
+import fs from 'fs'
 
 export default [
   {
@@ -69,6 +70,14 @@ export default [
     method: 'post',
     timeout: 500,
     response: ({ body }) => {
+      const newPost = {
+        ...body,
+        id: (postData.length + 1).toString(),
+        creator: '超级管理员',
+        createTime: '2024-07-24 11:11:11',
+      }
+      const newPostData = [...postData, newPost]
+      fs.writeFileSync('./database/operdata/post.json', JSON.stringify(newPostData, null, 2))
       return {
         code: 200,
         data: null,

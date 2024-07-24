@@ -8,6 +8,7 @@ import VueSetupExtend from 'vite-plugin-vue-setup-extend'
 import compressPlugin from 'vite-plugin-compression'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import { viteMockServe } from 'vite-plugin-mock'
+import copy from 'rollup-plugin-copy'
 
 export default defineConfig(({ command, mode, ssrBuild }) => {
   const env = loadEnv(mode, process.cwd() + '/env')
@@ -60,6 +61,16 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
         logger: true,
         enable: env.VITE_APP_MOCK_ENABLE_MODE === 'dev',
       }),
+      copy({
+        // 将文件复制到的目标位置
+        targets: [
+          { src: 'database', dest: env.VITE_APP_OUTDIR },
+        ],
+        hook: 'writeBundle', // 生命周期钩子，例如 buildStart、buildEnd、generateBundle、writeBundle 等
+        verbose: false, // 是否输出详细的日志信息
+        flatten: false, // 是否删除复制文件的目录结构
+        copyOnce: false, // 是否只复制尚未复制过的文件
+      })
     ],
     resolve: {
       // 路径别名
